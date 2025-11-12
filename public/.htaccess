@@ -1,0 +1,9 @@
+Option -MultiViews
+RewriteEngine On 
+
+# Đảm bảo file/thư mục có thật thì chạy, không thì chuyển hướng
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Chuyển hướng mọi thứ khác đến index.php
+RewriteRule ^ index.php [QSA,L]
