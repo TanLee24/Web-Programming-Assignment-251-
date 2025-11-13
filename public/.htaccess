@@ -1,4 +1,3 @@
-Option -MultiViews
 RewriteEngine On 
 
 # Đảm bảo file/thư mục có thật thì chạy, không thì chuyển hướng
