@@ -1,180 +1,267 @@
 <!doctype html>
-<html lang="vi" class="h-full">
+<html lang="vi" class="h-full dark">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title><?php echo $data['title']; ?> - Do & Tan Solution</title>
- 
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <script src="/_sdk/element_sdk.js"></script>
- <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo isset($data['title']) ? $data['title'] : 'Trang chủ'; ?> - Do & Tan Sneakers</title>
 
-   <style>
-    body { box-sizing: border-box; }
-   
-        /* Nền Hero đổi sang Đen/Xám Đậm */
-    .gradient-bg {
-      background: linear-gradient(135deg, #222 0%, #000 100%);
-    }
-   
-    .service-card { transition: all 0.3s ease; }
-    .service-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-   
-        /* Link Nav đổi sang màu Vàng khi hover */
-    .nav-link { position: relative; transition: color 0.3s ease; }
-    .nav-link:hover { color: #f59e0b; /* Amber-500 */ }
-    .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: #f59e0b; transition: width 0.3s ease; }
-    .nav-link:hover::after { width: 100%; }
-   
-        /* Nút Bấm chính đổi sang Vàng */
-    .btn-primary {
-      background: linear-gradient(45deg, #f59e0b, #ca8a04); /* Amber 500 -> 700 */
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3); /* Bóng màu Vàng */
-    }
-   
-    .floating-animation { animation: float 6s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
-   
-    .fade-in { opacity: 0; transform: translateY(30px); animation: fadeIn 0.8s ease forwards; }
-    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-  </style>
- <style>@view-transition { navigation: auto; }</style>
-</head>
-<body class="h-full font-sans bg-gray-50">  <main class="min-h-full">
-      <header class="bg-white shadow-lg sticky top-0 z-50">
-   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center py-4">
-     <div class="flex items-center">
-                  <div class="w-10 h-10 bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
-       <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-      </div>
-      <h1 id="company-name" class="text-2xl font-bold text-gray-800">Do & Tan Solution</h1>
-     </div>
-     <div class="hidden md:flex space-x-8">
-                  <a href="http://localhost/Web-Programming-Assignment-251-/public/" class="nav-link text-gray-700 font-medium">Trang chủ</a> 
-            <a href="#" class="nav-link text-gray-700 font-medium">Dịch vụ</a> 
-            <a href="#" class="nav-link text-gray-700 font-medium">Giới thiệu</a> 
-            <a href="http://localhost/Web-Programming-Assignment-251-/public/index.php?url=pages/contact" class="nav-link text-gray-700 font-medium">Liên hệ</a>
-     </div>
-          <button class="md:hidden p-2">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-          </button>
-    </div>
-   </nav>
-  </header>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     
-      <?php echo $content; ?>
-        <footer class="bg-black text-white py-12">
-   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-     <div class="col-span-1 md:col-span-2">
-      <div class="flex items-center mb-4">
-                     <div class="w-10 h-10 bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
-        <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-       </div>
-       <h5 class="text-xl font-bold">Do & Tan Solution</h5>
-      </div>
-      <p class="text-gray-400 mb-4">Đối tác tin cậy trong hành trình chuyển đổi số của doanh nghiệp. Chúng tôi cam kết mang đến những giải pháp công nghệ tối ưu và hiệu quả nhất.</p>
-     </div>
-     <div>
-      <h6 class="font-semibold mb-4">Dịch vụ</h6>
-      <ul class="space-y-2 text-gray-400">
-       <li><a href="#" class="hover:text-white transition-colors">Phát triển phần mềm</a></li>
-       <li><a href="#" class="hover:text-white transition-colors">Tư vấn hệ thống</a></li>
-       <li><a href="#" class="hover:text-white transition-colors">Bảo mật thông tin</a></li>
-       <li><a href="#" class="hover:text-white transition-colors">Hỗ trợ kỹ thuật</a></li>
-      </ul>
-     </div>
-     <div>
-      <h6 class="font-semibold mb-4">Liên kết</h6>
-      <ul class="space-y-2 text-gray-400">
-       <li><a href="http://localhost/Web-Programming-Assignment-251-/public/" class="hover:text-white transition-colors">Trang chủ</a></li>
-       <li><a href="#" class="hover:text-white transition-colors">Giới thiệu</a></li>
-       <li><a href="http://localhost/Web-Programming-Assignment-251-/public/index.php?url=pages/contact" class="hover:text-white transition-colors">Liên hệ</a></li>
-      </ul>
-     </div>
-    </div>
-    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-     <p>© 2025 Do & Tan Solution. Tất cả quyền được bảo lưu.</p>
-    </div>
-   </div>
-  </footer>
- </main>
- 
-  <script>
-    // Default configuration (giữ nguyên)
-    const defaultConfig = {
-      company_name: "Do & Tan Solution",
-      hero_title: "Giải pháp công nghệ thông tin toàn diện",
-      hero_subtitle: "Chúng tôi cung cấp các dịch vụ IT chuyên nghiệp...",
-      services_title: "Dịch vụ của chúng tôi",
-      contact_title: "Liên hệ với chúng tôi",
-      phone_number: "+84 123 456 789",
-      email_address: "info@D&Tsolution.vn"
-    };
+    <script src="/_sdk/element_sdk.js"></script>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
 
-    // Handle contact form submission
-    function handleContactForm(event) {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const button = event.target.querySelector('button[type="submit"]');
-      const originalText = button.textContent;
-      button.textContent = 'Đã gửi thành công!';
-            // Đổi màu nút thành công sang Vàng đậm
-      button.style.background = '#b45309'; // Amber-800
-     
-      setTimeout(() => {
-        event.target.reset();
-        button.textContent = originalText;
-        button.style.background = ''; // Quay về style gốc
-      }, 3000);
-    }
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    <style>
+        body { box-sizing: border-box; }
+        
+        /* Hiệu ứng chuyển đổi mượt mà */
+        html, body, header, section, div, span, p, h1, h2, h3, a, button, svg, path {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease;
         }
-      });
-    });
 
-    // Add scroll effect to fade-in elements
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animationDelay = '0.2s';
-          entry.target.classList.add('fade-in');
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 4px; }
+        
+        .nav-link { position: relative; }
+        .nav-link::after { 
+            content: ''; position: absolute; width: 0; height: 2px; 
+            bottom: -4px; left: 0; background-color: #fbbf24; 
+            transition: width 0.3s ease; 
         }
-      });
-    }, observerOptions);
-    document.querySelectorAll('.service-card').forEach(card => {
-      observer.observe(card);
-    });
+        .nav-link:hover::after { width: 100%; }
 
-    // Element SDK configuration (giữ nguyên)
-    async function onConfigChange(config) {
-        // (toàn bộ nội dung hàm này giữ nguyên)
-      const companyNameEl = document.getElementById('company-name');
-      if (companyNameEl) { companyNameEl.textContent = config.company_name || defaultConfig.company_name; }
-            // (v.v... cho các element khác)
-    }
-    function mapToCapabilities(config) { /* (giữ nguyên) */ }
-    function mapToEditPanelValues(config) { /* (giữ nguyên) */ }
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig, onConfigChange, mapToCapabilities, mapToEditPanelValues
-      });
-    }
- </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99de7048e128c7ca',t:'MTc2MzAzODY4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+        /* Style riêng cho Brand Logos */
+        .brand-icon {
+            transition: all 0.3s ease;
+            filter: grayscale(100%) opacity(0.7);
+        }
+        .brand-icon:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col bg-white text-gray-900 dark:bg-black dark:text-white">
+    
+    <header class="sticky top-0 z-50 shadow-lg bg-white dark:bg-[#111111] border-b dark:border-gray-800">
+        <nav class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                
+                <div class="flex items-center gap-3">
+                    <div class="flex flex-col leading-none">
+                        <h1 id="store-name" class="text-2xl font-black italic uppercase tracking-tighter">
+                            <span class="text-gray-900 dark:text-white">Do &</span>
+                            <span class="text-yellow-500">Tan</span>
+                        </h1>
+                         <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 font-bold tracking-widest uppercase">Sneaker Store</p>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.php" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Trang chủ</a>
+                    <a href="index.php#products" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Sản phẩm</a>
+                    <a href="index.php#brands" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Thương hiệu</a>
+                    <a href="index.php?url=pages/contact" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Liên hệ</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-yellow-100 text-gray-600 hover:text-yellow-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 transition-all focus:outline-none">
+                        <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                    </button> 
+                    
+                    <button class="group relative w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-yellow-100 text-gray-600 hover:text-yellow-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 transition-all focus:outline-none">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="w-6 h-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437m0 0L6 13.5h11.25a.75.75 0 00.728-.568l1.5-6a.75.75 0 00-.728-.932H5.181m0 0L4.5 3.75M6 13.5l-1.5 6h15"
+                          />
+                        </svg>
+                        
+                        <span id="cart-count" class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white border-2 border-white dark:border-[#111111]">0</span> 
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow bg-gray-50 dark:bg-black">
+        <?php echo isset($content) ? $content : ''; ?>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <h2 class="text-xl font-black italic uppercase text-white">Do & <span class="text-yellow-500">Tan</span></h2>
+                    </div>
+                    <p class="text-gray-400 text-sm">Đại lý phân phối giày chính hãng uy tín.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Sản phẩm</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Giày thể thao</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Giày chạy bộ</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Sneaker Lifestyle</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Hỗ trợ</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Hướng dẫn chọn size</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Chính sách đổi trả</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Bảo hành</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4">Theo dõi</h4>
+                    <div class="flex gap-4">
+                         <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">F</a>
+                         <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all">I</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-10 pt-8 text-center text-xs text-gray-500">
+                <p>© 2025 Do & Tan Sneakers. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. SDK CONFIGURATION
+        const defaultConfig = {
+            store_name: "Do & Tan",
+            hero_title: "Do & Tan Sneakers",
+            hero_subtitle: "Chất lượng đỉnh cao - Phong cách dẫn đầu",
+            about_title: "Về chúng tôi",
+            contact_title: "Liên hệ Do & Tan",
+            primary_color: "#eab308",
+            font_family: "Inter",
+            font_size: 16
+        };
+
+        // 2. THEME LOGIC
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark'); 
+        }
+        
+        function updateThemeIcons() {
+            const html = document.documentElement;
+            const sun = document.getElementById('sun-icon');
+            const moon = document.getElementById('moon-icon');
+            if (html.classList.contains('dark')) {
+                sun.classList.add('hidden');
+                moon.classList.remove('hidden');
+            } else {
+                sun.classList.remove('hidden');
+                moon.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateThemeIcons);
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcons();
+        }
+
+        // 3. SMOOTH SCROLL
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // 4. CART LOGIC
+        let cartCount = 0;
+        const cartCountElement = document.getElementById('cart-count');
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.closest('button.buy-btn')) {
+                cartCount++;
+                cartCountElement.textContent = cartCount;
+                
+                // Animation rung
+                const badge = cartCountElement;
+                badge.classList.add('scale-125');
+                setTimeout(() => badge.classList.remove('scale-125'), 200);
+                
+                showNotification('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+            }
+        });
+
+        function showNotification(message) {
+            const div = document.createElement('div');
+            div.className = 'fixed top-20 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl z-50 animate-bounce font-medium text-sm';
+            div.textContent = message;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 2000);
+        }
+        
+        // 5. FORM HANDLER
+        function handleContactForm(event) {
+            event.preventDefault();
+            showNotification('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm.', 'success');
+            event.target.reset();
+        }
+
+        // 6. SDK IMPLEMENTATION
+        async function onConfigChange(config) {
+            const storeNameEl = document.getElementById('store-name');
+            if (storeNameEl) storeNameEl.innerHTML = `<span class="text-gray-900 dark:text-white">Do &</span> <span class="text-yellow-500">${config.store_name || defaultConfig.store_name}</span>`;
+            
+            const heroTitleEl = document.getElementById('hero-title');
+            if (heroTitleEl) heroTitleEl.textContent = config.hero_title || defaultConfig.hero_title;
+            
+            const heroSubtitleEl = document.getElementById('hero-subtitle');
+            if (heroSubtitleEl) heroSubtitleEl.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+            
+            const aboutTitleEl = document.getElementById('about-title');
+            if (aboutTitleEl) aboutTitleEl.textContent = config.about_title || defaultConfig.about_title;
+            
+            const contactTitleEl = document.getElementById('contact-title');
+            if (contactTitleEl) contactTitleEl.textContent = config.contact_title || defaultConfig.contact_title;
+
+            if(config.font_family) document.body.style.fontFamily = config.font_family;
+            if(config.primary_color) {
+                document.documentElement.style.setProperty('--primary-color', config.primary_color);
+                document.querySelectorAll('.text-yellow-500').forEach(el => el.style.color = config.primary_color);
+                document.querySelectorAll('.bg-yellow-500').forEach(el => el.style.backgroundColor = config.primary_color);
+            }
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange
+            });
+        }
+    </script>
 </body>
 </html>
