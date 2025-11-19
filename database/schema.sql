@@ -156,3 +156,13 @@ CREATE TABLE audit_logs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `setting_key` varchar(50) NOT NULL,
+  `setting_value` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Thêm dữ liệu mẫu cho trang giới thiệu
+INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES
+('about_content', '<h1>Chào mừng đến với công ty chúng tôi</h1><p>Đây là nội dung giới thiệu mẫu...</p>');

@@ -1,6 +1,7 @@
 <?php
 
-class Database {
+class Database 
+{
     private $host = DB_HOST;
     private $user = DB_USER;
     private $pass = DB_PASS;
@@ -10,7 +11,8 @@ class Database {
     private $stmt;   // Statement
     private $error;
 
-    public function __construct() {
+    public function __construct() 
+    {
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname . ';charset=utf8';
 
         $options = [
@@ -20,23 +22,30 @@ class Database {
             PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
-        try {
+        try 
+        {
             $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
-        } catch (PDOException $e) {
+        } 
+        catch (PDOException $e) 
+        {
             $this->error = $e->getMessage();
             echo $this->error;
         }
     }
 
     // Chuẩn bị query
-    public function query($sql) {
+    public function query($sql) 
+    {
         $this->stmt = $this->dbh->prepare($sql);
     }
 
     // Bind giá trị vào câu lệnh SQL
-    public function bind($param, $value, $type = null) {
-        if (is_null($type)) {
-            switch(true) {
+    public function bind($param, $value, $type = null) 
+    {
+        if (is_null($type)) 
+        {
+            switch(true) 
+            {
                 case is_int($value):  $type = PDO::PARAM_INT; break;
                 case is_bool($value): $type = PDO::PARAM_BOOL; break;
                 case is_null($value): $type = PDO::PARAM_NULL; break;
@@ -47,19 +56,26 @@ class Database {
     }
 
     // Thực thi SQL
-    public function execute() {
+    public function execute() 
+    {
         return $this->stmt->execute();
     }
 
     // Trả nhiều dòng
-    public function resultSet() {
+    public function resultSet() 
+    {
         $this->execute();
         return $this->stmt->fetchAll();
     }
 
     // Trả 1 dòng
-    public function single() {
+    public function single() 
+    {
         $this->execute();
         return $this->stmt->fetch();
+    }
+    public function lastInsertId() 
+    {
+        return $this->dbh->lastInsertId();
     }
 }

@@ -1,5 +1,15 @@
 <!doctype html>
 <html lang="vi" class="h-full dark">
+    <script> // Not flashing when reloading
+        if (
+            localStorage.theme === 'dark' ||
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,8 +73,14 @@
                 
                 <div class="hidden md:flex items-center gap-8">
                     <a href="index.php" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Trang chủ</a>
-                    <a href="index.php#products" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Sản phẩm</a>
+                    
+                    <a href="index.php?url=pages/about" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Giới thiệu</a>
+
+                    <a href="<?= URLROOT ?>/public/index.php?url=products/index" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Sản phẩm</a>
                     <a href="index.php#brands" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Thương hiệu</a>
+
+                    <a href="index.php?url=pages/faq" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Hỏi đáp</a>
+
                     <a href="index.php?url=pages/contact" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Liên hệ</a>
                 </div>
                 
@@ -74,23 +90,16 @@
                         <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button> 
                     
-                    <button class="group relative w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-yellow-100 text-gray-600 hover:text-yellow-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 transition-all focus:outline-none">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="w-6 h-6"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437m0 0L6 13.5h11.25a.75.75 0 00.728-.568l1.5-6a.75.75 0 00-.728-.932H5.181m0 0L4.5 3.75M6 13.5l-1.5 6h15"
-                          />
+                    <a href="<?php echo URLROOT; ?>/public/index.php?url=products/cart" class="group relative w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-yellow-100 text-gray-600 hover:text-yellow-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-300 transition-all focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437m0 0L6 13.5h11.25a.75.75 0 00.728-.568l1.5-6a.75.75 0 00-.728-.932H5.181m0 0L4.5 3.75M6 13.5l-1.5 6h15" />
                         </svg>
-                        <span id="cart-count" class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white border-2 border-white dark:border-[#111111]">0</span> 
-                    </button>
+                        
+                        <span id="cartCount" 
+                            class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white border-2 border-white dark:border-[#111111]">
+                            <?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?>
+                        </span>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -207,22 +216,23 @@
             });
         });
         
-        // 4. CART LOGIC
-        let cartCount = 0;
+        // 4. CART LOGIC – lắng nghe sự kiện toàn cục từ các trang con
         const cartCountElement = document.getElementById('cart-count');
-        document.addEventListener('click', function(e) {
-            if (e.target && e.target.closest('button.buy-btn')) {
-                cartCount++;
-                cartCountElement.textContent = cartCount;
-                
-                // Animation rung
-                const badge = cartCountElement;
-                badge.classList.add('scale-125');
-                setTimeout(() => badge.classList.remove('scale-125'), 200);
-                
-                showNotification('Đã thêm sản phẩm vào giỏ hàng!', 'success');
-            }
+
+        window.addEventListener('cartUpdated', function (e) {
+            if (!cartCountElement) return;
+
+            const newCount = e.detail.cartCount ?? 0;
+            cartCountElement.textContent = newCount;
+
+            // Animation rung nhẹ cho badge
+            cartCountElement.classList.add('scale-125');
+            setTimeout(() => cartCountElement.classList.remove('scale-125'), 200);
+
+            // Thông báo
+            showNotification('Đã thêm sản phẩm vào giỏ hàng!');
         });
+
 
         function showNotification(message) {
             const div = document.createElement('div');
@@ -271,5 +281,23 @@
             });
         }
     </script>
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+
+            // Lắng nghe event khi detail.php gửi tín hiệu cập nhật giỏ hàng
+            window.addEventListener("cartUpdated", function(e) {
+                document.getElementById("cartCount").textContent = e.detail.cartCount;
+
+                // HIỆN THÔNG BÁO
+                const div = document.createElement("div");
+                div.className = "fixed top-20 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl z-50 font-medium text-sm";
+                div.textContent = "✔ Đã thêm sản phẩm vào giỏ hàng!";
+                document.body.appendChild(div);
+
+                setTimeout(() => div.remove(), 2000);
+            });
+        });
+    </script>
+
 </body>
 </html>

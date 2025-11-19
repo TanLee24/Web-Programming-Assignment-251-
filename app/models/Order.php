@@ -3,28 +3,55 @@ class Order {
     private $db;
 
     public function __construct() {
+        // Giả định class Database đã được require_once ở đâu đó trong bootstrap
         $this->db = new Database();
     }
 
+    // 1. Lấy tất cả đơn hàng (Đã sửa lỗi - dùng query và resultSet)
     public function all() {
-        $stmt = $this->db->dbh->prepare("
+        $sql = "
             SELECT orders.*, users.username 
             FROM orders
-            JOIN users ON orders.user_id = users.id
+            LEFT JOIN users ON orders.user_id = users.id
             ORDER BY id DESC
-        ");
-        $stmt->execute();
-        return $stmt->fetchAll();
+        ";
+        $this->db->query($sql);
+        return $this->db->resultSet(); // Lấy danh sách nhiều dòng
     }
 
+    // 2. Tìm một đơn hàng theo ID (Đã sửa lỗi - dùng query, bind và single)
     public function find($id) {
-        $stmt = $this->db->dbh->prepare("SELECT * FROM orders WHERE id=?");
-        $stmt->execute([$id]);
-        return $stmt->fetch();
+        $this->db->query("SELECT * FROM orders WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single(); // Lấy một dòng duy nhất
     }
 
+    // 3. Cập nhật trạng thái (Đã sửa lỗi - dùng query, bind và execute)
     public function updateStatus($id, $status) {
-        $stmt = $this->db->dbh->prepare("UPDATE orders SET status=? WHERE id=?");
-        return $stmt->execute([$status, $id]);
+        $this->db->query("UPDATE orders SET status = :status WHERE id = :id");
+        $this->db->bind(':status', $status);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
+
+    // 4. Tạo đơn hàng mới (Đã sửa lỗi - bỏ dbh ở return và dùng wrapper methods)
+    public function create($userId, $fullname, $phone, $address, $total, $note = '') {
+        $sql = "INSERT INTO orders (user_id, fullname, phone, address, total_amount, note, status, created_at) 
+                VALUES (:user_id, :fullname, :phone, :address, :total, :note, 'pending', NOW())";
+        
+        $this->db->query($sql);
+        $this->db->bind(':user_id', $userId);
+        $this->db->bind(':fullname', $fullname);
+        $this->db->bind(':phone', $phone);
+        $this->db->bind(':address', $address);
+        $this->db->bind(':total', $total);
+        $this->db->bind(':note', $note);
+        
+        if ($this->db->execute()) {
+            // Lấy ID vừa tạo. Giả định Database class có public method lastInsertId()
+            return $this->db->lastInsertId();
+        } else {
+            return false;
+        }
     }
 }

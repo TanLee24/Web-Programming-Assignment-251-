@@ -6,41 +6,84 @@ class Product {
         $this->db = new Database();
     }
 
-    public function all($keyword = null) {
+    // Sửa hàm all() trong class Product
+    public function all($keyword = null, $brand = null) 
+    {
+        $sql = "SELECT * FROM products WHERE 1";
+
         if ($keyword) {
-            $stmt = $this->db->dbh->prepare("SELECT * FROM products WHERE name LIKE ?");
-            $stmt->execute(["%$keyword%"]);
-        } else {
-            $stmt = $this->db->dbh->prepare("SELECT * FROM products ORDER BY id DESC");
-            $stmt->execute();
+            $sql .= " AND name LIKE :keyword";
         }
-        return $stmt->fetchAll();
+
+        if ($brand) {
+            $sql .= " AND brand = :brand";
+        }
+
+        $this->db->query($sql);
+
+        if ($keyword) {
+            $this->db->bind(':keyword', '%' . $keyword . '%');
+        }
+
+        if ($brand) {
+            $this->db->bind(':brand', $brand);
+        }
+
+        return $this->db->resultSet();
     }
 
+
+    // Đã sửa lỗi: Dùng query(), bind() và single()
     public function find($id) {
-        $stmt = $this->db->dbh->prepare("SELECT * FROM products WHERE id=?");
-        $stmt->execute([$id]);
-        return $stmt->fetch();
+        $this->db->query("SELECT * FROM products WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single(); // Lấy 1 sản phẩm
     }
 
-    public function create($name, $description, $price, $imgUrl) {
-        $stmt = $this->db->dbh->prepare("
-            INSERT INTO products (name, description, price, image_url) 
-            VALUES (?, ?, ?, ?)
-        ");
-        return $stmt->execute([$name, $description, $price, $imgUrl]);
+    // Đã sửa lỗi: Dùng query(), bind() và execute()
+    public function create($name, $description, $price, $imgUrl, $brand) { // Đã thêm $brand
+        $sql = "
+            INSERT INTO products (name, description, price, image_url, brand) 
+            VALUES (:name, :description, :price, :image_url, :brand)
+        ";
+        $this->db->query($sql);
+        $this->db->bind(':name', $name);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':price', $price);
+        $this->db->bind(':image_url', $imgUrl);
+        $this->db->bind(':brand', $brand); // Bind tham số mới
+        
+        return $this->db->execute();
     }
 
-    public function update($id, $name, $description, $price, $imgUrl) {
-        $stmt = $this->db->dbh->prepare("
-            UPDATE products SET name=?, description=?, price=?, image_url=? 
-            WHERE id=?
-        ");
-        return $stmt->execute([$name, $description, $price, $imgUrl, $id]);
+    // Đã sửa lỗi: Dùng query(), bind() và execute()
+    public function update($id, $name, $description, $price, $imgUrl, $brand) { // Đã thêm $brand
+        $sql = "
+            UPDATE products 
+            SET name = :name, description = :description, price = :price, image_url = :image_url, brand = :brand 
+            WHERE id = :id
+        ";
+        $this->db->query($sql);
+        $this->db->bind(':name', $name);
+        $this->db->bind(':description', $description);
+        $this->db->bind(':price', $price);
+        $this->db->bind(':image_url', $imgUrl);
+        $this->db->bind(':brand', $brand); // Bind tham số mới
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
     }
 
+    // Đã sửa lỗi: Dùng query(), bind() và execute()
     public function delete($id) {
-        $stmt = $this->db->dbh->prepare("DELETE FROM products WHERE id=?");
-        return $stmt->execute([$id]);
+        $this->db->query("DELETE FROM products WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
+
+    // Thêm hàm này vào class Product
+    public function getUniqueBrands() {
+        $sql = "SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL AND brand != '' ORDER BY brand ASC";
+        $this->db->query($sql);
+        return $this->db->resultSet(); // Trả về danh sách các hãng
     }
 }

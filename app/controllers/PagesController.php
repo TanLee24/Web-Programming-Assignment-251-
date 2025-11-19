@@ -1,63 +1,82 @@
 <?php
-class PagesController {
+// Nạp các Model cần thiết để lấy dữ liệu từ Database
+require_once APPROOT . '/models/Setting.php';
+require_once APPROOT . '/models/Faq.php';
 
-    public function __construct() {
-        // (Chúng ta sẽ nạp Model ở đây sau)
+class PagesController 
+{
+    private $settingModel;
+    private $faqModel;
+
+    public function __construct() 
+    {
+        // Khởi tạo các Model
+        $this->settingModel = new Setting();
+        $this->faqModel = new Faq();
     }
 
-    /**
-     * Phương thức (action) cho Trang Chủ
-     */
-    public function home() {
-        $data = [
-            'title' => 'Trang Chủ Công Ty'
-        ];
-        
-        // SỬA LỖI TẠI ĐÂY: Dùng -> thay vì .
+    // --- TRANG CHỦ ---
+    public function home() 
+    {
+        $data = ['title' => 'Trang Chủ - Do & Tan Sneakers'];
         $this->loadView('public/home', $data);
     }
 
-    /**
-     * Phương thức (action) cho Trang Liên Hệ
-     */
-    public function contact() {
-        $data = [
-            'title' => 'Liên Hệ Chúng Tôi'
-        ];
-        
-        // SỬA LỖI TẠI ĐÂY: Dùng -> thay vì .
+    // --- TRANG LIÊN HỆ (Giao diện) ---
+    public function contact() 
+    {
+        $data = ['title' => 'Liên Hệ Chúng Tôi'];
         $this->loadView('public/contact', $data);
     }
 
-    /**
-     * HÀM LOADVIEW ĐÃ NÂNG CẤP (SỬ DỤNG LAYOUT)
-     * Hàm này sẽ nạp main.php
-     *
-     * @param string $viewPath - Đường dẫn tới file view (ví dụ: 'public/home')
-     * @param array $data - Dữ liệu muốn truyền ra view
-     */
-    public function loadView($viewPath, $data = []) {
-        // Giải nén mảng $data thành các biến
+    // --- TRANG GIỚI THIỆU (Công việc 2) ---
+    public function about() 
+    {
+        // Lấy nội dung giới thiệu từ bảng settings
+        $aboutTitle = $this->settingModel->get('about_title');
+        $aboutContent = $this->settingModel->get('about_content');
+
+        // Giá trị mặc định nếu Database chưa có gì
+        if (empty($aboutTitle)) $aboutTitle = 'Về Chúng Tôi';
+        if (empty($aboutContent)) $aboutContent = '<p>Đang cập nhật nội dung giới thiệu...</p>';
+
+        $data = [
+            'title' => $aboutTitle,
+            'content' => $aboutContent
+        ];
+        $this->loadView('public/about', $data);
+    }
+
+    // --- TRANG HỎI ĐÁP / FAQ (Công việc 2) ---
+    public function faq() 
+    {
+        // 1. Gọi Model để lấy toàn bộ danh sách câu hỏi từ Database
+        $faqs = $this->faqModel->all();
+
+        // 2. Chuẩn bị dữ liệu để gửi sang View
+        $data = [
+            'title' => 'Câu Hỏi Thường Gặp',
+            'faqs' => $faqs // Biến này chứa mảng các câu hỏi
+        ];
+
+        // 3. Load giao diện faq.php
+        $this->loadView('public/faq', $data);
+    }
+
+    // Hàm hỗ trợ load view (giữ nguyên như cũ)
+    public function loadView($viewPath, $data = []) 
+    {
         extract($data);
-        
-        // Đường dẫn đầy đủ tới file view (ví dụ: .../app/views/public/home.php)
         $fileView = '../app/views/' . $viewPath . '.php';
-
-        if (file_exists($fileView)) {
-            // 1. Bắt đầu bộ đệm đầu ra
+        if (file_exists($fileView)) 
+            {
             ob_start();
-            
-            // 2. Nạp file view (home.php hoặc contact.php)
             require_once $fileView;
-            
-            // 3. Lấy nội dung trong bộ đệm và gán vào biến $content
             $content = ob_get_clean();
-            
-            // 4. Nạp file layout chính (main.php)
             require_once '../app/views/layouts/main.php';
-
-        } else {
-            // Hiển thị lỗi nếu không tìm thấy file view
+        } 
+        else 
+        {
             die('Lỗi: Không tìm thấy file view "' . $viewPath . '"');
         }
     }

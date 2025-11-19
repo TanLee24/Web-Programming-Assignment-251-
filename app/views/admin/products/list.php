@@ -7,7 +7,8 @@
             <input class="form-control" type="text" name="search" placeholder="Tìm kiếm..." />
         </form>
 
-        <a href="/public/index.php?url=admin/product/create" class="btn btn-primary ms-2">Thêm</a>
+        <a href="<?= URLROOT ?>/public/index.php?url=admin/product/create" 
+           class="btn btn-primary ms-2">Thêm</a>
     </div>
 
     <table class="table card-table">
@@ -27,10 +28,18 @@
                 <td><?= $p->id ?></td>
                 <td><?= $p->name ?></td>
                 <td><?= number_format($p->price) ?> đ</td>
-                <td><img src="<?= $p->image_url ?>" width="60"></td>
+                <td><img src="<?= URLROOT . $p->image_url ?>" width="60"></td>
                 <td>
-                    <a class="btn btn-warning" href="/public/index.php?url=admin/product/edit/<?= $p->id ?>">Sửa</a>
-                    <a class="btn btn-danger" onclick="return confirm('Xóa?')" href="/public/index.php?url=admin/product/delete/<?= $p->id ?>">Xóa</a>
+                    <a class="btn btn-warning"
+                       href="<?= URLROOT ?>/public/index.php?url=admin/product/edit/<?= $p->id ?>">
+                        Sửa
+                    </a>
+
+                    <a class="btn btn-danger"
+                       onclick="return confirm('Xóa?')"
+                       href="<?= URLROOT ?>/public/index.php?url=admin/product/delete/<?= $p->id ?>">
+                        Xóa
+                    </a>
                 </td>
             </tr>
             <?php endforeach ?>

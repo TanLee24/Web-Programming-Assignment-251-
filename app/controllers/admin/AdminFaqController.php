@@ -22,7 +22,7 @@ class AdminFaqController {
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $this->faq->create($_POST['question'], $_POST['answer']);
-            header("Location: /public/index.php?url=admin/faq/list");
+            header("Location: " . URLROOT . "/public/index.php?url=admin/faq/list");
             exit;
         }
 
@@ -40,7 +40,7 @@ class AdminFaqController {
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $this->faq->update($id, $_POST['question'], $_POST['answer']);
-            header("Location: /public/index.php?url=admin/faq/list");
+            header("Location: " . URLROOT . "/public/index.php?url=admin/faq/list");
             exit;
         }
 
@@ -55,6 +55,6 @@ class AdminFaqController {
 
     public function delete($id) {
         $this->faq->delete($id);
-        header("Location: /public/index.php?url=admin/faq/list");
+        header("Location: " . URLROOT . "/public/index.php?url=admin/faq/list");
     }
 }

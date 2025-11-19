@@ -10,7 +10,7 @@
                     <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl">📍</div>
                     <div>
                         <h4 class="font-bold text-gray-900 dark:text-white">Cửa hàng</h4>
-                        <p class="text-gray-600 dark:text-gray-400 mt-1">123 Đường ABC, Quận 1, TP.HCM</p>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1">36 Đường 18, phường Diên Hồng, TP.HCM</p>
                     </div>
                 </div>
                 

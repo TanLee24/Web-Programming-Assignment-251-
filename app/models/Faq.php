@@ -1,35 +1,52 @@
 <?php
-class Faq {
+class Faq 
+{
     private $db;
 
-    public function __construct() {
-        $this->db = new Database();
+    public function __construct() 
+    {
+        $this->db = new Database;
     }
 
-    public function all() {
-        $stmt = $this->db->dbh->prepare("SELECT * FROM faqs ORDER BY id DESC");
-        $stmt->execute();
-        return $stmt->fetchAll();
+    // Get all questions
+    public function all() 
+    {
+        $this->db->query("SELECT * FROM faqs ORDER BY id DESC");
+        return $this->db->resultSet(); // Use resultSet() to get list
     }
 
-    public function find($id) {
-        $stmt = $this->db->dbh->prepare("SELECT * FROM faqs WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch();
+    // Find one question by ID
+    public function find($id) 
+    {
+        $this->db->query("SELECT * FROM faqs WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single(); // Use single() to get one row
     }
 
-    public function create($question, $answer) {
-        $stmt = $this->db->dbh->prepare("INSERT INTO faqs (question, answer) VALUES (?, ?)");
-        return $stmt->execute([$question, $answer]);
+    // Create new question
+    public function create($question, $answer) 
+    {
+        $this->db->query("INSERT INTO faqs (question, answer) VALUES (:question, :answer)");
+        $this->db->bind(':question', $question);
+        $this->db->bind(':answer', $answer);
+        return $this->db->execute();
     }
 
-    public function update($id, $question, $answer) {
-        $stmt = $this->db->dbh->prepare("UPDATE faqs SET question=?, answer=? WHERE id=?");
-        return $stmt->execute([$question, $answer, $id]);
+    // Update question
+    public function update($id, $question, $answer) 
+    {
+        $this->db->query("UPDATE faqs SET question = :question, answer = :answer WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $this->db->bind(':question', $question);
+        $this->db->bind(':answer', $answer);
+        return $this->db->execute();
     }
 
-    public function delete($id) {
-        $stmt = $this->db->dbh->prepare("DELETE FROM faqs WHERE id=?");
-        return $stmt->execute([$id]);
+    // Delete question
+    public function delete($id) 
+    {
+        $this->db->query("DELETE FROM faqs WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
     }
 }

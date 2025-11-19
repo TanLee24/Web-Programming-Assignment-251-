@@ -1,20 +1,19 @@
 <?php
-// Thông tin Cơ sở dữ liệu
-define('DB_HOST', '127.0.0.1'); // hoặc 'localhost'
-define('DB_USER', 'root');       // Tên người dùng CSDL
-define('DB_PASS', '');           // Mật khẩu CSDL (để trống nếu dùng XAMPP mặc định)
-define('DB_NAME', 'web_asgmt_database'); // Tên CSDL bạn đã tạo
+// DB
+define('DB_HOST', '127.0.0.1');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'web_asgmt_database');
 
-// Đường dẫn gốc của ứng dụng
-//define('APPROOT', dirname(dirname(__FILE__))); // Trỏ về thư mục 'app'
-//define('URLROOT', 'http://localhost/web-programming-assignment-251-'); // Cập nhật sau
-//define('URLROOT', 'http://localhost/BTL_web');
-define('APPROOT', dirname(__FILE__));
+// Đường dẫn tới thư mục app
+define('APPROOT', dirname(__DIR__) . '/app');
 
+// Tự tính URLROOT = http://localhost/BTL_Web   (KHÔNG có /public)
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? "https://" : "http://";
+$host     = $_SERVER['HTTP_HOST'];
 
-// Tự động lấy đường dẫn gốc dựa trên thư mục chứa project
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
-$host = $_SERVER['HTTP_HOST'];
-$folder = trim(dirname($_SERVER['SCRIPT_NAME']), '/');
+$scriptName  = dirname($_SERVER['SCRIPT_NAME']);   // /BTL_Web/public
+$projectRoot = str_replace('/public', '', $scriptName); // /BTL_Web
 
-define('URLROOT', $protocol . $host . '/' . $folder);
+define('URLROOT', $protocol . $host . $projectRoot);
+define("URLPUBLIC", URLROOT . "/public");
