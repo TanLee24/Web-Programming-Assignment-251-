@@ -57,7 +57,8 @@ class Product {
     }
 
     // Đã sửa lỗi: Dùng query(), bind() và execute()
-    public function update($id, $name, $description, $price, $imgUrl, $brand) { // Đã thêm $brand
+    public function update($id, $name, $description, $price, $imgUrl, $brand) 
+    { // Đã thêm $brand
         $sql = "
             UPDATE products 
             SET name = :name, description = :description, price = :price, image_url = :image_url, brand = :brand 
@@ -74,16 +75,26 @@ class Product {
     }
 
     // Đã sửa lỗi: Dùng query(), bind() và execute()
-    public function delete($id) {
+    public function delete($id) 
+    {
         $this->db->query("DELETE FROM products WHERE id = :id");
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
 
     // Thêm hàm này vào class Product
-    public function getUniqueBrands() {
+    public function getUniqueBrands() 
+    {
         $sql = "SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL AND brand != '' ORDER BY brand ASC";
         $this->db->query($sql);
         return $this->db->resultSet(); // Trả về danh sách các hãng
     }
+
+    public function getSizes($productId) 
+    {
+        $this->db->query("SELECT * FROM product_sizes WHERE product_id = :id ORDER BY size");
+        $this->db->bind(':id', $productId);
+        return $this->db->resultSet();
+    }
+
 }

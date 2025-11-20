@@ -15,6 +15,7 @@
                 <th>Sản phẩm</th>
                 <th>Hình</th>
                 <th>Giá</th>
+                <th>Size</th>
                 <th>Số lượng</th>
                 <th>Tổng</th>
             </tr>
@@ -33,6 +34,9 @@
 
                     <!-- giá lúc mua -->
                     <td><?= number_format($it->price_at_purchase) ?> đ</td>
+
+                    <!-- size -->
+                    <td><?= $it->size ?></td>
 
                     <!-- số lượng -->
                     <td><?= $it->quantity ?></td>

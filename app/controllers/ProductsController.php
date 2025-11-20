@@ -41,6 +41,7 @@ class ProductsController {
     // 2. Trang chi tiết sản phẩm
     public function detail($id) {
         $product = $this->productModel->find($id);
+        $sizes = $this->productModel->getSizes($id);
 
         if (!$product) {
             die('Sản phẩm không tồn tại!');
@@ -48,7 +49,8 @@ class ProductsController {
 
         $data = [
             'title' => $product->name,
-            'product' => $product
+            'product' => $product,
+            'sizes' => $sizes
         ];
         $this->loadView('public/products/detail', $data);
     }
@@ -85,17 +87,32 @@ class ProductsController {
         $cartItems = [];
         $totalPrice = 0;
 
-        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-            foreach ($_SESSION['cart'] as $id => $quantity) {
-                $product = $this->productModel->find($id);
-                if ($product) {
-                    $product->quantity = $quantity;
-                    $product->total = $product->price * $quantity;
-                    $cartItems[] = $product;
-                    $totalPrice += $product->total;
-                }
+        foreach ($_SESSION['cart'] as $productId => $cartItem) {
+
+            // Nếu cartItem là INT => chuyển về format mới
+            if (!is_array($cartItem)) {
+                $cartItem = [
+                    "size" => "",
+                    "quantity" => $cartItem
+                ];
+            }
+
+            $qty  = $cartItem['quantity'];
+            $size = $cartItem['size'];
+
+            $product = $this->productModel->find($productId);
+
+            if ($product) {
+                $product->quantity = $qty;
+                $product->size = $size;
+                $product->total = $product->price * $qty;
+
+                $cartItems[] = $product;
+                $totalPrice += $product->total;
             }
         }
+
+
 
         $data = [
             'title' => 'Giỏ hàng của bạn',
@@ -137,10 +154,25 @@ class ProductsController {
             
             // Tính tổng tiền
             $total = 0;
-            foreach ($_SESSION['cart'] as $id => $qty) 
-            {
-                $product = $this->productModel->find($id);
-                if ($product) $total += $product->price * $qty;
+            foreach ($_SESSION['cart'] as $key => $cartItem) {
+
+                // Giỏ hàng dạng cũ chỉ có quantity (chưa có size)
+                if (!is_array($cartItem)) {
+                    $cartItem = [
+                        'product_id' => $key,
+                        'size' => '',
+                        'quantity' => $cartItem
+                    ];
+                }
+
+                $productId = $cartItem['product_id'];
+                $qty       = $cartItem['quantity'];
+
+                $product = $this->productModel->find($productId);
+
+                if ($product) {
+                    $total += $product->price * $qty;
+                }
             }
 
             // 1. Tạo đơn hàng trong bảng orders
@@ -149,12 +181,25 @@ class ProductsController {
             if ($orderId) 
             {
                 // 2. Lưu chi tiết sản phẩm vào order_items
-                foreach ($_SESSION['cart'] as $id => $qty) {
-                    $product = $this->productModel->find($id);
+                    foreach ($_SESSION['cart'] as $key => $cart) 
+                    {
+                    $productId = $cart['product_id'];
+                    $size = $cart['size'];
+                    $qty = $cart['quantity'];
+
+                    $product = $this->productModel->find($productId);
+
                     if ($product) {
-                        $this->orderItemModel->add($orderId, $id, $qty, $product->price);
+                        $this->orderItemModel->add(
+                            $orderId,
+                            $productId,
+                            $size,
+                            $qty,
+                            $product->price
+                        );
                     }
                 }
+
 
                 // 3. Xóa giỏ hàng và thông báo thành công
                 unset($_SESSION['cart']);
@@ -195,24 +240,43 @@ class ProductsController {
 
     public function addToCartAjax() 
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+        {
 
             $id = (int)$_POST['product_id'];
             $qty = (int)$_POST['quantity'];
+            $size = $_POST['size'];
 
             if (!isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = [];
             }
 
-            if (isset($_SESSION['cart'][$id])) {
-                $_SESSION['cart'][$id] += $qty;
+            $key = $id . "-" . $size;
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [];
+            }
+
+            if (isset($_SESSION['cart'][$key])) {
+                $_SESSION['cart'][$key]['quantity'] += $qty;
             } else {
-                $_SESSION['cart'][$id] = $qty;
+                $_SESSION['cart'][$key] = [
+                    'product_id' => $id,
+                    'size' => $size,
+                    'quantity' => $qty
+                ];
+            }
+
+            $cartCount = 0;
+            foreach ($_SESSION['cart'] as $ci) {
+                if (is_array($ci) && isset($ci['quantity'])) {
+                    $cartCount += $ci['quantity'];
+                }
             }
 
             echo json_encode([
-                'success' => true,
-                'cartCount' => array_sum($_SESSION['cart'])
+                "success" => true,
+                "message" => "Added",
+                "cartCount" => $cartCount
             ]);
             exit;
         }
@@ -241,16 +305,22 @@ class ProductsController {
                 if ($p) $cartTotal += $p->price * $qty;
             }
 
+            $cartCount = 0;
+            foreach ($_SESSION['cart'] as $ci) {
+                if (is_array($ci) && isset($ci['quantity'])) {
+                    $cartCount += $ci['quantity'];
+                }
+            }
+
             echo json_encode([
                 "success" => true,
-                "cartCount" => array_sum($_SESSION["cart"]),
                 "itemTotal" => $itemTotal,
-                "cartTotal" => $cartTotal
+                "cartTotal" => $cartTotal,
+                "cartCount" => $cartCount
             ]);
             exit;
         }
     }
-
 
     // public function removeItem()
     // {

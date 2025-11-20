@@ -20,7 +20,7 @@
                 </button>
 
                 <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                    <a href="<?php echo URLROOT; ?>/public/index.php?url=admin/faq/list">
+                    <a href="<?= URLROOT ?>/public/index.php?url=admin/dashboard">
                         Admin Panel
                     </a>
                 </h1>

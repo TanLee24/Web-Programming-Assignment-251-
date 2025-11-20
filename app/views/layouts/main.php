@@ -97,7 +97,9 @@
                         
                         <span id="cartCount" 
                             class="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white border-2 border-white dark:border-[#111111]">
-                            <?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0 ?>
+                            <?= isset($_SESSION['cart']) 
+                            ? array_sum(array_column($_SESSION['cart'], 'quantity')) 
+                            : 0 ?>
                         </span>
                     </a>
                 </div>
@@ -217,22 +219,7 @@
         });
         
         // 4. CART LOGIC – lắng nghe sự kiện toàn cục từ các trang con
-        const cartCountElement = document.getElementById('cart-count');
-
-        window.addEventListener('cartUpdated', function (e) {
-            if (!cartCountElement) return;
-
-            const newCount = e.detail.cartCount ?? 0;
-            cartCountElement.textContent = newCount;
-
-            // Animation rung nhẹ cho badge
-            cartCountElement.classList.add('scale-125');
-            setTimeout(() => cartCountElement.classList.remove('scale-125'), 200);
-
-            // Thông báo
-            showNotification('Đã thêm sản phẩm vào giỏ hàng!');
-        });
-
+        const cartCountElement = document.getElementById('cartCount');
 
         function showNotification(message) {
             const div = document.createElement('div');
