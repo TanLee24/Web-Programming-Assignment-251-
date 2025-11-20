@@ -54,4 +54,10 @@ class Order {
             return false;
         }
     }
+
+    public function delete($id) {
+        $this->db->query("DELETE FROM orders WHERE id = :id");
+        $this->db->bind(":id", $id);
+        return $this->db->execute();
+    }
 }
