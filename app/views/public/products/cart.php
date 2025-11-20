@@ -127,7 +127,7 @@ function updateQuantity(key, quantity) {
     fetch("<?= URLROOT ?>/public/index.php?url=products/updateQuantity", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "key=" + encodeURIComponent(key) + "&quantity=" + quantity
+        body: "product_id=" + encodeURIComponent(key) + "&quantity=" + quantity
     })
     .then(res => res.json())
     .then(data => {
@@ -142,7 +142,7 @@ function updateQuantity(key, quantity) {
                 new Intl.NumberFormat().format(data.cartTotal) + " đ";
 
             // Update icon count
-            document.getElementById("cart-count").innerText = data.cartCount;
+            document.getElementById("cartCount").innerText = data.cartCount;
         }
     });
 }
