@@ -133,9 +133,38 @@ $logo         = $config_site['logo_path'] ?? '';
                     <a href="index.php" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Trang chủ</a>
                     <a href="index.php?url=pages/about" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Giới thiệu</a>
                     <a href="<?= URLROOT ?>/public/index.php?url=products/index" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Sản phẩm</a>
-                    <a href="index.php#brands" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Thương hiệu</a>
+                    
+                    <a href="<?= URLROOT ?>/public/index.php?url=news/index" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Tin tức</a>
+                    
                     <a href="index.php?url=pages/faq" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Hỏi đáp</a>
                     <a href="index.php?url=pages/contact" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Liên hệ</a>
+
+                    <div class="border-t border-gray-100 dark:border-gray-800 my-2"></div>
+
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <div class="px-4 py-2">
+                            <span class="block text-sm text-gray-500 mb-2">Xin chào, <strong class="text-yellow-500"><?= htmlspecialchars($_SESSION['user_name']) ?></strong></span>
+                            
+                            <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                                <a href="<?= URLROOT ?>/public/index.php?url=admin/dashboard" class="block py-2 text-sm font-bold text-blue-600 hover:text-blue-500">
+                                    ⚙️ Trang quản trị
+                                </a>
+                            <?php endif; ?>
+                            
+                            <a href="<?= URLROOT ?>/public/index.php?url=auth/logout" class="block py-2 text-sm font-bold text-red-600 hover:text-red-500">
+                                👋 Đăng xuất
+                            </a>
+                        </div>
+                    <?php else: ?>
+                        <div class="flex flex-col gap-2 px-4">
+                            <a href="<?= URLROOT ?>/public/index.php?url=auth/login" class="text-center w-full bg-yellow-500 text-black font-bold py-2 rounded-lg hover:bg-yellow-400 transition-all">
+                                Đăng nhập
+                            </a>
+                            <a href="<?= URLROOT ?>/public/index.php?url=auth/register" class="text-center w-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-bold py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+                                Đăng ký
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </nav>

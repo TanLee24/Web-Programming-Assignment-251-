@@ -1,5 +1,5 @@
 <?php
-// --- KẾT NỐI DATABASE ĐỂ LẤY NỘI DUNG ---
+// --- KẾT NỐI DATABASE ĐỂ LẤY CẤU HÌNH ---
 if (!isset($config_site)) {
     if (file_exists(APPROOT . '/models/Setting.php')) {
         require_once APPROOT . '/models/Setting.php';
@@ -59,35 +59,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
     </div>
 </section>
 
-<section id="brands" class="py-16 bg-gray-50 dark:bg-[#111111]">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-black text-center mb-12 uppercase italic text-gray-900 dark:text-white">
-            Thương hiệu <span class="text-yellow-500">Đối tác</span>
-        </h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 items-center justify-items-center">
-            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike" class="h-8 w-auto object-contain dark:invert">
-            </a>
-            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" alt="Adidas" class="h-12 w-auto object-contain dark:invert">
-            </a>
-            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg" alt="Converse" class="h-10 w-auto object-contain dark:invert">
-            </a>
-            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Vans-logo.svg" alt="Vans" class="h-12 w-auto object-contain grayscale dark:invert">
-            </a>
-            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Puma-logo-%28text%29.svg" alt="Puma" class="h-12 w-auto object-contain dark:invert">
-            </a>
-            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
-                 <img src="https://upload.wikimedia.org/wikipedia/commons/archive/e/ea/20160801155104%21New_Balance_logo.svg" alt="New Balance" class="h-12 w-auto object-contain grayscale dark:invert">
-            </a>
-        </div>
-    </div>
-</section>
-
-<section id="store-gallery" class="py-16 bg-white dark:bg-black overflow-hidden">
+<section id="store-gallery" class="py-16 bg-gray-50 dark:bg-[#111111] overflow-hidden">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-black uppercase italic text-gray-900 dark:text-white">
@@ -118,7 +90,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
     </div>
 </section>
 
-<section id="news" class="py-16 bg-gray-50 dark:bg-[#111111]">
+<section id="news" class="py-16 bg-white dark:bg-black">
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-end mb-12">
             <div>
@@ -133,7 +105,6 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
-            
             <?php if (!empty($latestNews)): ?>
                 <?php foreach ($latestNews as $news): ?>
                     <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
@@ -172,11 +143,10 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                     </article>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="col-span-3 text-center py-8 text-gray-500">
+                <div class="col-span-3 text-center py-8 text-gray-500 border border-dashed dark:border-gray-700 rounded-lg">
                     Chưa có tin tức nào được cập nhật.
                 </div>
             <?php endif; ?>
-
         </div>
 
         <div class="mt-8 text-center md:hidden">
@@ -187,7 +157,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
     </div>
 </section>
 
-<section id="about" class="py-16 bg-white dark:bg-black">
+<section id="about" class="py-16 bg-gray-50 dark:bg-[#111111]">
     <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto text-center">
             <h2 id="about-title" class="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Về chúng tôi</h2>
