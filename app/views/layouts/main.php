@@ -100,9 +100,20 @@ $logo         = $config_site['logo_path'] ?? '';
                             </button>
                             <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-[#1a1a1a] rounded-lg shadow-xl border border-gray-100 dark:border-gray-800 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                                 <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-                                    <a href="<?= URLROOT ?>/public/index.php?url=admin/dashboard" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Trang quản trị</a>
+                                    <a href="<?= URLROOT ?>/public/index.php?url=admin/dashboard" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                        ⚙️ Trang quản trị
+                                    </a>
                                 <?php endif; ?>
-                                <a href="<?= URLROOT ?>/public/index.php?url=auth/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-50 dark:hover:bg-gray-800">Đăng xuất</a>
+                                
+                                <a href="<?= URLROOT ?>/public/index.php?url=profile/index" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    👤 Thông tin tài khoản
+                                </a>
+                                
+                                <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
+
+                                <a href="<?= URLROOT ?>/public/index.php?url=auth/logout" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    👋 Đăng xuất
+                                </a>
                             </div>
                         </div>
                     <?php else: ?>
@@ -151,6 +162,10 @@ $logo         = $config_site['logo_path'] ?? '';
                                 </a>
                             <?php endif; ?>
                             
+                            <a href="<?= URLROOT ?>/public/index.php?url=profile/index" class="block py-2 text-sm font-bold text-gray-600 hover:text-gray-500 dark:text-gray-400">
+                                👤 Thông tin tài khoản
+                            </a>
+
                             <a href="<?= URLROOT ?>/public/index.php?url=auth/logout" class="block py-2 text-sm font-bold text-red-600 hover:text-red-500">
                                 👋 Đăng xuất
                             </a>

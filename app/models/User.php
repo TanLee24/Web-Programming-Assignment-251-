@@ -42,4 +42,65 @@ class User {
         $this->db->single();
         return $this->db->rowCount() > 0;
     }
+
+    // 4. Lấy thông tin user theo ID
+    public function find($id) {
+        $this->db->query("SELECT * FROM users WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
+
+    // 5. Cập nhật thông tin profile
+    public function update($id, $data) {
+        // Tạo câu SQL động tùy thuộc vào có đổi mật khẩu/avatar hay không
+        $sql = "UPDATE users SET full_name = :full_name, email = :email";
+        
+        if (!empty($data['password'])) {
+            $sql .= ", password_hash = :password";
+        }
+        if (!empty($data['avatar'])) {
+            $sql .= ", avatar_url = :avatar";
+        }
+        
+        $sql .= " WHERE id = :id";
+
+        $this->db->query($sql);
+        
+        $this->db->bind(':id', $id);
+        $this->db->bind(':full_name', $data['full_name']);
+        $this->db->bind(':email', $data['email']);
+        
+        if (!empty($data['password'])) {
+            $this->db->bind(':password', password_hash($data['password'], PASSWORD_DEFAULT));
+        }
+        if (!empty($data['avatar'])) {
+            $this->db->bind(':avatar', $data['avatar']);
+        }
+
+        return $this->db->execute();
+    }
+
+    // --- PHẦN DÀNH CHO ADMIN ---
+
+    // 6. Lấy danh sách tất cả thành viên
+    public function all() {
+        $this->db->query("SELECT * FROM users ORDER BY created_at DESC");
+        return $this->db->resultSet();
+    }
+
+    // 7. Cập nhật trạng thái (Khóa/Mở khóa)
+    public function updateStatus($id, $status) {
+        $this->db->query("UPDATE users SET status = :status WHERE id = :id");
+        $this->db->bind(':status', $status);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
+
+    // 8. Reset mật khẩu
+    public function resetPassword($id, $hash) {
+        $this->db->query("UPDATE users SET password_hash = :pass WHERE id = :id");
+        $this->db->bind(':pass', $hash);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
 }

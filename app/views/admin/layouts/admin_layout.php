@@ -63,6 +63,11 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?php echo URLROOT; ?>/public/index.php?url=admin/user/index">
+                                    <span class="nav-link-title">Quản lý Thành viên</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

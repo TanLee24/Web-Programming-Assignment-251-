@@ -51,23 +51,23 @@ class AuthController {
     // --- ĐĂNG NHẬP ---
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $input = trim($_POST['email']); // Nhập email hoặc username đều được
+            $emailOrUsername = trim($_POST['email']);
             $password = trim($_POST['password']);
 
-            $user = $this->userModel->findUserByEmailOrUsername($input);
+            // Tìm user trong DB
+            $user = $this->userModel->findUserByEmailOrUsername($emailOrUsername);
 
             if ($user) {
-                // Kiểm tra pass với chuỗi hash trong DB
+                // 1. KIỂM TRA TRẠNG THÁI TRƯỚC (Code mới thêm)
+                if ($user->status === 'banned') {
+                    $data['error'] = "Tài khoản của bạn đã bị khóa do vi phạm chính sách!";
+                    $this->loadView('public/auth/login', $data);
+                    return; // Dừng lại, không cho đi tiếp
+                }
+
+                // 2. Kiểm tra mật khẩu (Code cũ)
                 if (password_verify($password, $user->password_hash)) {
-                    // Tạo Session
-                    $_SESSION['user_id'] = $user->id;
-                    $_SESSION['user_email'] = $user->email;
-                    $_SESSION['user_name'] = $user->full_name;
-                    $_SESSION['user_role'] = $user->role;
-                    
-                    // Chuyển về trang chủ
-                    header('Location: ' . URLROOT . '/public/index.php');
-                    exit;
+                    $this->createUserSession($user);
                 } else {
                     $data['error'] = "Mật khẩu không chính xác!";
                     $this->loadView('public/auth/login', $data);
@@ -98,5 +98,17 @@ class AuthController {
         if (file_exists('../app/views/' . $view . '.php')) {
             require_once '../app/views/' . $view . '.php';
         }
+    }
+
+    // Hàm tạo Session sau khi đăng nhập thành công
+    public function createUserSession($user) {
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_email'] = $user->email;
+        $_SESSION['user_name'] = $user->full_name;
+        $_SESSION['user_role'] = $user->role;
+        
+        // Chuyển hướng về trang chủ
+        header('Location: ' . URLROOT . '/public/index.php');
+        exit;
     }
 }
