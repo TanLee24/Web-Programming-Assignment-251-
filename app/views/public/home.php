@@ -1,13 +1,33 @@
+<?php
+// --- KẾT NỐI DATABASE ĐỂ LẤY NỘI DUNG ---
+if (!isset($config_site)) {
+    if (file_exists(APPROOT . '/models/Setting.php')) {
+        require_once APPROOT . '/models/Setting.php';
+        $db = new Database();
+        $db->query("SELECT * FROM settings");
+        $rows = $db->resultSet();
+        $config_site = [];
+        foreach ($rows as $row) {
+            $config_site[$row->setting_key] = $row->setting_value;
+        }
+    }
+}
+$company_name = $config_site['company_name'] ?? 'Do & Tan Sneakers';
+$intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Phong cách dẫn đầu';
+?>
+
 <section id="home" class="relative py-20 bg-gray-900 overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-gray-800 opacity-90"></div>
-    
     <div class="container relative mx-auto px-4 text-center z-10">
         <h2 id="hero-title" class="text-5xl md:text-7xl font-black mb-6 text-white tracking-tight uppercase italic">
-            Do & Tan <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Sneakers</span>
+            <?= $company_name ?>
         </h2>
-        <p id="hero-subtitle" class="text-xl md:text-2xl mb-8 text-gray-300 font-light">Chất lượng đỉnh cao - Phong cách dẫn đầu</p>
+        <p id="hero-subtitle" class="text-xl md:text-2xl mb-8 text-gray-300 font-light">
+            <?= $intro_text ?>
+        </p>
+        
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#products" class="bg-yellow-500 text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-400 hover:scale-105 transition-all shadow-lg shadow-yellow-500/30">
+            <a href="index.php?url=products" class="bg-yellow-500 text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-400 hover:scale-105 transition-all shadow-lg shadow-yellow-500/30">
                 Xem Bộ Sưu Tập
             </a> 
             <a href="index.php?url=pages/contact" class="border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-black hover:scale-105 transition-all">
@@ -41,114 +61,143 @@
 
 <section id="brands" class="py-16 bg-gray-50 dark:bg-[#111111]">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-black text-center mb-12 uppercase italic text-gray-900 dark:text-white">Thương hiệu <span class="text-yellow-500">Đối tác</span></h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center">
-            
-            <div class="brand-icon p-4">
-                 <svg class="h-12 w-auto text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M21 8.719L7.836 14.303C6.74 14.768 5.818 13.608 5.818 12.512L7.952 8.719H21z"/></svg>
-            </div>
-            
-            <div class="brand-icon p-4">
-                <svg class="h-12 w-auto text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M15.82 12.76L13.2 16.35H17.23L19.85 12.76H15.82ZM10.73 9.18L5.49 16.36H9.52L14.76 9.18H10.73ZM5.63 5.59L.39 12.77V16.35H2.36L7.6 9.18H5.63V5.59Z"/></svg>
-            </div>
-
-            <div class="brand-icon p-4">
-                <svg class="h-12 w-auto text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-            </div>
-
-            <div class="brand-icon p-4">
-                <h3 class="text-2xl font-black italic tracking-tighter text-gray-900 dark:text-white">VANS</h3>
-            </div>
-
-            <div class="brand-icon p-4">
-                <svg class="h-12 w-auto text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.09 6.26L20 9.27L15 14.14L16.18 21.02L9 14.14L4 9.27L9.91 8.26L12 2Z"/></svg> </div>
-
-            <div class="brand-icon p-4">
-                 <h3 class="text-2xl font-black italic tracking-tighter text-gray-900 dark:text-white">NB</h3>
-            </div>
-
+        <h2 class="text-3xl font-black text-center mb-12 uppercase italic text-gray-900 dark:text-white">
+            Thương hiệu <span class="text-yellow-500">Đối tác</span>
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 items-center justify-items-center">
+            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike" class="h-8 w-auto object-contain dark:invert">
+            </a>
+            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" alt="Adidas" class="h-12 w-auto object-contain dark:invert">
+            </a>
+            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Converse_logo.svg" alt="Converse" class="h-10 w-auto object-contain dark:invert">
+            </a>
+            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Vans-logo.svg" alt="Vans" class="h-12 w-auto object-contain grayscale dark:invert">
+            </a>
+            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Puma-logo-%28text%29.svg" alt="Puma" class="h-12 w-auto object-contain dark:invert">
+            </a>
+            <a href="#" class="group transition-all duration-300 hover:scale-110 opacity-60 hover:opacity-100">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/archive/e/ea/20160801155104%21New_Balance_logo.svg" alt="New Balance" class="h-12 w-auto object-contain grayscale dark:invert">
+            </a>
         </div>
     </div>
 </section>
 
-<section id="products" class="py-16 bg-white dark:bg-black">
+<section id="store-gallery" class="py-16 bg-white dark:bg-black overflow-hidden">
     <div class="container mx-auto px-4">
-        <h2 class="text-4xl font-black text-center mb-12 uppercase italic text-gray-900 dark:text-white">Sản phẩm <span class="text-yellow-500">Hot</span></h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <div class="group bg-gray-50 dark:bg-[#151515] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800">
-                <div class="h-56 bg-gray-100 dark:bg-gray-800 flex items-center justify-center relative overflow-hidden">
-                    <span class="text-6xl transform group-hover:scale-110 transition-transform duration-500">👟</span>
-                    <div class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-20%</div>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-white truncate">Nike Air Max 270</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Men's Running Shoes</p>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="block text-lg font-bold text-gray-900 dark:text-white">2.890k</span>
-                            <span class="text-xs text-gray-400 line-through">3.500k</span>
-                        </div>
-                        <button class="buy-btn bg-yellow-500 hover:bg-yellow-400 text-black w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </button>
-                    </div>
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-black uppercase italic text-gray-900 dark:text-white">
+                Không gian <span class="text-yellow-500">Trải nghiệm</span>
+            </h2>
+            <p class="mt-4 text-gray-600 dark:text-gray-400">Ghé thăm Do & Tan Store để trực tiếp cảm nhận chất lượng trên từng đôi giày.</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
+            <div class="col-span-2 row-span-2 relative group overflow-hidden rounded-2xl h-64 md:h-auto">
+                <img src="<?= URLROOT ?>/public/uploads/sneakershop.jpg" alt="Toàn cảnh cửa hàng" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                    <span class="text-white font-bold text-xl">Không gian mua sắm hiện đại</span>
                 </div>
             </div>
-
-            <div class="group bg-gray-50 dark:bg-[#151515] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800">
-                <div class="h-56 bg-gray-100 dark:bg-gray-800 flex items-center justify-center relative overflow-hidden">
-                    <span class="text-6xl transform group-hover:scale-110 transition-transform duration-500">👠</span>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-white truncate">Adidas Ultraboost</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Women's Running</p>
-                    <div class="flex items-center justify-between">
-                        <span class="block text-lg font-bold text-gray-900 dark:text-white">3.200k</span>
-                        <button class="buy-btn bg-yellow-500 hover:bg-yellow-400 text-black w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </button>
-                    </div>
+            <div class="col-span-1 row-span-1 relative group overflow-hidden rounded-2xl h-40 md:h-auto">
+                <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kệ trưng bày giày" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+            </div>
+            <div class="col-span-1 row-span-1 relative group overflow-hidden rounded-2xl h-40 md:h-auto">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Khu vực thử giày" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+            </div>
+            <div class="col-span-2 md:col-span-2 row-span-1 relative group overflow-hidden rounded-2xl h-48 md:h-auto">
+                <img src="<?= URLROOT ?>/public/uploads/map.png" alt="Kho giày đa dạng" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Trường+Đại+học+Bách+khoa+-+ĐHQG+TP.HCM+Cơ+sở+Dĩ+An" target="_blank" class="text-white border border-white px-6 py-2 rounded-full hover:bg-white hover:text-black transition-colors">Xem bản đồ đến Shop</a>
                 </div>
             </div>
-            
-             <div class="group bg-gray-50 dark:bg-[#151515] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800">
-                <div class="h-56 bg-gray-100 dark:bg-gray-800 flex items-center justify-center relative overflow-hidden">
-                    <span class="text-6xl transform group-hover:scale-110 transition-transform duration-500">🥿</span>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-white truncate">Converse 1970s</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Unisex Canvas</p>
-                    <div class="flex items-center justify-between">
-                        <span class="block text-lg font-bold text-gray-900 dark:text-white">1.500k</span>
-                        <button class="buy-btn bg-yellow-500 hover:bg-yellow-400 text-black w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-             <div class="group bg-gray-50 dark:bg-[#151515] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800">
-                <div class="h-56 bg-gray-100 dark:bg-gray-800 flex items-center justify-center relative overflow-hidden">
-                    <span class="text-6xl transform group-hover:scale-110 transition-transform duration-500">🩴</span>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-bold text-lg mb-1 text-gray-900 dark:text-white truncate">Yeezy Slide</h3>
-                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Summer Vibes</p>
-                    <div class="flex items-center justify-between">
-                        <span class="block text-lg font-bold text-gray-900 dark:text-white">900k</span>
-                        <button class="buy-btn bg-yellow-500 hover:bg-yellow-400 text-black w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </section>
 
-<section id="about" class="py-16 bg-gray-50 dark:bg-[#111111]">
+<section id="news" class="py-16 bg-gray-50 dark:bg-[#111111]">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h2 class="text-3xl font-black uppercase italic text-gray-900 dark:text-white">
+                    News <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">& Updates</span>
+                </h2>
+                <p class="text-gray-500 dark:text-gray-400 mt-2">Thông tin mới nhất về Sneaker & Streetwear</p>
+            </div>
+            <a href="index.php?url=pages/news" class="hidden md:inline-block text-yellow-600 hover:text-yellow-500 font-bold hover:underline">
+                Xem tất cả bài viết →
+            </a>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+            <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
+                <div class="h-48 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Trend 2025" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-4 left-4 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full">Xu hướng</div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <div class="text-sm text-gray-400 mb-2">02 Tháng 12, 2025</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-yellow-500 transition-colors">
+                        <a href="index.php?url=pages/news_detail&id=1">Top 5 xu hướng Sneaker thống trị năm 2025</a>
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
+                        Từ phong cách Retro thập niên 90 đến sự lên ngôi của giày đế chunky. Khám phá ngay những mẫu giày bạn không thể bỏ lỡ trong năm tới.
+                    </p>
+                    <a href="index.php?url=pages/news_detail&id=1" class="inline-flex items-center text-yellow-600 font-semibold text-sm hover:translate-x-1 transition-transform">
+                        Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
+                <div class="h-48 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="New Arrival" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-4 left-4 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">Sắp ra mắt</div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <div class="text-sm text-gray-400 mb-2">28 Tháng 11, 2025</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-yellow-500 transition-colors">
+                        <a href="index.php?url=pages/news_detail&id=2">Siêu phẩm Jordan 1 "Lost & Found" sắp cập bến</a>
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
+                        Huyền thoại Chicago đã trở lại với diện mạo vintage độc đáo. Do & Tan Sneakers tự hào là một trong những đơn vị đầu tiên mở bán.
+                    </p>
+                    <a href="index.php?url=pages/news_detail&id=2" class="inline-flex items-center text-yellow-600 font-semibold text-sm hover:translate-x-1 transition-transform">
+                        Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
+                <div class="h-48 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Tips" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">Mẹo hay</div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <div class="text-sm text-gray-400 mb-2">20 Tháng 11, 2025</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-yellow-500 transition-colors">
+                        <a href="index.php?url=pages/news_detail&id=3">Bí kíp bảo quản giày da lộn (Suede) mùa mưa</a>
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
+                        Giày da lộn rất khó chiều, đặc biệt là khi trời mưa. Xem ngay 3 bước đơn giản để giữ đôi giày yêu thích của bạn luôn mới.
+                    </p>
+                    <a href="index.php?url=pages/news_detail&id=3" class="inline-flex items-center text-yellow-600 font-semibold text-sm hover:translate-x-1 transition-transform">
+                        Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
+            </article>
+        </div>
+        <div class="mt-8 text-center md:hidden">
+             <a href="index.php?url=pages/news" class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-6 py-3 rounded-full font-bold hover:bg-yellow-500 hover:text-black transition-all">
+                Xem tất cả bài viết
+             </a>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="py-16 bg-white dark:bg-black">
     <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto text-center">
             <h2 id="about-title" class="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Về chúng tôi</h2>

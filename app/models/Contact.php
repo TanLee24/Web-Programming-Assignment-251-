@@ -1,25 +1,38 @@
 <?php
-require_once APPROOT . '/libraries/Database.php';
-
-class Contact
-{
+class Contact {
     private $db;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->db = new Database;
     }
 
-    public function save($data)
-    {
-        $sql = "INSERT INTO contacts (name, email, message)
-                VALUES (:name, :email, :message)";
+    // Hàm này đang được gọi và gây lỗi nếu SQL sai
+    public function all() {
+        // Lệnh SQL này yêu cầu bảng contacts phải có cột created_at
+        $this->db->query("SELECT * FROM contacts ORDER BY created_at DESC");
+        return $this->db->resultSet();
+    }
 
-        $this->db->query($sql);
+    public function save($data) {
+        // Lưu ý cột created_at được thêm vào đây
+        $this->db->query("INSERT INTO contacts (name, email, message, created_at) VALUES (:name, :email, :message, NOW())");
         $this->db->bind(':name', $data['full_name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':message', $data['message']);
+        return $this->db->execute();
+    }
+    
+    // Thêm hàm updateStatus để tính năng "Đánh dấu đã đọc" hoạt động
+    public function updateStatus($id, $status) {
+        $this->db->query("UPDATE contacts SET status = :status WHERE id = :id");
+        $this->db->bind(':status', $status);
+        $this->db->bind(':id', $id);
+        return $this->db->execute();
+    }
 
+    public function delete($id) {
+        $this->db->query("DELETE FROM contacts WHERE id = :id");
+        $this->db->bind(':id', $id);
         return $this->db->execute();
     }
 }

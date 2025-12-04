@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $title ?? "Admin Dashboard"; ?></title>
 
-    <!-- Tabler CSS -->
     <link href="<?= URLROOT ?>/public/admin/dist/css/tabler.css" rel="stylesheet" />
     <link href="<?= URLROOT ?>/public/admin/dist/css/tabler-vendors.css" rel="stylesheet" />
 </head>
 
 <body class="layout-fluid">
     <div class="page">
-        <!-- Navbar -->
         <header class="navbar navbar-expand-md navbar-light d-print-none">
             <div class="container-xl">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
@@ -28,6 +26,18 @@
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
                         <ul class="navbar-nav">
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= URLROOT ?>/public/index.php?url=admin/settings/index">
+                                    <span class="nav-link-title">Cấu hình chung</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= URLROOT ?>/public/index.php?url=admin/contact/list">
+                                    <span class="nav-link-title">Liên hệ khách hàng</span>
+                                </a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="<?php echo URLROOT; ?>/public/index.php?url=admin/about/index">
@@ -68,7 +78,6 @@
         </div>
     </div>
 
-    <!-- Tabler JS -->
     <script src="<?= URLROOT ?>/public/admin/dist/js/tabler.js"></script>
 </body>
 </html>

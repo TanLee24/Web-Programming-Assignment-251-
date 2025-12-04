@@ -33,19 +33,25 @@
 
             <div class="bg-gray-50 dark:bg-[#111111] p-8 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-lg">
                 <h3 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Gửi tin nhắn</h3>
-                <form class="space-y-5" onsubmit="handleContactForm(event)">
+                <form class="space-y-5" action="<?= URLROOT ?>/public/index.php?url=contact/submit" method="POST">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Họ tên</label> 
-                        <input type="text" required class="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all">
+                        <input type="text" name="full_name" required placeholder="Nhập họ tên của bạn"
+                            class="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all">
                     </div>
+                    
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Email</label> 
-                        <input type="email" required class="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all">
+                        <input type="email" name="email" required placeholder="Nhập email để nhận phản hồi"
+                            class="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all">
                     </div>
+                    
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Tin nhắn</label> 
-                        <textarea rows="4" required class="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all"></textarea>
+                        <textarea name="message" rows="4" required placeholder="Nội dung cần hỗ trợ..."
+                                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition-all"></textarea>
                     </div>
+                    
                     <button type="submit" class="w-full bg-yellow-500 text-black font-bold py-4 rounded-xl hover:bg-yellow-400 hover:scale-[1.02] transition-all shadow-lg shadow-yellow-500/20">
                         Gửi ngay
                     </button>
