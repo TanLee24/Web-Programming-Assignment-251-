@@ -2,23 +2,37 @@
 // Nạp các Model cần thiết để lấy dữ liệu từ Database
 require_once APPROOT . '/models/Setting.php';
 require_once APPROOT . '/models/Faq.php';
+require_once APPROOT . '/models/News.php';
 
 class PagesController 
 {
     private $settingModel;
     private $faqModel;
+    private $newsModel;
 
     public function __construct() 
     {
         // Khởi tạo các Model
         $this->settingModel = new Setting();
         $this->faqModel = new Faq();
+        $this->newsModel = new News();
     }
 
     // --- TRANG CHỦ ---
     public function home() 
     {
-        $data = ['title' => 'Trang Chủ - Do & Tan Sneakers'];
+        // 4. LẤY TIN TỨC MỚI NHẤT
+        // Lấy tất cả tin tức
+        $allNews = $this->newsModel->all(); 
+        
+        // Chỉ lấy 3 bài mới nhất để hiện ở trang chủ
+        $latestNews = array_slice($allNews, 0, 3);
+
+        $data = [
+            'title' => 'Trang Chủ - Do & Tan Sneakers',
+            'latestNews' => $latestNews // <--- 5. TRUYỀN DỮ LIỆU SANG VIEW
+        ];
+        
         $this->loadView('public/home', $data);
     }
 

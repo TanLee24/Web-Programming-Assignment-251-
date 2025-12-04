@@ -127,70 +127,60 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                 </h2>
                 <p class="text-gray-500 dark:text-gray-400 mt-2">Thông tin mới nhất về Sneaker & Streetwear</p>
             </div>
-            <a href="index.php?url=pages/news" class="hidden md:inline-block text-yellow-600 hover:text-yellow-500 font-bold hover:underline">
+            <a href="index.php?url=news/index" class="hidden md:inline-block text-yellow-600 hover:text-yellow-500 font-bold hover:underline">
                 Xem tất cả bài viết →
             </a>
         </div>
+
         <div class="grid md:grid-cols-3 gap-8">
-            <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
-                <div class="h-48 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Trend 2025" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-4 left-4 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full">Xu hướng</div>
-                </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="text-sm text-gray-400 mb-2">02 Tháng 12, 2025</div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-yellow-500 transition-colors">
-                        <a href="index.php?url=pages/news_detail&id=1">Top 5 xu hướng Sneaker thống trị năm 2025</a>
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
-                        Từ phong cách Retro thập niên 90 đến sự lên ngôi của giày đế chunky. Khám phá ngay những mẫu giày bạn không thể bỏ lỡ trong năm tới.
-                    </p>
-                    <a href="index.php?url=pages/news_detail&id=1" class="inline-flex items-center text-yellow-600 font-semibold text-sm hover:translate-x-1 transition-transform">
-                        Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </a>
-                </div>
-            </article>
+            
+            <?php if (!empty($latestNews)): ?>
+                <?php foreach ($latestNews as $news): ?>
+                    <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
+                        <div class="h-48 overflow-hidden relative group">
+                            <a href="index.php?url=news/detail&id=<?= $news->id ?>">
+                                <?php if (!empty($news->featured_image_url)): ?>
+                                    <img src="<?= URLROOT . $news->featured_image_url ?>" alt="<?= htmlspecialchars($news->title) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <?php else: ?>
+                                    <div class="w-full h-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500">No Image</div>
+                                <?php endif; ?>
+                            </a>
+                            <div class="absolute top-4 left-4 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-full">
+                                Tin tức
+                            </div>
+                        </div>
 
-            <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
-                <div class="h-48 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="New Arrival" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-4 left-4 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">Sắp ra mắt</div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="text-sm text-gray-400 mb-2">
+                                <?= date('d/m/Y', strtotime($news->created_at)) ?>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-yellow-500 transition-colors line-clamp-2">
+                                <a href="index.php?url=news/detail&id=<?= $news->id ?>">
+                                    <?= htmlspecialchars($news->title) ?>
+                                </a>
+                            </h3>
+                            
+                            <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
+                                <?= !empty($news->seo_description) ? htmlspecialchars($news->seo_description) : strip_tags(substr($news->content, 0, 150)) . '...' ?>
+                            </p>
+                            
+                            <a href="index.php?url=news/detail&id=<?= $news->id ?>" class="inline-flex items-center text-yellow-600 font-semibold text-sm hover:translate-x-1 transition-transform">
+                                Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-span-3 text-center py-8 text-gray-500">
+                    Chưa có tin tức nào được cập nhật.
                 </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="text-sm text-gray-400 mb-2">28 Tháng 11, 2025</div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-yellow-500 transition-colors">
-                        <a href="index.php?url=pages/news_detail&id=2">Siêu phẩm Jordan 1 "Lost & Found" sắp cập bến</a>
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
-                        Huyền thoại Chicago đã trở lại với diện mạo vintage độc đáo. Do & Tan Sneakers tự hào là một trong những đơn vị đầu tiên mở bán.
-                    </p>
-                    <a href="index.php?url=pages/news_detail&id=2" class="inline-flex items-center text-yellow-600 font-semibold text-sm hover:translate-x-1 transition-transform">
-                        Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </a>
-                </div>
-            </article>
+            <?php endif; ?>
 
-            <article class="bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 dark:border-gray-800 flex flex-col">
-                <div class="h-48 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Tips" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">Mẹo hay</div>
-                </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="text-sm text-gray-400 mb-2">20 Tháng 11, 2025</div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-yellow-500 transition-colors">
-                        <a href="index.php?url=pages/news_detail&id=3">Bí kíp bảo quản giày da lộn (Suede) mùa mưa</a>
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
-                        Giày da lộn rất khó chiều, đặc biệt là khi trời mưa. Xem ngay 3 bước đơn giản để giữ đôi giày yêu thích của bạn luôn mới.
-                    </p>
-                    <a href="index.php?url=pages/news_detail&id=3" class="inline-flex items-center text-yellow-600 font-semibold text-sm hover:translate-x-1 transition-transform">
-                        Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </a>
-                </div>
-            </article>
         </div>
+
         <div class="mt-8 text-center md:hidden">
-             <a href="index.php?url=pages/news" class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-6 py-3 rounded-full font-bold hover:bg-yellow-500 hover:text-black transition-all">
+             <a href="index.php?url=news/index" class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-6 py-3 rounded-full font-bold hover:bg-yellow-500 hover:text-black transition-all">
                 Xem tất cả bài viết
              </a>
         </div>

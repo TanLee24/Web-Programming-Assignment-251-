@@ -78,4 +78,9 @@ class Database
     {
         return $this->dbh->lastInsertId();
     }
+
+    // Lấy số lượng hàng (row count)
+    public function rowCount() {
+        return $this->stmt->rowCount();
+    }
 }
