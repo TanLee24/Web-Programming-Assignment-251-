@@ -7,32 +7,41 @@ class AdminAboutController
 
     public function __construct() 
     {
+        // --- GỌI HÀM KIỂM TRA QUYỀN ---
+        // Hàm này sẽ chạy đầu tiên. Nếu không phải admin, code bên dưới sẽ không bao giờ chạy.
+        $this->checkAdminAccess();
         $this->setting = new Setting();
     }
 
-    // public function index() 
-    // {
-    //     // Xử lý khi bấm nút Lưu
-    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') 
-    //     {
-    //         $content = $_POST['content']; // Nội dung từ CKEditor hoặc Textarea
-    //         $this->setting->update('about_content', $content);
+    // --- ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) ---
+    private function checkAdminAccess() 
+    {
+        // 1. Kiểm tra đăng nhập
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: " . URLROOT . "/public/index.php?url=auth/login");
+            exit;
+        }
+
+        // 2. Kiểm tra quyền Admin
+        if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             
-    //         // Thông báo thành công (tùy chọn)
-    //         echo "<script>alert('Cập nhật thành công!');</script>";
-    //     }
-
-    //     // Lấy nội dung hiện tại để hiển thị vào form
-    //     $currentContent = $this->setting->get('about_content');
-    //     $title = "Quản lý trang Giới thiệu";
-
-    //     ob_start();
-    //     // Truyền biến $currentContent vào view
-    //     require_once APPROOT . "/views/admin/about/edit.php";
-    //     $content = ob_get_clean();
-
-    //     require_once APPROOT . "/views/admin/layouts/admin_layout.php";
-    // }
+            // --- CODE MỚI: HIỆN LỖI 403 ---
+            
+            // Gửi mã phản hồi HTTP 403 cho trình duyệt (quan trọng cho SEO/Bot)
+            http_response_code(403);
+            
+            // Load file giao diện lỗi vừa tạo
+            if (file_exists(APPROOT . '/views/errors/403.php')) {
+                require_once APPROOT . '/views/errors/403.php';
+            } else {
+                // Dự phòng nếu chưa tạo file view
+                echo "<h1>403 Forbidden</h1><p>Bạn không có quyền truy cập trang này!</p>";
+            }
+            
+            // Dừng code ngay lập tức để không lộ nội dung trang Admin
+            exit;
+        }
+    }
 
     public function index() 
     {
