@@ -26,8 +26,14 @@
         <div class="bg-white dark:bg-black py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-200 dark:border-gray-800">
             
             <?php if (!empty($data['error'])): ?>
-                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-sm">
                     <?= $data['error'] ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['success_message'])): ?>
+                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative text-sm">
+                    <?= $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
                 </div>
             <?php endif; ?>
 
@@ -35,12 +41,21 @@
                 <div>
                     <label for="email" class="block text-sm font-medium">Email hoặc Tên đăng nhập</label>
                     <div class="mt-1">
-                        <input id="email" name="email" type="text" required class="block w-full appearance-none rounded-md border border-gray-300 dark:border-gray-700 px-3 py-2 bg-white dark:bg-[#1a1a1a] placeholder-gray-400 shadow-sm focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm">
+                        <input id="email" name="email" type="text" required 
+                               value="<?= isset($data['email']) ? $data['email'] : '' ?>"
+                               class="block w-full appearance-none rounded-md border border-gray-300 dark:border-gray-700 px-3 py-2 bg-white dark:bg-[#1a1a1a] placeholder-gray-400 shadow-sm focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm">
                     </div>
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium">Mật khẩu</label>
+                    <div class="flex items-center justify-between">
+                        <label for="password" class="block text-sm font-medium">Mật khẩu</label>
+                        <div class="text-sm">
+                            <a href="<?= URLROOT ?>/public/index.php?url=auth/forgot_password" class="font-medium text-yellow-500 hover:text-yellow-400">
+                                Quên mật khẩu?
+                            </a>
+                        </div>
+                    </div>
                     <div class="mt-1">
                         <input id="password" name="password" type="password" required class="block w-full appearance-none rounded-md border border-gray-300 dark:border-gray-700 px-3 py-2 bg-white dark:bg-[#1a1a1a] placeholder-gray-400 shadow-sm focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 sm:text-sm">
                     </div>
@@ -68,7 +83,7 @@
                     </a>
                 </div>
                 <div class="mt-4 text-center">
-                    <a href="<?= URLROOT ?>/public/index.php" class="font-semibold leading-6 text-gray-900 hover:underline">← Về trang chủ</a>
+                    <a href="<?= URLROOT ?>/public/index.php" class="font-semibold leading-6 text-gray-900 dark:text-gray-300 hover:underline">← Về trang chủ</a>
                 </div>
             </div>
         </div>
