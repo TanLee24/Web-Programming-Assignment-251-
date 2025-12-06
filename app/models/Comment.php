@@ -20,18 +20,18 @@ class Comment {
         return $this->db->execute();
     }
 
-    // Lấy danh sách bình luận (Có thể JOIN thêm users để lấy avatar nếu cần)
+    // Lấy danh sách bình luận kèm theo Avatar từ bảng Users
     public function getCommentsByPostId($newsId) {
-        // JOIN để lấy thêm avatar_url từ bảng users
-        $sql = "SELECT c.*, u.avatar_url 
-                FROM comments c
-                LEFT JOIN users u ON c.user_id = u.id
-                WHERE c.commentable_type = 'news' 
-                AND c.commentable_id = :id 
-                ORDER BY c.created_at DESC";
+        $this->db->query("
+            SELECT c.*, u.avatar_url, u.full_name, u.username 
+            FROM comments c
+            JOIN users u ON c.user_id = u.id
+            WHERE c.commentable_id = :newsId 
+            AND c.commentable_type = 'news'
+            ORDER BY c.created_at DESC
+        ");
         
-        $this->db->query($sql);
-        $this->db->bind(':id', $newsId);
+        $this->db->bind(':newsId', $newsId);
         return $this->db->resultSet();
     }
 }

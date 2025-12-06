@@ -159,9 +159,6 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                 </h2>
                 <p class="mt-2 text-gray-600 dark:text-gray-400 max-w-lg">Không gian mua sắm hiện đại với hàng ngàn mẫu sneakers hot nhất hiện nay.</p>
             </div>
-            <div class="hidden md:block">
-                 <a href="#" class="text-sm font-bold text-gray-400 hover:text-white border-b border-transparent hover:border-yellow-500 transition-all">Xem tất cả hình ảnh</a>
-            </div>
         </div>
         
         <div class="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">

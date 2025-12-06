@@ -26,7 +26,7 @@
 
         <?php if (!empty($post->featured_image_url)): ?>
             <div class="rounded-3xl overflow-hidden shadow-2xl mb-12 border border-gray-100 dark:border-gray-800">
-                <img src="<?= URLROOT . $post->featured_image_url ?>" alt="<?= htmlspecialchars($post->title) ?>" class="w-full h-auto object-cover">
+                <img src="<?= (strpos($post->featured_image_url, 'http') === 0) ? $post->featured_image_url : URLROOT . $post->featured_image_url ?>" alt="<?= htmlspecialchars($post->title) ?>" class="w-full h-auto object-cover">
             </div>
         <?php endif; ?>
 
@@ -55,14 +55,27 @@
                 <form action="<?= URLROOT ?>/public/index.php?url=news/comment" method="POST">
                     <input type="hidden" name="news_id" value="<?= $post->id ?>">
                     
-                    <div class="mb-4">
-                        <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">Họ tên của bạn *</label>
-                        <input type="text" name="user_name" required class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 outline-none">
-                    </div>
+                    <?php if(isset($_SESSION['user_name'])): ?>
+                        <div class="mb-4 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                                <?php 
+                                    // Hiển thị avatar nhỏ của người đang đăng nhập (nếu cần)
+                                    $currentUserAvatar = isset($_SESSION['user_avatar']) && !empty($_SESSION['user_avatar']) 
+                                        ? URLROOT . '/public/' . $_SESSION['user_avatar'] 
+                                        : "https://ui-avatars.com/api/?name=" . urlencode($_SESSION['user_name']);
+                                ?>
+                                <img src="<?= $currentUserAvatar ?>" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Bình luận với tư cách:</p>
+                                <p class="font-bold text-gray-900 dark:text-white"><?= htmlspecialchars($_SESSION['user_name']) ?></p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     
                     <div class="mb-4">
                         <label class="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">Nội dung bình luận *</label>
-                        <textarea name="content" rows="3" required class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 outline-none"></textarea>
+                        <textarea name="content" rows="3" required placeholder="Chia sẻ suy nghĩ của bạn..." class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500 outline-none"></textarea>
                     </div>
                     
                     <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg transition-all shadow-lg shadow-yellow-500/30">
@@ -77,15 +90,34 @@
                 <?php else: ?>
                     <?php foreach ($comments as $comment): ?>
                         <div class="flex gap-4 p-6 bg-white dark:bg-black rounded-2xl border border-gray-100 dark:border-gray-800">
+                            
                             <div class="flex-shrink-0">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white font-bold text-xl">
-                                    <?= strtoupper(substr($comment->user_name ?? 'A', 0, 1)) ?>
-                                </div>
+                                <?php 
+                                    // Logic mới: Chỉ hiện ảnh nếu có URL và URL đó KHÔNG PHẢI là 'default_avatar.png'
+                                    $hasCustomAvatar = !empty($comment->avatar_url) && $comment->avatar_url !== 'default_avatar.png';
+                                ?>
+
+                                <?php if ($hasCustomAvatar): ?>
+                                    <?php 
+                                        // Kiểm tra link ảnh là link ngoài (http) hay link trong host
+                                        $avatarSrc = (strpos($comment->avatar_url, 'http') === 0) 
+                                            ? $comment->avatar_url 
+                                            : URLROOT . '/public/' . $comment->avatar_url;
+                                    ?>
+                                    <img src="<?= $avatarSrc ?>" 
+                                        alt="<?= htmlspecialchars($comment->user_name) ?>" 
+                                        class="w-12 h-12 rounded-full object-cover border-2 border-gray-100 dark:border-gray-700">
+                                
+                                <?php else: ?>
+                                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white font-bold text-xl border-2 border-white dark:border-gray-700 shadow-sm">
+                                        <?= strtoupper(substr($comment->user_name ?? 'A', 0, 1)) ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
-                            <div>
+                            <div class="flex-1">
                                 <div class="flex items-center gap-2 mb-1">
                                     <h4 class="font-bold text-gray-900 dark:text-white"><?= htmlspecialchars($comment->user_name ?? 'Ẩn danh') ?></h4>
-                                    <span class="text-xs text-gray-500"><?= date('H:i d/m/Y', strtotime($comment->created_at)) ?></span>
+                                    <span class="text-xs text-gray-500">• <?= date('H:i d/m/Y', strtotime($comment->created_at)) ?></span>
                                 </div>
                                 <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                                     <?= nl2br(htmlspecialchars($comment->content)) ?>

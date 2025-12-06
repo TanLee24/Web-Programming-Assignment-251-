@@ -9,72 +9,75 @@ class AdminContactController {
         $this->contactModel = new Contact();
     }
 
-    // --- ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) ---
-    private function checkAdminAccess() 
-    {
-        // 1. Kiểm tra đăng nhập
+    // Kiểm tra quyền Admin (Giữ nguyên logic của bạn)
+    private function checkAdminAccess() {
         if (!isset($_SESSION['user_id'])) {
             header("Location: " . URLROOT . "/public/index.php?url=auth/login");
             exit;
         }
-
-        // 2. Kiểm tra quyền Admin
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-            
-            // --- CODE MỚI: HIỆN LỖI 403 ---
-            
-            // Gửi mã phản hồi HTTP 403 cho trình duyệt (quan trọng cho SEO/Bot)
             http_response_code(403);
-            
-            // Load file giao diện lỗi vừa tạo
             if (file_exists(APPROOT . '/views/errors/403.php')) {
                 require_once APPROOT . '/views/errors/403.php';
             } else {
-                // Dự phòng nếu chưa tạo file view
                 echo "<h1>403 Forbidden</h1><p>Bạn không có quyền truy cập trang này!</p>";
             }
-            
-            // Dừng code ngay lập tức để không lộ nội dung trang Admin
             exit;
         }
     }
 
-    // --- 1. DANH SÁCH LIÊN HỆ ---
-    // Đổi tên từ index() thành list() cho giống các controller kia
+    // 1. DANH SÁCH LIÊN HỆ
     public function list() {
+        // Lấy tất cả liên hệ
         $contacts = $this->contactModel->all(); 
         $title = "Hộp thư liên hệ";
 
-        ob_start();
-        // Đường dẫn file view phải chính xác
-        require APPROOT . "/views/admin/contacts/list.php";
-        $content = ob_get_clean();
-
-        require APPROOT . "/views/admin/layouts/admin_layout.php";
+        // Load View
+        // Lưu ý: data được extract ra thành biến $contacts trong view
+        $data = ['contacts' => $contacts, 'title' => $title];
+        $this->loadView('admin/contacts/list', $data);
     }
 
-    // --- 2. XÓA LIÊN HỆ ---
+    // --- 2. CẬP NHẬT TRẠNG THÁI (MỚI) ---
+    public function update_status() {
+        // Lấy ID và Status từ URL (GET request)
+        $id = $_GET['id'] ?? null;
+        $status = $_GET['status'] ?? null;
+
+        // Danh sách trạng thái hợp lệ để bảo mật
+        $validStatuses = ['unread', 'read', 'replied'];
+
+        if ($id && in_array($status, $validStatuses)) {
+            // Gọi Model cập nhật
+            $this->contactModel->updateStatus($id, $status);
+        }
+
+        // Quay lại trang danh sách
+        header("Location: " . URLROOT . "/public/index.php?url=admin/contact/list");
+        exit;
+    }
+
+    // 3. XÓA LIÊN HỆ
     public function delete() {
-        // Lấy ID từ GET (giống các controller kia đang dùng pattern này hoặc truyền tham số)
-        // Tuy nhiên để an toàn và giống AdminProduct, ta kiểm tra isset
         if (isset($_GET['id'])) {
             $id = (int)$_GET['id'];
             $this->contactModel->delete($id);
         }
-        
-        // Redirect về đúng route: admin/contact/list
         header("Location: " . URLROOT . "/public/index.php?url=admin/contact/list");
         exit;
     }
-    
-    // --- 3. ĐÁNH DẤU ĐÃ XEM ---
-    public function mark_read() {
-        if (isset($_GET['id'])) {
-            $id = (int)$_GET['id'];
-            $this->contactModel->updateStatus($id, 1);
+
+    // Hàm load view hỗ trợ
+    private function loadView($viewPath, $data = []) {
+        extract($data);
+        $fileView = '../app/views/' . $viewPath . '.php';
+        if (file_exists($fileView)) {
+            ob_start();
+            require_once $fileView;
+            $content = ob_get_clean();
+            require_once '../app/views/admin/layouts/admin_layout.php';
+        } else {
+            die("View không tồn tại: " . $viewPath);
         }
-        
-        header("Location: " . URLROOT . "/public/index.php?url=admin/contact/list");
-        exit;
     }
 }
