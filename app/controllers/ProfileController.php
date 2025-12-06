@@ -43,20 +43,29 @@ class ProfileController {
                 }
             }
 
-            // Xử lý Upload Avatar
+            // Xử lý Upload Avatar (ĐÃ BẢO MẬT)
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
-                $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+                // 1. Danh sách đuôi file cho phép
+                $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
                 $filename = $_FILES['avatar']['name'];
                 $filesize = $_FILES['avatar']['size'];
                 $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
+                // 2. Kiểm tra MIME Type thực tế của file (Chống file giả mạo)
+                $checkImage = getimagesize($_FILES['avatar']['tmp_name']);
+
                 if (!in_array($ext, $allowed)) {
-                    $data['error'] = "Chỉ chấp nhận file ảnh (JPG, PNG, GIF)";
+                    $data['error'] = "Chỉ chấp nhận file ảnh (JPG, PNG, GIF)!";
+                } elseif ($checkImage === false) {
+                    $data['error'] = "File không phải là ảnh hợp lệ!";
                 } elseif ($filesize > 5 * 1024 * 1024) {
                     $data['error'] = "File ảnh quá lớn (Max 5MB)";
                 } else {
-                    $newFilename = "avatar_" . $userId . "_" . time() . "." . $ext;
-                    $uploadDir = dirname(APPROOT) . "/public/uploads/avatars/";
+                    // 3. Đặt tên file ngẫu nhiên để bảo mật
+                    $newFilename = "avatar_" . $userId . "_" . bin2hex(random_bytes(8)) . "." . $ext;
+                    
+                    // Đường dẫn vật lý trên server
+                    $uploadDir = dirname(dirname(dirname(__FILE__))) . "/public/uploads/avatars/";
                     
                     if (!file_exists($uploadDir)) mkdir($uploadDir, 0777, true);
 

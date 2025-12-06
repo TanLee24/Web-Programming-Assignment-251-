@@ -52,18 +52,25 @@ class AdminSettingsController {
 
             // --- XỬ LÝ UPLOAD LOGO (Code chuẩn theo AdminProductController) ---
             if (isset($_FILES['logo']) && $_FILES['logo']['error'] === 0) {
-                $img = $_FILES['logo'];
-                $filename = time() . "_" . basename($img['name']);
+                $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']; // Logo có thể là SVG
+                $filename = $_FILES['logo']['name'];
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                
+                // Lưu ý: getimagesize có thể không chạy với SVG, nên chỉ check với ảnh thường
+                $check = ($ext === 'svg') ? true : getimagesize($_FILES['logo']['tmp_name']);
 
-                // Đường dẫn vật lý
-                $targetPath = dirname(APPROOT) . "/public/uploads/" . $filename;
+                if (in_array($ext, $allowed) && $check !== false) {
+                    $new_name = "logo_" . time() . "." . $ext; // Đặt tên logo
+                    $targetPath = dirname(APPROOT) . "/public/uploads/" . $new_name;
 
-                if (move_uploaded_file($img['tmp_name'], $targetPath)) {
-                    // Đường dẫn URL lưu vào DB
-                    // Lưu ý: Bên Product lưu "/public/uploads/..." nên ở đây cũng nên lưu như vậy để đồng bộ hiển thị
-                    $logoUrl = "/public/uploads/" . $filename;
-                    
-                    $this->settingModel->update('logo_path', $logoUrl);
+                    if (move_uploaded_file($_FILES['logo']['tmp_name'], $targetPath)) {
+                        $logoUrl = "/public/uploads/" . $new_name;
+                        $this->settingModel->update('logo_path', $logoUrl);
+                    }
+                }
+                else {
+                    echo "<script>alert('Lỗi: File logo không hợp lệ!'); window.history.back();</script>";
+                    exit;
                 }
             }
 

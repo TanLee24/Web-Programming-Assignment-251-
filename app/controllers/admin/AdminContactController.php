@@ -61,7 +61,9 @@ class AdminContactController {
     public function delete() {
         if (isset($_GET['id'])) {
             $id = (int)$_GET['id'];
-            $this->contactModel->delete($id);
+            if ($id > 0) {
+                $this->contactModel->delete($id);
+            }
         }
         header("Location: " . URLROOT . "/public/index.php?url=admin/contact/list");
         exit;

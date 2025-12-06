@@ -11,9 +11,9 @@ class AuthController {
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
-                'full_name' => trim($_POST['full_name']),
-                'username'  => trim($_POST['username']),
-                'email'     => trim($_POST['email']),
+                'full_name' => htmlspecialchars(trim($_POST['full_name'])),
+                'username'  => htmlspecialchars(trim($_POST['username'])),
+                'email'     => filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL),
                 'password'  => trim($_POST['password']),
                 'confirm_password' => trim($_POST['confirm_password']),
                 'error'     => ''
@@ -55,7 +55,7 @@ class AuthController {
         ];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $data['email'] = trim($_POST['email']);
+            $data['email'] = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
             $data['password'] = trim($_POST['password']);
 
             $user = $this->userModel->findUserByEmailOrUsername($data['email']);

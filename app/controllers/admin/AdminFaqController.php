@@ -67,10 +67,15 @@ class AdminFaqController {
     }
 
     public function edit($id) {
+        $id = (int)$id;
         $faq = $this->faq->find($id);
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $this->faq->update($id, $_POST['question'], $_POST['answer']);
+            // Nên dùng htmlspecialchars hoặc strip_tags nếu muốn chặn XSS ở đây
+            $question = trim($_POST['question']);
+            $answer = trim($_POST['answer']);
+            
+            $this->faq->update($id, $question, $answer);
             header("Location: " . URLROOT . "/public/index.php?url=admin/faq/list");
             exit;
         }
@@ -85,7 +90,10 @@ class AdminFaqController {
     }
 
     public function delete($id) {
-        $this->faq->delete($id);
+        $id = (int)$id; // BẢO MẬT
+        if ($id > 0) {
+            $this->faq->delete($id);
+        }
         header("Location: " . URLROOT . "/public/index.php?url=admin/faq/list");
     }
 }
