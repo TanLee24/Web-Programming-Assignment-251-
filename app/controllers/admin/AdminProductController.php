@@ -64,18 +64,27 @@ class AdminProductController {
             $imgUrl = "";
 
             // --- FIX UPLOAD ẢNH ---
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                // 1. Chỉ cho phép các đuôi ảnh an toàn
+                $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                $filename = $_FILES['image']['name'];
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
-                $img = $_FILES['image'];
-                $filename = time() . "_" . basename($img['name']);
+                // 2. Kiểm tra xem file có phải ảnh thật không (chống fake đuôi)
+                $check = getimagesize($_FILES['image']['tmp_name']);
 
-                // đường dẫn vật lý
-                $targetPath = dirname(APPROOT) . "/public/uploads/" . $filename;
+                if (in_array($ext, $allowed) && $check !== false) {
+                    // 3. Đặt tên file ngẫu nhiên để tránh trùng và tránh tên file độc hại
+                    $new_name = time() . "_" . bin2hex(random_bytes(4)) . "." . $ext;
+                    $targetPath = dirname(APPROOT) . "/public/uploads/" . $new_name;
 
-                if (move_uploaded_file($img['tmp_name'], $targetPath)) {
-                    // đường dẫn URL để show ảnh
-                    $imgUrl = "/public/uploads/" . $filename;
-                    //$imgUrl = $filename;
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                        $imgUrl = "/public/uploads/" . $new_name;
+                    }
+                } else {
+                    // Nếu không hợp lệ, có thể báo lỗi hoặc bỏ qua
+                    echo "<script>alert('Lỗi: Chỉ cho phép upload file ảnh (JPG, PNG)!'); window.history.back();</script>";
+                    exit;
                 }
             }
 
@@ -107,18 +116,22 @@ class AdminProductController {
             // giữ ảnh cũ nếu không upload ảnh mới
             $imgUrl = $product->image_url;
 
-            // --- FIX UPLOAD ẢNH ---
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) 
-            {
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                $filename = $_FILES['image']['name'];
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $check = getimagesize($_FILES['image']['tmp_name']);
 
-                $img = $_FILES['image'];
-                $filename = time() . "_" . basename($img['name']);
+                if (in_array($ext, $allowed) && $check !== false) {
+                    $new_name = time() . "_" . bin2hex(random_bytes(4)) . "." . $ext;
+                    $targetPath = dirname(APPROOT) . "/public/uploads/" . $new_name;
 
-                $targetPath = dirname(APPROOT) . "/public/uploads/" . $filename;
-
-                if (move_uploaded_file($img['tmp_name'], $targetPath)) {
-                    $imgUrl = "/public/uploads/" . $filename;
-                    //$imgUrl = $filename;
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                        $imgUrl = "/public/uploads/" . $new_name;
+                    }
+                } else {
+                    echo "<script>alert('Lỗi: File không hợp lệ!'); window.history.back();</script>";
+                    exit;
                 }
             }
 

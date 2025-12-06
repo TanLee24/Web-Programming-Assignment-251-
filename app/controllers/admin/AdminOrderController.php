@@ -74,11 +74,15 @@ class AdminOrderController {
 
     
     public function delete($id) {
-        // Xóa tất cả item trước
-        $this->item->deleteByOrder($id);
+        $id = (int)$id;
 
-        // Xóa đơn chính
-        $this->order->delete($id);
+        if ($id > 0) {
+            // Xóa chi tiết đơn hàng trước (bảng con - order_items)
+            $this->item->deleteByOrder($id);
+
+            // Sau đó mới xóa đơn hàng chính (bảng cha - orders)
+            $this->order->delete($id);
+        }
 
         header("Location: " . URLROOT . "/public/index.php?url=admin/order/list");
         exit;

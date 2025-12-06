@@ -8,11 +8,21 @@ class News {
 
     public function all($keyword = null) {
         $sql = "SELECT * FROM news";
+    
         if ($keyword) {
-            $sql .= " WHERE title LIKE '%$keyword%' OR content LIKE '%$keyword%'";
+            // Dùng tham số :keyword thay vì biến $keyword
+            $sql .= " WHERE title LIKE :keyword OR content LIKE :keyword";
         }
+        
         $sql .= " ORDER BY created_at DESC";
+        
         $this->db->query($sql);
+        
+        if ($keyword) {
+            // Bind giá trị vào tham số
+            $this->db->bind(':keyword', '%' . $keyword . '%');
+        }
+        
         return $this->db->resultSet();
     }
 

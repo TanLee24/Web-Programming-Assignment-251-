@@ -51,7 +51,8 @@ class AdminUserController {
 
     // 2. Khóa / Mở khóa thành viên
     public function ban() {
-        $id = $_GET['id'] ?? null;
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+
         if ($id) {
             $user = $this->userModel->find($id);
             
@@ -72,7 +73,8 @@ class AdminUserController {
 
     // 3. Reset mật khẩu về mặc định (123456)
     public function reset() {
-        $id = $_GET['id'] ?? null;
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+        
         if ($id) {
             $defaultPass = '123456';
             $hash = password_hash($defaultPass, PASSWORD_DEFAULT);

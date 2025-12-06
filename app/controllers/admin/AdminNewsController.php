@@ -59,14 +59,30 @@ class AdminNewsController {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $title = $_POST['title'];
             $content = $_POST['content']; 
-            
-            // Xử lý upload ảnh
             $imgUrl = "";
+
+            // Xử lý upload ảnh
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-                $filename = time() . "_" . basename($_FILES['image']['name']);
-                $targetPath = dirname(APPROOT) . "/public/uploads/" . $filename;
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                    $imgUrl = "/public/uploads/" . $filename;
+                // 1. Chỉ cho phép các đuôi ảnh an toàn
+                $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                $filename = $_FILES['image']['name'];
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+                // 2. Kiểm tra xem file có phải ảnh thật không (chống fake đuôi)
+                $check = getimagesize($_FILES['image']['tmp_name']);
+
+                if (in_array($ext, $allowed) && $check !== false) {
+                    // 3. Đặt tên file ngẫu nhiên để tránh trùng và tránh tên file độc hại
+                    $new_name = time() . "_" . bin2hex(random_bytes(4)) . "." . $ext;
+                    $targetPath = dirname(APPROOT) . "/public/uploads/" . $new_name;
+
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                        $imgUrl = "/public/uploads/" . $new_name;
+                    }
+                } else {
+                    // Nếu không hợp lệ, có thể báo lỗi hoặc bỏ qua
+                    echo "<script>alert('Lỗi: Chỉ cho phép upload file ảnh (JPG, PNG)!'); window.history.back();</script>";
+                    exit;
                 }
             }
 
@@ -90,14 +106,25 @@ class AdminNewsController {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $title = $_POST['title'];
             $content = $_POST['content'];
+            $imgUrl = $news->featured_image_url;
             
             // Giữ ảnh cũ nếu không up ảnh mới
-            $imgUrl = $news->featured_image_url; 
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-                $filename = time() . "_" . basename($_FILES['image']['name']);
-                $targetPath = dirname(APPROOT) . "/public/uploads/" . $filename;
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                    $imgUrl = "/public/uploads/" . $filename;
+                $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                $filename = $_FILES['image']['name'];
+                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                $check = getimagesize($_FILES['image']['tmp_name']);
+
+                if (in_array($ext, $allowed) && $check !== false) {
+                    $new_name = time() . "_" . bin2hex(random_bytes(4)) . "." . $ext;
+                    $targetPath = dirname(APPROOT) . "/public/uploads/" . $new_name;
+
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                        $imgUrl = "/public/uploads/" . $new_name;
+                    }
+                } else {
+                    echo "<script>alert('Lỗi: File không hợp lệ!'); window.history.back();</script>";
+                    exit;
                 }
             }
 
