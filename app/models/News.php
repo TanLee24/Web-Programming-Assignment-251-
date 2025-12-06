@@ -93,4 +93,27 @@ class News {
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+
+    // Lấy thông tin một bài viết theo ID
+    public function getNewsById($id) {
+        $this->db->query("SELECT * FROM news WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
+
+    // Cập nhật bài viết
+    public function updateNews($data) {
+        $this->db->query("UPDATE news SET title = :title, content = :content, featured_image_url = :image, slug = :slug WHERE id = :id");
+        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':content', $data['content']);
+        $this->db->bind(':image', $data['featured_image_url']);
+        $this->db->bind(':slug', $data['slug']);
+        
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

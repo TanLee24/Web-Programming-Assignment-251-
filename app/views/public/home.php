@@ -206,7 +206,14 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                         <div class="h-56 overflow-hidden relative">
                             <a href="index.php?url=news/detail&id=<?= $news->id ?>">
                                 <?php if (!empty($news->featured_image_url)): ?>
-                                    <img src="<?= URLROOT . $news->featured_image_url ?>" alt="<?= htmlspecialchars($news->title) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                    <?php 
+                                        // Kiểm tra: Nếu link ảnh bắt đầu bằng "http" (link ngoài) thì giữ nguyên
+                                        // Nếu không (ảnh trong máy) thì nối thêm URLROOT
+                                        $imgSrc = (strpos($news->featured_image_url, 'http') === 0) 
+                                                ? $news->featured_image_url 
+                                                : URLROOT . $news->featured_image_url;
+                                    ?>
+                                    <img src="<?= $imgSrc ?>" alt="<?= htmlspecialchars($news->title) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                 <?php else: ?>
                                     <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">No Image</div>
                                 <?php endif; ?>
@@ -273,19 +280,21 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
             
             <div id="msgNotify" class="mt-4 text-sm font-semibold h-6 text-transparent">...</div>
 
-            <div class="flex justify-center gap-8 mt-12 border-t border-gray-700 pt-8">
+            <div class="flex justify-center gap-8 mt-12 border-t border-gray-700 pt-8" id="stats-section">
                 <div class="text-center">
-                    <span class="block text-3xl font-black text-white">10+</span>
+                    <span class="counter-num block text-3xl font-black text-white" data-target="10" data-suffix="+">0</span>
                     <span class="text-sm text-gray-400">Năm kinh nghiệm</span>
                 </div>
                 <div class="text-center">
-                    <span class="block text-3xl font-black text-white">50k+</span>
+                    <span class="counter-num block text-3xl font-black text-white" data-target="50" data-suffix="k+">0</span>
                     <span class="text-sm text-gray-400">Khách hàng hài lòng</span>
                 </div>
                 <div class="text-center">
-                    <span class="block text-3xl font-black text-white">100%</span>
+                    <span class="counter-num block text-3xl font-black text-white" data-target="100" data-suffix="%">0</span>
                     <span class="text-sm text-gray-400">Chính hãng</span>
                 </div>
+
+                <script src="<?= URLROOT ?>/public/js/counter.js"></script>
             </div>
         </div>
     </div>

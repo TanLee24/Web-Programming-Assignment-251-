@@ -1,5 +1,5 @@
 <?php
-// 1. Gọi các Model cần thiết
+// Gọi các Model cần thiết
 require_once APPROOT . "/models/News.php";
 require_once APPROOT . "/models/Comment.php";
 
@@ -12,46 +12,31 @@ class NewsController {
         $this->commentModel = new Comment();
     }
 
-    // --- 1. TRANG DANH SÁCH TIN TỨC ---
+    // =========================================================================
+    // PHẦN 1: PUBLIC (GIỮ NGUYÊN CHỨC NĂNG CŨ)
+    // =========================================================================
+
+    // Trang danh sách tin tức (Public)
     public function index() {
-        // Lấy từ khóa tìm kiếm
         $keyword = $_GET['search'] ?? null;
-        
-        // Lấy dữ liệu từ Database
         $newsList = $this->newsModel->all($keyword);
         
-        // Chuẩn bị dữ liệu gửi sang View
         $data = [
             'title' => 'Tin tức & Sự kiện',
             'newsList' => $newsList
         ];
-
-        // Gọi view bằng hàm chuẩn (giống ProductsController)
-        // Đường dẫn này trỏ tới: app/views/public/news/news.php
+        
         $this->loadView('public/news/news', $data);
     }
 
-    // --- 2. TRANG CHI TIẾT TIN TỨC ---
+    // Trang chi tiết tin tức (Public)
     public function detail() {
-        // Lấy ID từ URL
         $id = $_GET['id'] ?? null;
+        if (!$id) { header("Location: " . URLROOT . "/public/index.php?url=news/index"); exit; }
 
-        if (!$id) {
-            header("Location: " . URLROOT . "/public/index.php?url=news/index");
-            exit;
-        }
-
-        // Lấy thông tin bài viết
         $post = $this->newsModel->find($id);
+        if (!$post) { header("Location: " . URLROOT . "/public/index.php?url=news/index"); exit; }
 
-        // Kiểm tra nếu bài viết không tồn tại
-        if (!$post) {
-            // Có thể redirect hoặc hiện thông báo
-            header("Location: " . URLROOT . "/public/index.php?url=news/index");
-            exit;
-        }
-
-        // Lấy danh sách bình luận
         $comments = $this->commentModel->getCommentsByPostId($id);
 
         $data = [
@@ -59,14 +44,12 @@ class NewsController {
             'post' => $post,
             'comments' => $comments
         ];
-
-        // Gọi view: app/views/public/news/news_detail.php
+        
         $this->loadView('public/news/news_detail', $data);
     }
 
-    // --- 3. XỬ LÝ GỬI BÌNH LUẬN ---
+    // Xử lý gửi bình luận (Public)
     public function comment() {
-        // Kiểm tra Login: Nếu chưa có session user_id thì bắt ra login
         if (!isset($_SESSION['user_id'])) {
             header("Location: " . URLROOT . "/public/index.php?url=auth/login");
             exit;
@@ -75,43 +58,162 @@ class NewsController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newsId = $_POST['news_id'] ?? null;
             $content = $_POST['content'] ?? '';
-            
-            // Lấy thông tin từ Session (An toàn hơn lấy từ Form)
             $userId = $_SESSION['user_id'];
             $userName = $_SESSION['user_name']; 
 
             if ($newsId && !empty($content)) {
-                // Gọi hàm model đã update ở bước 2
                 $this->commentModel->addComment($userId, $userName, $newsId, $content);
             }
-
-            // Quay lại trang chi tiết bài viết
             header("Location: " . URLROOT . "/public/index.php?url=news/detail&id=" . $newsId);
             exit;
         }
     }
 
-    // --- HÀM HỖ TRỢ LOAD VIEW (Chuẩn giống ProductsController) ---
+    // =========================================================================
+    // PHẦN 2: ADMIN (THÊM MỚI ĐỂ QUẢN LÝ)
+    // =========================================================================
+
+    // 1. Danh sách bài viết (Admin List)
+    public function list() {
+        $keyword = $_GET['search'] ?? null;
+        // Sử dụng hàm all() có sẵn trong Model của bạn
+        $newsList = $this->newsModel->all($keyword);
+
+        $data = [
+            'title' => 'Quản lý Tin tức',
+            'newsList' => $newsList
+        ];
+
+        // Gọi view admin/news/list
+        $this->loadView('admin/news/list', $data);
+    }
+
+    // 2. Thêm bài viết mới (Admin Create)
+    public function create() {
+        $data = [
+            'title' => '',
+            'content' => '',
+            'featured_image_url' => '',
+            'error' => ''
+        ];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $title = trim($_POST['title']);
+            $content = trim($_POST['content']);
+            $imgUrl = '';
+
+            // Xử lý upload ảnh
+            if (!empty($_FILES['image']['name'])) {
+                $target_dir = "uploads/";
+                $file_name = time() . '_' . basename($_FILES["image"]["name"]);
+                // Lưu ý: Đường dẫn này phải trỏ đúng về thư mục public/uploads
+                $target_file = dirname(dirname(dirname(__FILE__))) . "/public/" . $target_dir . $file_name;
+                
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                    $imgUrl = "/" . $target_dir . $file_name;
+                }
+            }
+
+            // Gọi hàm create có sẵn trong News.php của bạn
+            if ($this->newsModel->create($title, $content, $imgUrl)) {
+                header('Location: ' . URLROOT . '/public/index.php?url=admin/news/list');
+                exit;
+            } else {
+                $data['error'] = 'Có lỗi xảy ra khi lưu bài viết.';
+            }
+        }
+
+        $this->loadView('admin/news/create', $data);
+    }
+
+    // 3. Sửa bài viết (Admin Edit) - ĐÃ SỬA LỖI VIEW
+    public function edit() {
+        // Kiểm tra ID
+        if (!isset($_GET['id'])) {
+            header('Location: ' . URLROOT . '/public/index.php?url=admin/news/list');
+            exit;
+        }
+
+        $id = $_GET['id'];
+        // Dùng hàm getNewsById có sẵn trong Model
+        $news = $this->newsModel->getNewsById($id);
+
+        if (!$news) {
+            die('Bài viết không tồn tại');
+        }
+
+        $data = [
+            'news' => $news,
+            'title' => $news->title,
+            'content' => $news->content,
+            'featured_image_url' => $news->featured_image_url,
+            'error' => ''
+        ];
+
+        // Xử lý khi bấm Lưu
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data['title'] = trim($_POST['title']);
+            $data['content'] = trim($_POST['content']);
+            // Tạo slug
+            $data['slug'] = $this->newsModel->createSlug($data['title']);
+
+            // Xử lý ảnh
+            if (!empty($_FILES['image']['name'])) {
+                $target_dir = "uploads/";
+                $file_name = time() . '_' . basename($_FILES["image"]["name"]);
+                $target_file = dirname(dirname(dirname(__FILE__))) . "/public/" . $target_dir . $file_name;
+                
+                if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                    $data['featured_image_url'] = "/" . $target_dir . $file_name;
+                }
+            }
+
+            // Chuẩn bị dữ liệu cho hàm updateNews trong Model
+            $updateData = [
+                'id' => $id,
+                'title' => $data['title'],
+                'content' => $data['content'],
+                'featured_image_url' => $data['featured_image_url'],
+                'slug' => $data['slug']
+            ];
+
+            if ($this->newsModel->updateNews($updateData)) {
+                header('Location: ' . URLROOT . '/public/index.php?url=admin/news/list');
+                exit;
+            } else {
+                $data['error'] = 'Có lỗi xảy ra, vui lòng thử lại';
+            }
+        }
+
+        // QUAN TRỌNG: Dùng loadView thay vì view
+        $this->loadView('admin/news/edit', $data);
+    }
+
+    // 4. Xóa bài viết (Admin Delete)
+    public function delete() {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $this->newsModel->delete($id);
+        }
+        header('Location: ' . URLROOT . '/public/index.php?url=admin/news/list');
+        exit;
+    }
+
+    // =========================================================================
+    // HÀM HỖ TRỢ LOAD VIEW (GIỮ NGUYÊN)
+    // =========================================================================
     public function loadView($viewPath, $data = []) {
-        // Giải nén mảng $data thành các biến ($title, $post, $newsList...)
         extract($data);
-        
-        // Đường dẫn tới file view
         $fileView = '../app/views/' . $viewPath . '.php';
 
         if (file_exists($fileView)) {
-            // 1. Bắt đầu bộ đệm
             ob_start();
-            
-            // 2. Nạp nội dung view
             require_once $fileView;
-            
-            // 3. Lấy nội dung gán vào biến $content
             $content = ob_get_clean();
             
-            // 4. Nạp layout chính để hiển thị
+            // Nếu là view admin thì có thể load layout admin, hoặc load main như cũ
+            // Tạm thời giữ main.php như code cũ của bạn
             require_once '../app/views/layouts/main.php';
-
         } else {
             die('Lỗi: Không tìm thấy file view "' . $viewPath . '"');
         }
