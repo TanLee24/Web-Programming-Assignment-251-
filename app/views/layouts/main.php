@@ -234,6 +234,11 @@ $logo         = $config_site['logo_path'] ?? '';
                 <p>© 2025 <?= $company_name ?>. All rights reserved.</p>
             </div>
         </div>
+        <script>
+            const SITE_URL = "<?= URLROOT ?>/public"; 
+        </script>
+        
+        <script src="<?= URLROOT ?>/public/js/newsletter.js"></script>
     </footer>
 
     <script>
