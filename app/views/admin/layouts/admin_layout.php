@@ -74,6 +74,12 @@
                                     <span class="nav-link-title">Quản lý Thành viên</span>
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= URLROOT ?>/public/index.php?url=admin/comment/index">
+                                    <span class="nav-link-title">Quản lý Bình luận</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
