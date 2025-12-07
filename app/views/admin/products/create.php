@@ -29,7 +29,7 @@
             <!-- DESCRIPTION -->
             <div class="mb-3">
                 <label class="form-label">Mô tả</label>
-                <textarea name="description" class="form-control" rows="4" placeholder="Nhập mô tả sản phẩm..."></textarea>
+                <textarea name="description" class="form-control tiny-editor" rows="4" placeholder="Nhập mô tả sản phẩm..."></textarea>
             </div>
 
             <!-- IMAGE -->

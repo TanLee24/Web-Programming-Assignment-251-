@@ -1,61 +1,58 @@
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Sửa sản phẩm</h3>
+        <h3 class="card-title">Cập nhật sản phẩm</h3>
     </div>
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="card-body">
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label required">Tên sản phẩm</label>
+                        <input type="text" name="name" class="form-control"
+                               value="<?= htmlspecialchars($product->name) ?>" required>
+                    </div>
 
-    <form action="" method="POST" enctype="multipart/form-data" class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label required">Mô tả</label>
+                        <textarea name="description" class="form-control tiny-editor" rows="5"><?= htmlspecialchars($product->description) ?></textarea>
+                    </div>
+                </div>
 
-        <!-- Tên sản phẩm -->
-        <div class="mb-3">
-            <label class="form-label">Tên sản phẩm</label>
-            <input type="text" name="name" class="form-control"
-                   value="<?= htmlspecialchars($product->name) ?>" required>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label required">Giá</label>
+                        <div class="input-group input-group-flat">
+                            <input type="number" name="price" class="form-control" value="<?= htmlspecialchars($product->price) ?>" required>
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Hãng (Brand)</label>
+                        <input type="text" name="brand" class="form-control"
+                               value="<?= htmlspecialchars($product->brand) ?>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-label">Ảnh đại diện</div>
+                        <input type="file" name="image" class="form-control mb-2">
+                        <?php if(!empty($product->image_url)): ?>
+                            <div class="text-center">
+                                <img src="<?= URLROOT . $product->image_url ?>" class="img-fluid rounded border" style="max-height: 150px;">
+                                <div class="text-muted mt-1 small">Ảnh hiện tại</div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Mô tả -->
-        <div class="mb-3">
-            <label class="form-label">Mô tả</label>
-            <textarea name="description" class="form-control" rows="5" required><?= 
-                htmlspecialchars($product->description) 
-            ?></textarea>
+        <div class="card-footer text-end bg-transparent">
+            <a href="<?= URLROOT ?>/public/index.php?url=admin/product/list" class="btn btn-link link-secondary">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary ms-auto">Cập nhật dữ liệu</button>
         </div>
-
-        <!-- Giá -->
-        <div class="mb-3">
-            <label class="form-label">Giá</label>
-            <input type="number" name="price" class="form-control" 
-                   value="<?= htmlspecialchars($product->price) ?>" required>
-        </div>
-
-        <!-- Hãng -->
-        <div class="mb-3">
-            <label class="form-label">Hãng (Brand)</label>
-            <input type="text" name="brand" class="form-control"
-                   placeholder="Ví dụ: Nike, Adidas..."
-                   value="<?= htmlspecialchars($product->brand) ?>" required>
-        </div>
-
-        <!-- Ảnh hiện tại -->
-        <div class="mb-3">
-            <label class="form-label">Ảnh hiện tại</label><br>
-            <img src="<?= URLROOT . $product->image_url ?>" 
-                 alt="Ảnh sản phẩm" width="150" class="border rounded">
-        </div>
-
-        <!-- Upload ảnh mới -->
-        <div class="mb-3">
-            <label class="form-label">Chọn ảnh mới (nếu muốn thay)</label>
-            <input type="file" name="image" class="form-control">
-            <small class="text-muted">Bỏ trống nếu giữ ảnh cũ</small>
-        </div>
-
-        <!-- Nút cập nhật -->
-        <div class="mt-4">
-            <button type="submit" class="btn btn-primary">Cập nhật</button>
-            <a href="<?= URLROOT ?>/public/index.php?url=admin/product/list" class="btn btn-secondary">
-                Quay lại
-            </a>
-        </div>
-
     </form>
 </div>

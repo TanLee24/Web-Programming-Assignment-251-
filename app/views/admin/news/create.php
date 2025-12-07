@@ -26,7 +26,7 @@
 
                 <div class="mb-3">
                     <label class="form-label required">Nội dung bài viết</label>
-                    <textarea class="form-control" name="content" rows="10" placeholder="Nhập nội dung chi tiết..." required></textarea>
+                    <textarea class="form-control tiny-editor" name="content" placeholder="Nhập nội dung chi tiết..."></textarea>
                 </div>
 
                 <div class="card-footer text-end bg-transparent mt-4">
