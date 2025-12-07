@@ -90,9 +90,9 @@
 
         <div class="col-md-3 mb-4">
             <a href="<?= URLROOT ?>/public/index.php?url=admin/comment/index" class="btn btn-teal w-100 py-3" style="background-color: #206bc4; color: white;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-quote-fill mb-1" viewBox="0 0 16 16">
-                <path d="M9.854 4.854a.5.5 0 0 0-.708 0l-3.5 3.5a.5.5 0 0 0 0 .708l3.5 3.5a.5.5 0 0 0 .708-.708L6.707 8.5H14.5a.5.5 0 0 0 0-1H6.707l3.147-3.146a.5.5 0 0 0 0-.708z"/>
-                <path d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zm2.708 0a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L7.293 8 5.354 6.354a.5.5 0 0 1 0-.708z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-circle-2 mb-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1"></path>
                 </svg>
                 <br> Quản lý Bình luận
             </a>
