@@ -62,7 +62,7 @@ class NewsController {
             $userName = $_SESSION['user_name']; 
 
             if ($newsId && !empty($content)) {
-                $this->commentModel->addComment($userId, $userName, $newsId, $content);
+                $this->commentModel->addComment($userId, $userName, $newsId, 'news', $content);
             }
             header("Location: " . URLROOT . "/public/index.php?url=news/detail&id=" . $newsId);
             exit;

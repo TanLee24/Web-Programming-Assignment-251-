@@ -11,7 +11,6 @@
                         <th>Khách hàng</th>
                         <th>Sản phẩm / Bài viết</th>
                         <th>Nội dung</th>
-                        <th>Đánh giá</th>
                         <th>Ngày gửi</th>
                         <th>Hành động</th>
                     </tr>
@@ -38,18 +37,6 @@
 
                             <td class="text-muted text-truncate" style="max-width: 250px;">
                                 <?= htmlspecialchars($row->content) ?>
-                            </td>
-
-                            <td>
-                                <div class="text-warning">
-                                    <?php 
-                                    $stars = $row->rating ?? 5; 
-                                    for($i=1; $i<=5; $i++) {
-                                        // Vẽ sao đặc hoặc sao rỗng
-                                        echo ($i <= $stars) ? '★' : '☆'; 
-                                    }
-                                    ?>
-                                </div>
                             </td>
 
                             <td><?= date('d/m/Y', strtotime($row->created_at)) ?></td>

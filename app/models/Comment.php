@@ -10,15 +10,17 @@ class Comment {
     // PHẦN 1: DÀNH CHO KHÁCH HÀNG (Cần sửa chỗ này)
     // =================================================================
 
-    public function addComment($userId, $userName, $newsId, $content) {
-        // Mặc định status = 1 (Hiện luôn) khi comment
-        $sql = "INSERT INTO comments (user_id, user_name, commentable_id, commentable_type, content, status, created_at, rating) 
-                VALUES (:uid, :uname, :nid, 'news', :content, 1, NOW(), 5)";
+    // Hàm thêm bình luận (Đã xóa bỏ phần rating)
+    public function addComment($userId, $userName, $itemId, $type, $content) {
+        // Chỉ lưu các thông tin cơ bản, bỏ rating
+        $sql = "INSERT INTO comments (user_id, user_name, commentable_id, commentable_type, content, status, created_at) 
+                VALUES (:uid, :uname, :nid, :type, :content, 1, NOW())";
         
         $this->db->query($sql);
         $this->db->bind(':uid', $userId);
         $this->db->bind(':uname', $userName);
-        $this->db->bind(':nid', $newsId);
+        $this->db->bind(':nid', $itemId);
+        $this->db->bind(':type', $type);
         $this->db->bind(':content', $content);
         
         return $this->db->execute();
