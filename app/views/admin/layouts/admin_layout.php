@@ -90,5 +90,25 @@
     </div>
 
     <script src="<?= URLROOT ?>/public/admin/dist/js/tabler.js"></script>
+
+    <script src="https://cdn.tiny.cloud/1/3cfv05eoz2msrztbf5793c9pmvvgf7v6a2qjptgco1thyphp/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '.tiny-editor', // Script sẽ áp dụng cho bất kỳ thẻ nào có class này
+        height: 400,
+        menubar: false,
+        statusbar: false,
+        plugins: [
+          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+          'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+          'insertdatetime', 'media', 'table', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | blocks | ' +
+          'bold italic backcolor | alignleft aligncenter ' +
+          'alignright alignjustify | bullist numlist outdent indent | ' +
+          'removeformat | help',
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }'
+      });
+    </script>
 </body>
 </html>
