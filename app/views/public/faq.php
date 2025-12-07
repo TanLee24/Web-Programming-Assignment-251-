@@ -14,20 +14,19 @@
         <?php else: ?>
             <?php foreach ($faqs as $index => $faq): ?>
                 <div class="border border-gray-200 dark:border-gray-800 rounded-lg bg-white dark:bg-[#1a1a1a] overflow-hidden transition-all hover:shadow-md">
-                    <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" 
-                            onclick="document.getElementById('faq-ans-<?= $index ?>').classList.toggle('hidden'); 
-                                     document.getElementById('icon-<?= $index ?>').classList.toggle('rotate-180');">
-                        <span class="font-bold text-lg text-gray-800 dark:text-gray-200">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none group" 
+                            onclick="toggleFaq('faq-ans-<?= $index ?>', 'icon-<?= $index ?>')">
+                        <span class="font-bold text-lg text-gray-800 dark:text-gray-200 group-hover:text-yellow-500 transition-colors">
                             <?= htmlspecialchars($faq->question) ?>
                         </span>
-                        <svg id="icon-<?= $index ?>" class="w-5 h-5 text-yellow-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg id="icon-<?= $index ?>" class="w-5 h-5 text-gray-400 group-hover:text-yellow-500 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
                     
-                    <div id="faq-ans-<?= $index ?>" class="hidden px-6 pb-6 pt-0 text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800 mt-2">
-                        <div class="pt-4 leading-relaxed">
-                            <?= nl2br(htmlspecialchars($faq->answer)) ?>
+                    <div id="faq-ans-<?= $index ?>" class="hidden px-6 pb-6 pt-0 border-t border-gray-100 dark:border-gray-800 mt-2 bg-gray-50 dark:bg-black/20">
+                        <div class="pt-4 prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400">
+                            <?= $faq->answer ?>
                         </div>
                     </div>
                 </div>
@@ -42,3 +41,16 @@
         </p>
     </div>
 </div>
+
+<script>
+    function toggleFaq(contentId, iconId) {
+        const content = document.getElementById(contentId);
+        const icon = document.getElementById(iconId);
+        
+        // Toggle ẩn/hiện nội dung
+        content.classList.toggle('hidden');
+        
+        // Xoay icon mũi tên
+        icon.classList.toggle('rotate-180');
+    }
+</script>
