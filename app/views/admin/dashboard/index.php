@@ -87,5 +87,15 @@
                 <br> Quản lý Thành viên
             </a>
         </div>
+
+        <div class="col-md-3 mb-4">
+            <a href="<?= URLROOT ?>/public/index.php?url=admin/comment/index" class="btn btn-teal w-100 py-3" style="background-color: #206bc4; color: white;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-circle-2 mb-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1"></path>
+                </svg>
+                <br> Quản lý Bình luận
+            </a>
+        </div>
     </div>
 </div>
