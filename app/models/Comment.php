@@ -7,13 +7,13 @@ class Comment {
     }
 
     // Thêm bình luận (Lưu cả User ID và User Name)
-    public function addComment($userId, $newsId, $content) {
-        $sql = "INSERT INTO comments (user_id, commentable_id, commentable_type, content, status, created_at) 
-            VALUES (:uid, :nid, 'news', :content, 'pending', NOW())";
+    public function addComment($userId, $userName, $newsId, $content) {
+        $sql = "INSERT INTO comments (user_id, user_name, commentable_id, commentable_type, content, status, created_at) 
+                VALUES (:uid, :uname, :nid, 'news', :content, 'pending', NOW())";
         
         $this->db->query($sql);
         $this->db->bind(':uid', $userId);
-        // $this->db->bind(':uname', $userName); // Lưu tên vào bảng comments luôn
+        $this->db->bind(':uname', $userName); // Lưu tên vào bảng comments luôn
         $this->db->bind(':nid', $newsId);
         $this->db->bind(':content', $content);
         
