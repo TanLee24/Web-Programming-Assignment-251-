@@ -23,15 +23,6 @@ class OrderItem {
         return $this->db->resultSet();
     }
 
-    // public function add($orderId, $productId, $quantity, $price_at_purchase) {
-    //     $this->db->query("INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase) VALUES (:oid, :pid, :qty, :price_at_purchase)");
-    //     $this->db->bind(':oid', $orderId);
-    //     $this->db->bind(':pid', $productId);
-    //     $this->db->bind(':qty', $quantity);
-    //     $this->db->bind(':price_at_purchase', $price_at_purchase);
-    //     return $this->db->execute();
-    // }
-
     public function add($orderId, $productId, $size, $qty, $price) 
     {
         $this->db->query("INSERT INTO order_items 
