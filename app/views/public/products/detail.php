@@ -1,3 +1,12 @@
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
 <div class="container mx-auto py-16 px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         
@@ -46,9 +55,11 @@
                     <div>
                         <label class="block font-bold text-sm text-gray-700 dark:text-gray-300 mb-2">Số lượng</label>
                         <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                            <button onclick="this.nextElementSibling.stepDown()" class="px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">-</button>
-                            <input id="quantity" type="number" value="1" min="1" class="w-12 py-2 text-center border-0 bg-transparent focus:ring-0 appearance-none">
-                            <button onclick="this.previousElementSibling.stepUp()" class="px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">+</button>
+                            <button onclick="this.nextElementSibling.stepDown()" class="px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-bold text-lg">-</button>
+                            
+                            <input id="quantity" type="number" value="1" min="1" class="w-12 py-2 text-center border-0 bg-transparent focus:ring-0 appearance-none font-bold text-gray-900 dark:text-white">
+                            
+                            <button onclick="this.previousElementSibling.stepUp()" class="px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-bold text-lg">+</button>
                         </div>
                     </div>
 
@@ -89,6 +100,7 @@
 </div>
 
 <script>
+// (Giữ nguyên phần Script cũ của bạn ở đây)
 document.addEventListener('DOMContentLoaded', function () {
     const btn = document.getElementById('btnAddToCart');
     const qtyInput = document.getElementById('quantity');
@@ -102,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const size = sizeInput.value;
 
         if (!size) {
-            // Thay alert bằng một hiệu ứng rung nhẹ hoặc border đỏ để UX tốt hơn
             sizeInput.classList.add('border-red-500', 'ring-1', 'ring-red-500');
             sizeInput.focus();
             alert("Bạn quên chọn Size rồi kìa! 😅");
@@ -111,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function () {
             sizeInput.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
         }
 
-        // Hiệu ứng loading cho nút
         const originalText = btn.innerHTML;
         btn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Đang xử lý...';
         btn.disabled = true;
