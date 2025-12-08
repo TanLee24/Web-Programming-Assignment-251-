@@ -127,4 +127,62 @@ class Product {
         $this->db->bind(':slug', $slug);
         return $this->db->single();
     }
+
+    public function countAll($keyword = null, $brand = null) 
+    {
+        $sql = "SELECT COUNT(*) as total FROM products WHERE 1";
+
+        if ($keyword) {
+            $sql .= " AND name LIKE :keyword";
+        }
+        if ($brand) {
+            $sql .= " AND brand = :brand";
+        }
+
+        $this->db->query($sql);
+
+        if ($keyword) {
+            $this->db->bind(':keyword', "%$keyword%");
+        }
+        if ($brand) {
+            $this->db->bind(':brand', $brand);
+        }
+
+        $row = $this->db->single();
+        return $row->total ?? 0;
+    }
+
+    public function getPaginated($limit, $offset, $keyword = null, $brand = null)
+    {
+        $sql = "SELECT * FROM products WHERE 1";
+
+        if ($keyword) {
+            $sql .= " AND name LIKE :keyword";
+        }
+        if ($brand) {
+            $sql .= " AND brand = :brand";
+        }
+
+        $sql .= " ORDER BY id DESC LIMIT :limit OFFSET :offset";
+
+        $this->db->query($sql);
+
+        if ($keyword) {
+            $this->db->bind(':keyword', "%$keyword%");
+        }
+        if ($brand) {
+            $this->db->bind(':brand', $brand);
+        }
+
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+
+        return $this->db->resultSet();
+    }
+    public function getAllBrands()
+    {
+        $this->db->query("SELECT DISTINCT brand FROM products ORDER BY brand ASC");
+        return $this->db->resultSet();
+    }
+
 }
