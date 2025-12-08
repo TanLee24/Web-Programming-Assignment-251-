@@ -8,22 +8,22 @@ class Faq
         $this->db = new Database;
     }
 
-    // Get all questions
+    // Lấy tất cả câu hỏi
     public function all() 
     {
         $this->db->query("SELECT * FROM faqs ORDER BY id DESC");
-        return $this->db->resultSet(); // Use resultSet() to get list
+        return $this->db->resultSet(); // Sử dụng resultSet() để lấy danh sách
     }
 
-    // Find one question by ID
+    // Tìm một câu hỏi theo ID
     public function find($id) 
     {
         $this->db->query("SELECT * FROM faqs WHERE id = :id");
         $this->db->bind(':id', $id);
-        return $this->db->single(); // Use single() to get one row
+        return $this->db->single(); // Sử dụng single() để lấy một dòng
     }
 
-    // Create new question
+    // Tạo câu hỏi mới
     public function create($question, $answer) 
     {
         $this->db->query("INSERT INTO faqs (question, answer) VALUES (:question, :answer)");
@@ -32,7 +32,7 @@ class Faq
         return $this->db->execute();
     }
 
-    // Update question
+    // Cập nhật câu hỏi
     public function update($id, $question, $answer) 
     {
         $this->db->query("UPDATE faqs SET question = :question, answer = :answer WHERE id = :id");
@@ -42,7 +42,7 @@ class Faq
         return $this->db->execute();
     }
 
-    // Delete question
+    // Xóa câu hỏi
     public function delete($id) 
     {
         $this->db->query("DELETE FROM faqs WHERE id = :id");

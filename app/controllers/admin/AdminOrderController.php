@@ -12,7 +12,7 @@ class AdminOrderController {
         $this->item = new OrderItem();
     }
 
-    // --- ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) ---
+    // ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) 
     private function checkAdminAccess() 
     {
         // 1. Kiểm tra đăng nhập
@@ -24,7 +24,7 @@ class AdminOrderController {
         // 2. Kiểm tra quyền Admin
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             
-            // --- CODE MỚI: HIỆN LỖI 403 ---
+            // HIỆN LỖI 403 
             
             // Gửi mã phản hồi HTTP 403 cho trình duyệt (quan trọng cho SEO/Bot)
             http_response_code(403);

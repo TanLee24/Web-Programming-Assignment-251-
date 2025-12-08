@@ -6,7 +6,6 @@ class Product {
         $this->db = new Database();
     }
 
-    // Sửa hàm all() trong class Product
     public function all($keyword = null, $brand = null) 
     {
         $sql = "SELECT * FROM products WHERE 1";
@@ -33,14 +32,14 @@ class Product {
     }
 
 
-    // Đã sửa lỗi: Dùng query(), bind() và single()
+    // Dùng query(), bind() và single()
     public function find($id) {
         $this->db->query("SELECT * FROM products WHERE id = :id");
         $this->db->bind(':id', $id);
         return $this->db->single(); // Lấy 1 sản phẩm
     }
 
-    // Đã sửa lỗi: Dùng query(), bind() và execute()
+    // Dùng query(), bind() và execute()
     public function create($name, $description, $price, $imgUrl, $brand) { // Đã thêm $brand
         $sql = "
             INSERT INTO products (name, description, price, image_url, brand) 
@@ -56,9 +55,9 @@ class Product {
         return $this->db->execute();
     }
 
-    // Đã sửa lỗi: Dùng query(), bind() và execute()
+    // Dùng query(), bind() và execute()
     public function update($id, $name, $description, $price, $imgUrl, $brand) 
-    { // Đã thêm $brand
+    { 
         $sql = "
             UPDATE products 
             SET name = :name, description = :description, price = :price, image_url = :image_url, brand = :brand 
@@ -74,7 +73,7 @@ class Product {
         return $this->db->execute();
     }
 
-    // Đã sửa lỗi: Dùng query(), bind() và execute()
+    // Dùng query(), bind() và execute()
     public function delete($id) 
     {
         $this->db->query("DELETE FROM products WHERE id = :id");
@@ -82,7 +81,6 @@ class Product {
         return $this->db->execute();
     }
 
-    // Thêm hàm này vào class Product
     public function getUniqueBrands() 
     {
         $sql = "SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL AND brand != '' ORDER BY brand ASC";

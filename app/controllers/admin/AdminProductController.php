@@ -9,7 +9,7 @@ class AdminProductController {
         $this->product = new Product();
     }
 
-    // --- ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) ---
+    // ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) 
     private function checkAdminAccess() 
     {
         // 1. Kiểm tra đăng nhập
@@ -21,7 +21,7 @@ class AdminProductController {
         // 2. Kiểm tra quyền Admin
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             
-            // --- CODE MỚI: HIỆN LỖI 403 ---
+            // HIỆN LỖI 403 
             
             // Gửi mã phản hồi HTTP 403 cho trình duyệt (quan trọng cho SEO/Bot)
             http_response_code(403);
@@ -39,7 +39,7 @@ class AdminProductController {
         }
     }
 
-    // --- 1. DANH SÁCH SẢN PHẨM ---
+    // 1. DANH SÁCH SẢN PHẨM 
     public function list() {
         $keyword = $_GET['search'] ?? null;
         $products = $this->product->all($keyword);
@@ -52,7 +52,7 @@ class AdminProductController {
         require APPROOT . "/views/admin/layouts/admin_layout.php";
     }
 
-    // --- 2. THÊM SẢN PHẨM MỚI ---
+    // 2. THÊM SẢN PHẨM MỚI 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
@@ -63,7 +63,7 @@ class AdminProductController {
 
             $imgUrl = "";
 
-            // --- FIX UPLOAD ẢNH ---
+            // XỬ LÝ UPLOAD ẢNH
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 // 1. Chỉ cho phép các đuôi ảnh an toàn
                 $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -102,7 +102,7 @@ class AdminProductController {
         require APPROOT . "/views/admin/layouts/admin_layout.php";
     }
 
-    // --- 3. SỬA SẢN PHẨM ---
+    // 3. SỬA SẢN PHẨM 
     public function edit($id) {
         $product = $this->product->find($id);
 
@@ -148,7 +148,7 @@ class AdminProductController {
         require APPROOT . "/views/admin/layouts/admin_layout.php";
     }
 
-    // --- 4. XÓA SẢN PHẨM ---
+    // 4. XÓA SẢN PHẨM 
     public function delete($id) {
         $this->product->delete($id);
         header("Location: " . URLROOT . "/public/index.php?url=admin/product/list");

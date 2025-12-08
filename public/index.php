@@ -1,13 +1,12 @@
 <?php
-// DÒNG NÀY PHẢI LUÔN Ở ĐẦU (Đã sửa lỗi Session trước đó)
+// DÒNG NÀY PHẢI LUÔN Ở ĐẦU
 session_start();
 
-// --- 1. REQUIRE CÁC FILE CẦN THIẾT ---
+// 1. REQUIRE CÁC FILE CẦN THIẾT
 require_once '../app/config.php'; 
 require_once '../app/libraries/Database.php'; 
-// Thêm các thư viện lõi khác nếu có (ví dụ: Core.php, Autoloader.php)
 
-// --- 2. XỬ LÝ ĐỊNH TUYẾN (ROUTING LOGIC) ---
+// 2. XỬ LÝ ĐỊNH TUYẾN (ROUTING LOGIC) 
 
 // Lấy tham số 'url' từ query string
 $url = isset($_GET['url']) ? $_GET['url'] : null;
@@ -23,7 +22,6 @@ if($url){
 }
 
 // 3. XÁC ĐỊNH VÀ GỌI CONTROLLER
-// url[0] là tên Controller (ví dụ: 'products', 'admin', 'pages')
 $controllerSegment = $url[0];
 
 // Xử lý logic Admin (controller nằm trong sub-folder)
@@ -80,11 +78,3 @@ if ($url == "products/updateQuantity") {
     $c->updateQuantity();
     exit;
 }
-
-// AJAX: Xóa 1 sản phẩm (không redirect)
-// if ($url == "products/removeItem") {
-//     require "../app/controllers/ProductsController.php";
-//     $c = new ProductsController();
-//     $c->removeItem();
-//     exit;
-// }

@@ -3,10 +3,6 @@ class NewsletterController {
     private $newsletterModel;
 
     public function __construct() {
-        // Load model Newsletter
-        // Lưu ý: Hàm này tùy thuộc vào cách core MVC của bạn load model.
-        // Thường là $this->newsletterModel = $this->model('Newsletter'); 
-        // Hoặc nếu bạn tự require:
         require_once APPROOT . '/models/Newsletter.php';
         $this->newsletterModel = new Newsletter();
     }

@@ -72,7 +72,7 @@ class User {
         $this->db->execute();
 
         // 2. Tạo token mới
-        // Thay vì dùng PHP date(), ta dùng hàm DATE_ADD(NOW(), ...) của MySQL
+        // Thay vì dùng PHP date(), dùng hàm DATE_ADD(NOW(), ...) của MySQL
         // Điều này đảm bảo giờ tạo và giờ kiểm tra (NOW) luôn cùng một múi giờ
         $sql = "INSERT INTO password_resets (user_id, token, expires_at)
                 VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 1 HOUR))";
@@ -80,7 +80,6 @@ class User {
         $this->db->query($sql);
         $this->db->bind(':user_id', $userId);
         $this->db->bind(':token', $token);
-        // Không cần bind :expires_at nữa vì MySQL tự tính rồi
         
         return $this->db->execute();
     }

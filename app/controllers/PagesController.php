@@ -30,7 +30,7 @@ class PagesController
 
         $data = [
             'title' => 'Trang Chủ - Do & Tan Sneakers',
-            'latestNews' => $latestNews // <--- 5. TRUYỀN DỮ LIỆU SANG VIEW
+            'latestNews' => $latestNews // TRUYỀN DỮ LIỆU SANG VIEW
         ];
         
         $this->loadView('public/home', $data);
@@ -43,7 +43,7 @@ class PagesController
         $this->loadView('public/contact', $data);
     }
 
-    // --- TRANG GIỚI THIỆU (Công việc 2) ---
+    // --- TRANG GIỚI THIỆU ---
     public function about() 
     {
         // Lấy nội dung giới thiệu từ bảng settings
@@ -61,7 +61,7 @@ class PagesController
         $this->loadView('public/about', $data);
     }
 
-    // --- TRANG HỎI ĐÁP / FAQ (Công việc 2) ---
+    // --- TRANG HỎI ĐÁP / FAQ ---
     public function faq() 
     {
         // 1. Gọi Model để lấy toàn bộ danh sách câu hỏi từ Database
@@ -77,7 +77,7 @@ class PagesController
         $this->loadView('public/faq', $data);
     }
 
-    // Hàm hỗ trợ load view (giữ nguyên như cũ)
+    // Hàm hỗ trợ load view
     public function loadView($viewPath, $data = []) 
     {
         extract($data);
@@ -102,16 +102,13 @@ class PagesController
             'title' => 'Tin Tức & Sự Kiện - Do & Tan Sneakers'
         ];
         
-        // Lưu ý: Đường dẫn view phải khớp với thư mục bạn tạo
-        // public/news/news nghĩa là: folder public -> folder news -> file news.php
         $this->loadView('public/news/news', $data);
     }
 
-    // --- TRANG CHI TIẾT TIN TỨC (ĐÃ NÂNG CẤP) ---
+    // --- TRANG CHI TIẾT TIN TỨC ---
     public function news_detail() 
     {
         // 1. Lấy ID từ URL (mặc định là 1 nếu không có)
-        // Ví dụ: index.php?url=pages/news_detail&id=2 sẽ lấy số 2
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
 
         // 2. Dữ liệu của 3 bài báo (Giả lập Database)
@@ -174,7 +171,6 @@ class PagesController
             'article' => $selectedArticle // Truyền toàn bộ dữ liệu bài viết sang View
         ];
 
-        // Đường dẫn view: folder public -> folder news -> file news_detail.php
         $this->loadView('public/news/news_detail', $data);
     }
 

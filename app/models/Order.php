@@ -3,11 +3,10 @@ class Order {
     private $db;
 
     public function __construct() {
-        // Giả định class Database đã được require_once ở đâu đó trong bootstrap
         $this->db = new Database();
     }
 
-    // 1. Lấy tất cả đơn hàng (Đã sửa lỗi - dùng query và resultSet)
+    // 1. Lấy tất cả đơn hàng (dùng query và resultSet)
     public function all() {
         $sql = "
             SELECT orders.*, users.username 
@@ -19,14 +18,14 @@ class Order {
         return $this->db->resultSet(); // Lấy danh sách nhiều dòng
     }
 
-    // 2. Tìm một đơn hàng theo ID (Đã sửa lỗi - dùng query, bind và single)
+    // 2. Tìm một đơn hàng theo ID (dùng query, bind và single)
     public function find($id) {
         $this->db->query("SELECT * FROM orders WHERE id = :id");
         $this->db->bind(':id', $id);
         return $this->db->single(); // Lấy một dòng duy nhất
     }
 
-    // 3. Cập nhật trạng thái (Đã sửa lỗi - dùng query, bind và execute)
+    // 3. Cập nhật trạng thái (dùng query, bind và execute)
     public function updateStatus($id, $status) {
         $this->db->query("UPDATE orders SET status = :status WHERE id = :id");
         $this->db->bind(':status', $status);
@@ -34,7 +33,7 @@ class Order {
         return $this->db->execute();
     }
 
-    // 4. Tạo đơn hàng mới (Đã sửa lỗi - bỏ dbh ở return và dùng wrapper methods)
+    // 4. Tạo đơn hàng mới (dùng wrapper methods)
     public function create($userId, $fullname, $phone, $address, $total, $note = '') {
         $sql = "INSERT INTO orders (user_id, fullname, phone, address, total_amount, note, status, created_at) 
                 VALUES (:user_id, :fullname, :phone, :address, :total, :note, 'pending', NOW())";
@@ -48,7 +47,7 @@ class Order {
         $this->db->bind(':note', $note);
         
         if ($this->db->execute()) {
-            // Lấy ID vừa tạo. Giả định Database class có public method lastInsertId()
+            // Lấy ID vừa tạo.
             return $this->db->lastInsertId();
         } else {
             return false;

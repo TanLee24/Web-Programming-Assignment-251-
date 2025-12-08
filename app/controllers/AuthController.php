@@ -19,7 +19,12 @@ class AuthController {
                 'error'     => ''
             ];
 
-            if (empty($data['email']) || empty($data['password']) || empty($data['username'])) {
+            // Kiểm tra định dạng email nghiêm ngặt phía Server
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $data['error'] = "Định dạng email không hợp lệ (ví dụ: abc@domain.com)!";
+            }
+           
+            elseif (empty($data['email']) || empty($data['password']) || empty($data['username'])) {
                 $data['error'] = "Vui lòng điền đầy đủ thông tin!";
             } elseif ($data['password'] != $data['confirm_password']) {
                 $data['error'] = "Mật khẩu xác nhận không khớp!";
@@ -28,7 +33,6 @@ class AuthController {
             }
 
             if (empty($data['error'])) {
-                // Mã hóa password trước khi lưu
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
                 if ($this->userModel->register($data)) {
@@ -87,7 +91,7 @@ class AuthController {
                 // Tạo token
                 $token = bin2hex(random_bytes(32));
                 
-                // Lưu token vào DB (cần đảm bảo Model có hàm createResetToken)
+                // Lưu token vào DB 
                 if ($this->userModel->createResetToken($user->id, $token)) {
                     // Link reset
                     $resetLink = URLROOT . "/public/index.php?url=auth/reset_password/" . $token;
@@ -108,7 +112,7 @@ class AuthController {
 
         $data = ['token' => $token, 'error' => ''];
         
-        // Kiểm tra token (Cần đảm bảo Model có hàm getUserIdByToken)
+        // Kiểm tra token 
         $userId = $this->userModel->getUserIdByToken($token);
         if (!$userId) die("Link không hợp lệ hoặc hết hạn!");
 
@@ -121,7 +125,7 @@ class AuthController {
             } else {
                 $newHash = password_hash($pass, PASSWORD_DEFAULT);
                 
-                // Cập nhật pass (Cần đảm bảo Model có hàm recoverPassword)
+                // Cập nhật pass 
                 if ($this->userModel->recoverPassword($userId, $newHash)) {
                     $_SESSION['success_message'] = "Đổi mật khẩu thành công!";
                     header('Location: ' . URLROOT . '/public/index.php?url=auth/login');

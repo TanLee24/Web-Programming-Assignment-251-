@@ -2,7 +2,7 @@
 class AdminDashboardController {
 
     public function __construct() {
-        // BẮT BUỘC: Kiểm tra quyền Admin ngay khi khởi tạo
+        // Kiểm tra quyền Admin ngay khi khởi tạo
         $this->checkAdminAccess();
     }
 

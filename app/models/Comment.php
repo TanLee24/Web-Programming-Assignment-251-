@@ -6,13 +6,9 @@ class Comment {
         $this->db = new Database();
     }
 
-    // =================================================================
-    // PHẦN 1: DÀNH CHO KHÁCH HÀNG (Cần sửa chỗ này)
-    // =================================================================
-
-    // Hàm thêm bình luận (Đã xóa bỏ phần rating)
+    // PHẦN 1: DÀNH CHO KHÁCH HÀNG 
+    // Hàm thêm bình luận
     public function addComment($userId, $userName, $itemId, $type, $content) {
-        // Chỉ lưu các thông tin cơ bản, bỏ rating
         $sql = "INSERT INTO comments (user_id, user_name, commentable_id, commentable_type, content, status, created_at) 
                 VALUES (:uid, :uname, :nid, :type, :content, 1, NOW())";
         
@@ -42,10 +38,7 @@ class Comment {
         return $this->db->resultSet();
     }
 
-    // =================================================================
     // PHẦN 2: DÀNH CHO ADMIN (Lấy hết để quản lý)
-    // =================================================================
-
     public function all() {
         // Admin cần thấy cả ẩn và hiện nên KHÔNG có điều kiện status = 1 ở đây
         $sql = "SELECT 

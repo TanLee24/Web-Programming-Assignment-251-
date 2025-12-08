@@ -68,7 +68,7 @@ class News {
     }
 
     public function update($id, $title, $content, $imgUrl) {
-        // Nếu tiêu đề đổi, slug cũng nên đổi theo (hoặc giữ nguyên tùy bạn)
+        // Nếu tiêu đề đổi, slug cũng nên đổi theo 
         $slug = $this->createSlug($title);
 
         $sql = "UPDATE news SET 

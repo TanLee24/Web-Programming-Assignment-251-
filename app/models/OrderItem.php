@@ -6,7 +6,7 @@ class OrderItem {
         $this->db = new Database();
     }
 
-    // Đã sửa lỗi: Dùng query() và resultSet()
+    // Dùng query() và resultSet()
     public function itemsOf($orderId)
     {
         $this->db->query("
