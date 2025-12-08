@@ -69,7 +69,7 @@ ob_start();
 
 <?php
 // --- 2. KẾT THÚC BUFFERING VÀ GỌI LAYOUT ---
-$content = ob_get_clean(); // Lấy toàn bộ nội dung HTML ở trên gán vào biến $content
-$data['title'] = 'Quên Mật Khẩu'; // Đặt tiêu đề tab trình duyệt
-require_once APPROOT . '/views/layouts/main.php'; // Gọi giao diện chính
+$content = ob_get_clean(); 
+$data['title'] = 'Quên Mật Khẩu'; 
+require_once APPROOT . '/views/layouts/main.php'; 
 ?>

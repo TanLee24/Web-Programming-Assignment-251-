@@ -43,7 +43,7 @@ class ProfileController {
                 }
             }
 
-            // Xử lý Upload Avatar (ĐÃ BẢO MẬT)
+            // Xử lý Upload Avatar
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
                 // 1. Danh sách đuôi file cho phép
                 $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
@@ -91,7 +91,7 @@ class ProfileController {
         $this->loadView('public/auth/profile', $data);
     }
 
-    // --- HÀM LOAD VIEW (ĐÃ SỬA LỖI) ---
+    // --- HÀM LOAD VIEW  ---
     public function loadView($viewPath, $data = []) {
         extract($data);
         $fileView = '../app/views/' . $viewPath . '.php';

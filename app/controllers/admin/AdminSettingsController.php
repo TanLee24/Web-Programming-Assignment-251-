@@ -9,7 +9,7 @@ class AdminSettingsController {
         $this->settingModel = new Setting();
     }
 
-    // --- ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) ---
+    // ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) 
     private function checkAdminAccess() 
     {
         // 1. Kiểm tra đăng nhập
@@ -21,7 +21,7 @@ class AdminSettingsController {
         // 2. Kiểm tra quyền Admin
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             
-            // --- CODE MỚI: HIỆN LỖI 403 ---
+            // HIỆN LỖI 403 
             
             // Gửi mã phản hồi HTTP 403 cho trình duyệt (quan trọng cho SEO/Bot)
             http_response_code(403);
@@ -50,7 +50,7 @@ class AdminSettingsController {
             $this->settingModel->update('address', $_POST['address'] ?? '');
             $this->settingModel->update('intro_text', $_POST['intro_text'] ?? '');
 
-            // --- XỬ LÝ UPLOAD LOGO (Code chuẩn theo AdminProductController) ---
+            // XỬ LÝ UPLOAD LOGO 
             if (isset($_FILES['logo']) && $_FILES['logo']['error'] === 0) {
                 $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']; // Logo có thể là SVG
                 $filename = $_FILES['logo']['name'];
@@ -89,14 +89,11 @@ class AdminSettingsController {
             'logo_path'    => $this->settingModel->get('logo_path')
         ];
         
-        // Nếu view của bạn dùng biến $data thì giữ nguyên, 
-        // hoặc nếu view dùng biến lẻ ($company_name...) thì dùng extract($data);
         extract($data); 
 
         $title = "Cấu hình chung";
 
         ob_start();
-        // Đường dẫn view chuẩn
         require APPROOT . "/views/admin/settings/setting.php";
         $content = ob_get_clean();
 

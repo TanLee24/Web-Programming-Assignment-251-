@@ -8,7 +8,6 @@ class AdminAboutController
     public function __construct() 
     {
         // --- GỌI HÀM KIỂM TRA QUYỀN ---
-        // Hàm này sẽ chạy đầu tiên. Nếu không phải admin, code bên dưới sẽ không bao giờ chạy.
         $this->checkAdminAccess();
         $this->setting = new Setting();
     }
@@ -25,7 +24,7 @@ class AdminAboutController
         // 2. Kiểm tra quyền Admin
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             
-            // --- CODE MỚI: HIỆN LỖI 403 ---
+            // --- HIỆN LỖI 403 ---
             
             // Gửi mã phản hồi HTTP 403 cho trình duyệt (quan trọng cho SEO/Bot)
             http_response_code(403);

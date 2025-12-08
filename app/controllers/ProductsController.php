@@ -1,19 +1,15 @@
 <?php
 require_once APPROOT . '/models/Product.php';
-
-// BỔ SUNG REQUIRE CÁC MODELS CẦN THIẾT CHO CHỨC NĂNG THANH TOÁN
 require_once APPROOT . '/models/Order.php'; 
 require_once APPROOT . '/models/OrderItem.php'; 
 
 class ProductsController {
     private $productModel;
-    // KHAI BÁO THUỘC TÍNH MỚI
     private $orderModel;
     private $orderItemModel;
 
     public function __construct() {
         $this->productModel = new Product();
-        // KHỞI TẠO CÁC MODELS MỚI
         $this->orderModel = new Order();
         $this->orderItemModel = new OrderItem();
     }
@@ -21,12 +17,12 @@ class ProductsController {
     // 1. Trang danh sách sản phẩm (có tìm kiếm và lọc theo hãng)
     public function index() {
         $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : null;
-        $brandFilter = isset($_GET['brand']) ? $_GET['brand'] : null; // Lấy tham số lọc hãng
+        $brandFilter = isset($_GET['brand']) ? $_GET['brand'] : null;
 
-        // UPDATED: Gọi hàm all() mới với tham số $brandFilter
+        // Gọi hàm all() mới với tham số $brandFilter
         $products = $this->productModel->all($keyword, $brandFilter); 
         
-        // NEW: Lấy danh sách hãng để hiển thị Sidebar
+        // Lấy danh sách hãng để hiển thị Sidebar
         $brands = $this->productModel->getUniqueBrands(); 
         
         $data = [
@@ -134,10 +130,6 @@ class ProductsController {
     // 6. Xử lý Thanh toán
     public function checkout() 
     {
-        // Lệnh này phải được require ở đầu file để tránh bị lỗi
-        // require_once APPROOT . '/models/Order.php'; 
-        // require_once APPROOT . '/models/OrderItem.php'; 
-
         if (empty($_SESSION['cart'])) 
         {
             header('Location: ' . URLROOT . '/public/index.php?url=products/index');
@@ -223,7 +215,7 @@ class ProductsController {
             // 1. Bắt đầu bộ đệm đầu ra (Output Buffer)
             ob_start();
             
-            // 2. Nạp file view (Ví dụ: products/index.php)
+            // 2. Nạp file view 
             require_once $fileView;
             
             // 3. Lấy nội dung trong bộ đệm và gán vào biến $content

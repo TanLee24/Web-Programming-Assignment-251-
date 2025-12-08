@@ -9,7 +9,6 @@ class AdminCommentController {
     }
 
     public function index() {
-        // Bây giờ hàm all() đã có trong Model, sẽ không bị lỗi nữa
         $comments = $this->commentModel->all();
         $title = "Quản lý Bình luận";
 

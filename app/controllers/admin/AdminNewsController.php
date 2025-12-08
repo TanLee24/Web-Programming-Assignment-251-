@@ -1,5 +1,4 @@
 <?php
-// File: app/controllers/AdminNewsController.php
 require_once APPROOT . "/models/News.php";
 
 class AdminNewsController {
@@ -10,7 +9,7 @@ class AdminNewsController {
         $this->newsModel = new News();
     }
 
-    // --- ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) ---
+    // ĐỊNH NGHĨA HÀM KIỂM TRA (Bảo Mật) 
     private function checkAdminAccess() 
     {
         // 1. Kiểm tra đăng nhập
@@ -22,7 +21,7 @@ class AdminNewsController {
         // 2. Kiểm tra quyền Admin
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             
-            // --- CODE MỚI: HIỆN LỖI 403 ---
+            // HIỆN LỖI 403 
             
             // Gửi mã phản hồi HTTP 403 cho trình duyệt (quan trọng cho SEO/Bot)
             http_response_code(403);
@@ -48,7 +47,7 @@ class AdminNewsController {
 
         // Load View Admin
         ob_start();
-        require APPROOT . "/views/admin/news/list.php"; // File chứa bảng danh sách
+        require APPROOT . "/views/admin/news/list.php"; 
         $content = ob_get_clean();
 
         require APPROOT . "/views/admin/layouts/admin_layout.php";
@@ -93,7 +92,7 @@ class AdminNewsController {
 
         $title = "Thêm tin tức mới";
         ob_start();
-        require APPROOT . "/views/admin/news/create.php"; // Bạn cần tạo view này
+        require APPROOT . "/views/admin/news/create.php"; 
         $content = ob_get_clean();
         require APPROOT . "/views/admin/layouts/admin_layout.php";
     }
@@ -135,7 +134,7 @@ class AdminNewsController {
 
         $title = "Sửa bài viết";
         ob_start();
-        require APPROOT . "/views/admin/news/edit.php"; // Bạn cần tạo view này
+        require APPROOT . "/views/admin/news/edit.php"; 
         $content = ob_get_clean();
         require APPROOT . "/views/admin/layouts/admin_layout.php";
     }

@@ -1,5 +1,4 @@
 <?php
-// Gọi các Model cần thiết
 require_once APPROOT . "/models/News.php";
 require_once APPROOT . "/models/Comment.php";
 
@@ -76,7 +75,7 @@ class NewsController {
     // 1. Danh sách bài viết (Admin List)
     public function list() {
         $keyword = $_GET['search'] ?? null;
-        // Sử dụng hàm all() có sẵn trong Model của bạn
+        
         $newsList = $this->newsModel->all($keyword);
 
         $data = [
@@ -84,7 +83,6 @@ class NewsController {
             'newsList' => $newsList
         ];
 
-        // Gọi view admin/news/list
         $this->loadView('admin/news/list', $data);
     }
 
@@ -106,7 +104,7 @@ class NewsController {
             if (!empty($_FILES['image']['name'])) {
                 $target_dir = "uploads/";
                 $file_name = time() . '_' . basename($_FILES["image"]["name"]);
-                // Lưu ý: Đường dẫn này phải trỏ đúng về thư mục public/uploads
+                
                 $target_file = dirname(dirname(dirname(__FILE__))) . "/public/" . $target_dir . $file_name;
                 
                 if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
@@ -114,7 +112,6 @@ class NewsController {
                 }
             }
 
-            // Gọi hàm create có sẵn trong News.php của bạn
             if ($this->newsModel->create($title, $content, $imgUrl)) {
                 header('Location: ' . URLROOT . '/public/index.php?url=admin/news/list');
                 exit;
@@ -126,7 +123,7 @@ class NewsController {
         $this->loadView('admin/news/create', $data);
     }
 
-    // 3. Sửa bài viết (Admin Edit) - ĐÃ SỬA LỖI VIEW
+    // 3. Sửa bài viết (Admin Edit)
     public function edit() {
         // Kiểm tra ID
         if (!isset($_GET['id'])) {
@@ -135,7 +132,7 @@ class NewsController {
         }
 
         $id = $_GET['id'];
-        // Dùng hàm getNewsById có sẵn trong Model
+        
         $news = $this->newsModel->getNewsById($id);
 
         if (!$news) {
@@ -185,7 +182,7 @@ class NewsController {
             }
         }
 
-        // QUAN TRỌNG: Dùng loadView thay vì view
+        // Dùng loadView thay vì view
         $this->loadView('admin/news/edit', $data);
     }
 
@@ -211,8 +208,6 @@ class NewsController {
             require_once $fileView;
             $content = ob_get_clean();
             
-            // Nếu là view admin thì có thể load layout admin, hoặc load main như cũ
-            // Tạm thời giữ main.php như code cũ của bạn
             require_once '../app/views/layouts/main.php';
         } else {
             die('Lỗi: Không tìm thấy file view "' . $viewPath . '"');

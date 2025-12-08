@@ -6,8 +6,6 @@ class ContactController {
     // Hiển thị form liên hệ
     public function form() {
         $data = ['title' => 'Liên hệ'];
-        // Lưu ý: Đường dẫn view phải đúng với cấu trúc thư mục của bạn
-        // Nếu file nằm ở app/views/public/contact.php
         $this->loadView('public/contact', $data);
     }
 
@@ -21,7 +19,7 @@ class ContactController {
             $name = !empty($_POST['full_name']) ? $_POST['full_name'] : ($_POST['name'] ?? '');
             
             $data = [
-                'full_name' => $name, // Dữ liệu đã được chuẩn hóa
+                'full_name' => $name,
                 'email' => $_POST['email'] ?? '',
                 'message' => $_POST['message'] ?? ''
             ];
@@ -42,7 +40,7 @@ class ContactController {
         }
     }
 
-    // Hàm hỗ trợ load view (giống các controller khác)
+    // Hàm hỗ trợ load view 
     public function loadView($viewPath, $data = []) {
         extract($data);
         if (file_exists('../app/views/' . $viewPath . '.php')) {

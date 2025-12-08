@@ -9,7 +9,7 @@ class AdminContactController {
         $this->contactModel = new Contact();
     }
 
-    // Kiểm tra quyền Admin (Giữ nguyên logic của bạn)
+    // Kiểm tra quyền Admin 
     private function checkAdminAccess() {
         if (!isset($_SESSION['user_id'])) {
             header("Location: " . URLROOT . "/public/index.php?url=auth/login");
@@ -33,12 +33,11 @@ class AdminContactController {
         $title = "Hộp thư liên hệ";
 
         // Load View
-        // Lưu ý: data được extract ra thành biến $contacts trong view
         $data = ['contacts' => $contacts, 'title' => $title];
         $this->loadView('admin/contacts/list', $data);
     }
 
-    // --- 2. CẬP NHẬT TRẠNG THÁI (MỚI) ---
+    // 2. CẬP NHẬT TRẠNG THÁI 
     public function update_status() {
         // Lấy ID và Status từ URL (GET request)
         $id = $_GET['id'] ?? null;

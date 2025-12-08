@@ -2,11 +2,11 @@
 class AdminDashboardController {
 
     public function __construct() {
-        // BẮT BUỘC: Kiểm tra quyền Admin ngay khi khởi tạo
+        // Kiểm tra quyền Admin ngay khi khởi tạo
         $this->checkAdminAccess();
     }
 
-    // --- HÀM BẢO MẬT (Copy từ các controller khác sang) ---
+    // HÀM BẢO MẬT 
     private function checkAdminAccess() {
         if (!isset($_SESSION['user_id'])) {
             header("Location: " . URLROOT . "/public/index.php?url=auth/login");

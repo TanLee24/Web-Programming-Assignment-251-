@@ -251,7 +251,7 @@ $logo         = $config_site['logo_path'] ?? '';
             }
         }
         
-        const defaultConfig = { store_name: "Do & Tan" }; // Config cũ giữ nguyên
+        const defaultConfig = { store_name: "Do & Tan" };
 
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
