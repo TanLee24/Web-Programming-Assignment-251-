@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 08, 2025 lúc 01:42 PM
+-- Thời gian đã tạo: Th12 08, 2025 lúc 04:57 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -47,7 +47,12 @@ INSERT INTO `comments` (`id`, `user_id`, `content`, `commentable_type`, `comment
 (3, 2, 'húuuu', 'news', 2, 1, '2025-12-04 16:06:03', ''),
 (4, 3, 'goat', 'news', 3, 1, '2025-12-06 08:34:18', ''),
 (5, 1, 'xin giá shop ơii', 'news', 3, 1, '2025-12-06 08:46:28', ''),
-(6, 4, 'Very helpful!', 'news', 4, 1, '2025-12-07 14:24:34', 'TannDz');
+(6, 4, 'Very helpful!', 'news', 4, 1, '2025-12-07 14:24:34', 'TannDz'),
+(7, 3, 'hehehe', 'news', 3, 1, '2025-12-07 00:54:34', 'Do_admin'),
+(9, 3, 'bổ x', 'news', 4, 0, '2025-12-07 10:12:38', 'Do_admin'),
+(11, 3, 'bổ x', 'news', 4, 1, '2025-12-08 03:59:08', 'Do_admin'),
+(12, 3, 'OMG!!', 'news', 3, 1, '2025-12-08 07:34:50', 'Do_admin'),
+(13, 3, 'quá đã shop ơiii', 'news', 2, 0, '2025-12-08 08:08:37', 'Do_admin');
 
 -- --------------------------------------------------------
 
@@ -70,7 +75,10 @@ CREATE TABLE `contacts` (
 --
 
 INSERT INTO `contacts` (`id`, `name`, `email`, `message`, `status`, `submitted_at`, `created_at`) VALUES
-(3, 'Do Do', 'do@gmail.com', 'cần hỗ trợ size vans', 'replied', '2025-12-06 08:31:55', '2025-12-06 08:31:55');
+(3, 'Do Do', 'do@gmail.com', 'cần hỗ trợ size vans', 'replied', '2025-12-06 08:31:55', '2025-12-06 08:31:55'),
+(4, 'Nguyễn Văn Á', 'as@gmail.com', 'hỗ trợ đổi size', 'unread', '2025-12-06 04:57:37', '2025-12-06 04:57:37'),
+(5, 'Cao Lỗ', 'caolo@gmail.com', 'cần hình ảnh màu sắc giày thực tế', 'read', '2025-12-06 04:59:13', '2025-12-06 04:59:13'),
+(6, 'Khoa Đỗ', 'khoa53640@gmail.com', 'hép hép', 'unread', '2025-12-07 00:34:38', '2025-12-07 00:34:38');
 
 -- --------------------------------------------------------
 
@@ -143,7 +151,9 @@ CREATE TABLE `newsletter_subscribers` (
 
 INSERT INTO `newsletter_subscribers` (`id`, `email`, `status`, `created_at`) VALUES
 (1, 'khoa53640@gmail.com', 'subscribed', '2025-12-06 07:09:07'),
-(2, 'khoa53@gmail.com', 'subscribed', '2025-12-06 07:37:48');
+(2, 'khoa53@gmail.com', 'subscribed', '2025-12-06 07:37:48'),
+(3, 'do@gmail.com', 'subscribed', '2025-12-07 05:14:58'),
+(4, 'abc@a.com', 'subscribed', '2025-12-08 03:59:52');
 
 -- --------------------------------------------------------
 
@@ -168,8 +178,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `status`, `created_at`, `fullname`, `phone`, `address`, `note`) VALUES
-(1, 0, 8787000.00, 'processing', '2025-11-20 11:07:20', 'Tan', '0123456789', 'VN', 'zzzz'),
-(3, 0, 2650000.00, 'processing', '2025-12-05 06:44:38', 'Lê Hoàng Tân', '0123456789', 'Cambodia', 'đóng gói cẩn thận');
+(1, 0, 8787000.00, 'completed', '2025-11-20 11:07:20', 'Tan', '0123456789', 'VN', 'zzzz'),
+(3, 0, 2650000.00, 'processing', '2025-12-05 06:44:38', 'Lê Hoàng Tân', '0123456789', 'Cambodia', 'đóng gói cẩn thận'),
+(4, 0, 1600000.00, 'pending', '2025-12-08 05:59:18', 'Khoa Đỗ', '0903191036', 'Nguyễn Văn Lạc', 'lẹ lẹ sốp ơi'),
+(6, 0, 17000000.00, 'pending', '2025-12-08 15:00:36', 'Lê Hoàng Tân', '0904437143', 'phường Bình Trưng', 'đóng gói cẩn thận');
 
 -- --------------------------------------------------------
 
@@ -192,7 +204,9 @@ CREATE TABLE `order_items` (
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `size`, `quantity`, `price_at_purchase`) VALUES
 (1, 1, 1, '38', 3, 2929000.00),
-(2, 3, 2, '43', 1, 2650000.00);
+(2, 3, 2, '43', 1, 2650000.00),
+(3, 4, 4, '39', 1, 1600000.00),
+(5, 6, 5, '43', 1, 17000000.00);
 
 -- --------------------------------------------------------
 
@@ -208,6 +222,13 @@ CREATE TABLE `password_resets` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `user_id`, `token`, `expires_at`, `created_at`) VALUES
+(14, 9, '2e6bd3f754441df9ed0099d785e9bbecaf2a0a14a21a479d938fabb6e52f158f', '2025-12-08 00:52:46', '2025-12-07 23:52:46');
+
 -- --------------------------------------------------------
 
 --
@@ -217,6 +238,7 @@ CREATE TABLE `password_resets` (
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `slug` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL,
   `price` decimal(10,2) NOT NULL DEFAULT 0.00,
@@ -229,16 +251,16 @@ CREATE TABLE `products` (
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `image_url`, `price`, `created_at`, `updated_at`, `brand`) VALUES
-(1, 'Nike Air Force 1', '<p>Nike Air Force 1 Low AllWhite l&agrave; một biểu tượng thời trang kh&ocirc;ng thể chối c&atilde;i, với thiết kế cổ điển, tinh tế c&ugrave;ng gam m&agrave;u trắng thanh lịch, ph&ugrave; hợp với mọi phong c&aacute;ch v&agrave; ho&agrave;n cảnh. Được ra mắt v&agrave;o năm 1982, Air Force 1 l&agrave; đ&ocirc;i gi&agrave;y b&oacute;ng rổ đầu ti&ecirc;n sở hữu c&ocirc;ng nghệ đệm kh&iacute; Air, tạo n&ecirc;n bước ngoặt lịch sử cho Nike. Với phi&ecirc;n bản Air Force 1 Low ra mắt sau đ&oacute;, nhanh ch&oacute;ng trở th&agrave;nh biểu tượng thời trang đường phố được y&ecirc;u th&iacute;ch bởi giới trẻ.</p>', '/public/uploads/1765124066_ce76a10b.jpg', 2929000.00, '2025-11-20 07:30:17', '2025-12-07 16:14:26', 'Nike'),
-(2, 'Adidas Ultraboost 23 Light', 'Trải nghiệm năng lượng sử thi với Ultraboost Light mới, Ultraboost nhẹ nhất từ trước đến nay của chúng tôi. Điều kỳ diệu nằm ở đế giữa Light BOOST, một thế hệ mới của adidas BOOST. Thiết kế phân tử độc đáo của nó tạo ra bọt BOOST nhẹ nhất cho đến nay và tự hào có lượng khí thải carbon thấp hơn 10% so với các mẫu trước đó (để biết thêm thông tin, hãy xem phần Câu hỏi thường gặp bên dưới).\r\n\r\nĐược thiết kế đặc biệt cho dáng người phụ nữ, Ultraboost Light có phần gót vừa vặn hơn cộng với đường cong mu bàn chân thấp hơn được thiết kế giúp giảm trượt gót và phồng rộp. Với đệm, sự thoải mái và độ phản hồi cao nhất, một số bàn chân thực sự có thể có được tất cả.', '/public/uploads/1764957256_Ultraboost-Light-Core-black.jpg', 2650000.00, '2025-11-20 11:22:42', '2025-12-05 17:54:16', 'Adidas'),
-(3, 'Vans Old Skool Classic Black', 'Được gọi vui một cách thân thuộc là \"giày VANS đen\" vốn là một sự phổ biến rất đặc biệt đối với các tín đồ của nhà VANS. Tới nay đôi giày chỉ với phối màu đen trắng này vẫn nằm trong top \"Best Seller\" của VANS trên toàn thế giới, với kiểu dáng cổ điển cùng \"sọc Jazz\" huyền thoại hợp thời trang khiến đôi VANS này thật sự trở thành mẫu giày classic bất bại, là fan hâm mộ của VANS nói chung và những skaters nói riêng đều nên có một đôi trong tủ giày. Được mệnh danh là phiên bản mang \"càng cũ càng đẹp\" và nhiều phiên bản custom  bậc nhất của nhà VANS.', '/public/uploads/1764956608_vans.png', 1480000.00, '2025-12-05 17:43:28', '2025-12-05 17:43:28', 'Vans'),
-(4, 'Converse Chuck Taylor All Star 1970s Parchment Hi Top', 'Giày Converse Chuck Taylor All Star 1970s Parchment Hi Top  với form dáng của Chuck 70s, phiên bản Hi Top Parchment với màu trắng ngà basic đã mang tới cho người dùng một bản phối hiện đại, trẻ trung mà vẫn đậm màu vintage. Bằng những chất liệu truyền thống, được chăm chút tỉ mẩn trong từng đường nét, item này đã lọt vào top những mẫu sneaker đang làm mưa làm gió trên thị trường sneaker hiện đại.', '/public/uploads/1764956977_converse.jpg', 1600000.00, '2025-12-05 17:49:37', '2025-12-05 17:49:37', 'Converse'),
-(5, 'Air Jordan 4 Retro Motorsports', 'Air Jordan 4 Retro Motorsports 2017 được lấy cảm hứng từ một màu sắc cho bạn bè và gia đình của năm 2006 được làm để kỷ niệm sự ra đời của đội đua xe MJ Motorsports vào năm thứ tư.\r\n\r\nSự kết hợp giữa màu đen, xanh vương triều và trắng của đội được bao gồm trong các giày dép Retro Motorsports Air Jordan này. Tuy nhiên, phần mũ Blackmon Mars của mẫu năm 2006 không có trong thiết kế này. Sản phẩm cũng có một phiên bản màu đen.', '/public/uploads/1764957852_jordan.jpg', 17000000.00, '2025-12-05 18:04:12', '2025-12-05 18:04:12', 'Nike'),
-(6, ' Adidas Yeezy Boost 700 Salt', 'Nếu bạn là một fan hâm mộ của Yeezy 500 Salt, thì Yeezy Boost 700 Salt được sản xuất dành riêng cho bạn! Kể từ khi nó có thông tin ra mắt lần đầu tiên vào cuối năm 2018, các sneakerhead ở khắp mọi nơi đã kiên nhẫn chờ đợi sự ra mắt của đôi giày chunky này, và bây giờ có vẻ như chúng ta sẽ sớm đưa chúng vào bộ sưu tập của mình!\r\n\r\nĐược sơn màu trắng nhạt làm nổi bật bộ outfit của bạn, ‘Salt’ được làm từ da và lưới. Nằm trên phần đế giữa vẫn được làm Boost chunky, nó được hoàn thiện bằng một đế ngoài cao su cứng và bền ở bên dưới.\r\n\r\nNgay cả khi nó trở nên sạch sẽ, nếu bạn vẫn đang tìm kiếm một đôi giày thể thao độc đáo để thêm vào bộ sưu tập của mình, thì không đâu xa hơn là Yeezy Boost 700 Salt. Được đồn đại sẽ phát hành vào tháng 2 năm 2019, mẫu giày này không giống bất kỳ mẫu nào khác hiện có trên thị trường và chắc chắn sẽ khiến bạn chú ý.', '/public/uploads/1764958102_yeezy.jpg', 7500000.00, '2025-12-05 18:08:22', '2025-12-05 18:08:22', 'Adidas'),
-(7, 'MLB Chunky Liner Classic Monogram Boston Red Sox Brown', '<p>Họa tiết Monogram cổ điển lu&ocirc;n l&agrave; biểu tượng của thương hiệu MLB, nay đ&atilde; được kh&eacute;o l&eacute;o kết hợp v&agrave;o thiết kế của đ&ocirc;i gi&agrave;y sneakers Chunky Liner Classic Monogram để tạo n&ecirc;n một thiết kế mới mẻ, độc đ&aacute;o. Với phom d&aacute;ng &ocirc;m ch&acirc;n vừa vặn kết hợp c&ugrave;ng gam m&agrave;u trắng thanh lịch v&agrave; điểm nhấn l&agrave; logo monogram ở phần th&acirc;n gi&agrave;y, kh&ocirc;ng c&ograve;n nghi ngờ g&igrave; nữa, đ&acirc;y ch&iacute;nh l&agrave; item ho&agrave;n hảo biến mọi bản phối thời trang của bạn th&ecirc;m phần ph&oacute;ng kho&aacute;ng, s&agrave;nh điệu hơn bao giờ hết.</p>', '/public/uploads/1765197006_ad60f68c.jpg', 3590000.00, '2025-12-08 12:30:06', '2025-12-08 12:30:06', 'MLB'),
-(8, 'Puma Speedcat OG Black Pink', '<p><strong>Gi&agrave;y Puma Speedcat OG &lsquo;Black Pink&rsquo;&nbsp;</strong>l&agrave; một mẫu gi&agrave;y thể thao mang đậm phong c&aacute;ch retro, kết hợp giữa thiết kế thể thao cổ điển v&agrave; c&aacute;c yếu tố hiện đại. Mẫu gi&agrave;y n&agrave;y l&agrave; một trong những sản phẩm trong d&ograve;ng&nbsp;<strong>Speedcat OG</strong> của Puma, được t&aacute;i ph&aacute;t h&agrave;nh với c&aacute;c cải tiến để mang lại sự thoải m&aacute;i v&agrave; phong c&aacute;ch độc đ&aacute;o.</p>', '/public/uploads/1765197256_91d5a747.jpg', 3590000.00, '2025-12-08 12:34:16', '2025-12-08 12:37:06', 'Puma'),
-(9, 'New Balance 530 \'White\'', '<p>Trong những năm gần đ&acirc;y, tr&agrave;o lưu sneaker mang phong c&aacute;ch Y2K (2000s) đang quay trở lại mạnh mẽ, v&agrave; kh&ocirc;ng c&aacute;i t&ecirc;n n&agrave;o thể hiện xu hướng đ&oacute; r&otilde; n&eacute;t hơn&nbsp;<strong data-start=\"384\" data-end=\"403\">New Balance 530</strong>. Trong đ&oacute;, phi&ecirc;n bản&nbsp;<strong data-start=\"425\" data-end=\"460\">New Balance 530 &lsquo;White&rsquo; </strong>đ&atilde; nhanh ch&oacute;ng trở th&agrave;nh đ&ocirc;i gi&agrave;y &ldquo;quốc d&acirc;n&rdquo; nhờ thiết kế tối giản, tinh tế nhưng vẫn đầy t&iacute;nh thời trang.</p>', '/public/uploads/1765197618_d6ff9f59.png', 2489000.00, '2025-12-08 12:36:58', '2025-12-08 12:40:19', 'New Balance');
+INSERT INTO `products` (`id`, `name`, `slug`, `description`, `image_url`, `price`, `created_at`, `updated_at`, `brand`) VALUES
+(1, 'Nike Air Force 1', 'nike-air-force-1', '<p>Nike Air Force 1 Low AllWhite l&agrave; một biểu tượng thời trang kh&ocirc;ng thể chối c&atilde;i, với thiết kế cổ điển, tinh tế c&ugrave;ng gam m&agrave;u trắng thanh lịch, ph&ugrave; hợp với mọi phong c&aacute;ch v&agrave; ho&agrave;n cảnh. Được ra mắt v&agrave;o năm 1982, Air Force 1 l&agrave; đ&ocirc;i gi&agrave;y b&oacute;ng rổ đầu ti&ecirc;n sở hữu c&ocirc;ng nghệ đệm kh&iacute; Air, tạo n&ecirc;n bước ngoặt lịch sử cho Nike. Với phi&ecirc;n bản Air Force 1 Low ra mắt sau đ&oacute;, nhanh ch&oacute;ng trở th&agrave;nh biểu tượng thời trang đường phố được y&ecirc;u th&iacute;ch bởi giới trẻ.</p>', '/public/uploads/1765124066_ce76a10b.jpg', 2929000.00, '2025-11-20 07:30:17', '2025-12-08 15:43:16', 'Nike'),
+(2, 'Adidas Ultraboost 23 Light', 'adidas-ultraboost-23-light', 'Trải nghiệm năng lượng sử thi với Ultraboost Light mới, Ultraboost nhẹ nhất từ trước đến nay của chúng tôi. Điều kỳ diệu nằm ở đế giữa Light BOOST, một thế hệ mới của adidas BOOST. Thiết kế phân tử độc đáo của nó tạo ra bọt BOOST nhẹ nhất cho đến nay và tự hào có lượng khí thải carbon thấp hơn 10% so với các mẫu trước đó (để biết thêm thông tin, hãy xem phần Câu hỏi thường gặp bên dưới).\r\n\r\nĐược thiết kế đặc biệt cho dáng người phụ nữ, Ultraboost Light có phần gót vừa vặn hơn cộng với đường cong mu bàn chân thấp hơn được thiết kế giúp giảm trượt gót và phồng rộp. Với đệm, sự thoải mái và độ phản hồi cao nhất, một số bàn chân thực sự có thể có được tất cả.', '/public/uploads/1764957256_Ultraboost-Light-Core-black.jpg', 2650000.00, '2025-11-20 11:22:42', '2025-12-08 15:43:16', 'Adidas'),
+(3, 'Vans Old Skool Classic Black', 'vans-old-skool-classic-black', 'Được gọi vui một cách thân thuộc là \"giày VANS đen\" vốn là một sự phổ biến rất đặc biệt đối với các tín đồ của nhà VANS. Tới nay đôi giày chỉ với phối màu đen trắng này vẫn nằm trong top \"Best Seller\" của VANS trên toàn thế giới, với kiểu dáng cổ điển cùng \"sọc Jazz\" huyền thoại hợp thời trang khiến đôi VANS này thật sự trở thành mẫu giày classic bất bại, là fan hâm mộ của VANS nói chung và những skaters nói riêng đều nên có một đôi trong tủ giày. Được mệnh danh là phiên bản mang \"càng cũ càng đẹp\" và nhiều phiên bản custom  bậc nhất của nhà VANS.', '/public/uploads/1764956608_vans.png', 1480000.00, '2025-12-05 17:43:28', '2025-12-08 15:43:16', 'Vans'),
+(4, 'Converse Chuck Taylor All Star 1970s Parchment Hi Top', 'converse-chuck-taylor-all-star-1970s-parchment-hi-top', 'Giày Converse Chuck Taylor All Star 1970s Parchment Hi Top  với form dáng của Chuck 70s, phiên bản Hi Top Parchment với màu trắng ngà basic đã mang tới cho người dùng một bản phối hiện đại, trẻ trung mà vẫn đậm màu vintage. Bằng những chất liệu truyền thống, được chăm chút tỉ mẩn trong từng đường nét, item này đã lọt vào top những mẫu sneaker đang làm mưa làm gió trên thị trường sneaker hiện đại.', '/public/uploads/1764956977_converse.jpg', 1600000.00, '2025-12-05 17:49:37', '2025-12-08 15:43:16', 'Converse'),
+(5, 'Air Jordan 4 Retro Motorsports', 'air-jordan-4-retro-motorsports', 'Air Jordan 4 Retro Motorsports 2017 được lấy cảm hứng từ một màu sắc cho bạn bè và gia đình của năm 2006 được làm để kỷ niệm sự ra đời của đội đua xe MJ Motorsports vào năm thứ tư.\r\n\r\nSự kết hợp giữa màu đen, xanh vương triều và trắng của đội được bao gồm trong các giày dép Retro Motorsports Air Jordan này. Tuy nhiên, phần mũ Blackmon Mars của mẫu năm 2006 không có trong thiết kế này. Sản phẩm cũng có một phiên bản màu đen.', '/public/uploads/1764957852_jordan.jpg', 17000000.00, '2025-12-05 18:04:12', '2025-12-08 15:43:16', 'Nike'),
+(6, ' Adidas Yeezy Boost 700 Salt', '-adidas-yeezy-boost-700-salt', 'Nếu bạn là một fan hâm mộ của Yeezy 500 Salt, thì Yeezy Boost 700 Salt được sản xuất dành riêng cho bạn! Kể từ khi nó có thông tin ra mắt lần đầu tiên vào cuối năm 2018, các sneakerhead ở khắp mọi nơi đã kiên nhẫn chờ đợi sự ra mắt của đôi giày chunky này, và bây giờ có vẻ như chúng ta sẽ sớm đưa chúng vào bộ sưu tập của mình!\r\n\r\nĐược sơn màu trắng nhạt làm nổi bật bộ outfit của bạn, ‘Salt’ được làm từ da và lưới. Nằm trên phần đế giữa vẫn được làm Boost chunky, nó được hoàn thiện bằng một đế ngoài cao su cứng và bền ở bên dưới.\r\n\r\nNgay cả khi nó trở nên sạch sẽ, nếu bạn vẫn đang tìm kiếm một đôi giày thể thao độc đáo để thêm vào bộ sưu tập của mình, thì không đâu xa hơn là Yeezy Boost 700 Salt. Được đồn đại sẽ phát hành vào tháng 2 năm 2019, mẫu giày này không giống bất kỳ mẫu nào khác hiện có trên thị trường và chắc chắn sẽ khiến bạn chú ý.', '/public/uploads/1764958102_yeezy.jpg', 7500000.00, '2025-12-05 18:08:22', '2025-12-08 15:43:16', 'Adidas'),
+(7, 'MLB Chunky Liner Classic Monogram Boston Red Sox Brown', 'mlb-chunky-liner-classic-monogram', '<p>Họa tiết Monogram cổ điển lu&ocirc;n l&agrave; biểu tượng của thương hiệu MLB, nay đ&atilde; được kh&eacute;o l&eacute;o kết hợp v&agrave;o thiết kế của đ&ocirc;i gi&agrave;y sneakers Chunky Liner Classic Monogram để tạo n&ecirc;n một thiết kế mới mẻ, độc đ&aacute;o. Với phom d&aacute;ng &ocirc;m ch&acirc;n vừa vặn kết hợp c&ugrave;ng gam m&agrave;u trắng thanh lịch v&agrave; điểm nhấn l&agrave; logo monogram ở phần th&acirc;n gi&agrave;y, kh&ocirc;ng c&ograve;n nghi ngờ g&igrave; nữa, đ&acirc;y ch&iacute;nh l&agrave; item ho&agrave;n hảo biến mọi bản phối thời trang của bạn th&ecirc;m phần ph&oacute;ng kho&aacute;ng, s&agrave;nh điệu hơn bao giờ hết.</p>', '/public/uploads/1765197006_ad60f68c.jpg', 3590000.00, '2025-12-08 12:30:06', '2025-12-08 15:43:16', 'MLB'),
+(8, 'Puma Speedcat OG Black Pink', 'puma-speedcat-og-black-pink', '<p><strong>Gi&agrave;y Puma Speedcat OG &lsquo;Black Pink&rsquo;&nbsp;</strong>l&agrave; một mẫu gi&agrave;y thể thao mang đậm phong c&aacute;ch retro, kết hợp giữa thiết kế thể thao cổ điển v&agrave; c&aacute;c yếu tố hiện đại. Mẫu gi&agrave;y n&agrave;y l&agrave; một trong những sản phẩm trong d&ograve;ng&nbsp;<strong>Speedcat OG</strong> của Puma, được t&aacute;i ph&aacute;t h&agrave;nh với c&aacute;c cải tiến để mang lại sự thoải m&aacute;i v&agrave; phong c&aacute;ch độc đ&aacute;o.</p>', '/public/uploads/1765197256_91d5a747.jpg', 3590000.00, '2025-12-08 12:34:16', '2025-12-08 15:43:16', 'Puma'),
+(9, 'New Balance 530 \'White\'', 'new-balance-530-white', '<p>Trong những năm gần đ&acirc;y, tr&agrave;o lưu sneaker mang phong c&aacute;ch Y2K (2000s) đang quay trở lại mạnh mẽ, v&agrave; kh&ocirc;ng c&aacute;i t&ecirc;n n&agrave;o thể hiện xu hướng đ&oacute; r&otilde; n&eacute;t hơn&nbsp;<strong data-start=\"384\" data-end=\"403\">New Balance 530</strong>. Trong đ&oacute;, phi&ecirc;n bản&nbsp;<strong data-start=\"425\" data-end=\"460\">New Balance 530 &lsquo;White&rsquo; </strong>đ&atilde; nhanh ch&oacute;ng trở th&agrave;nh đ&ocirc;i gi&agrave;y &ldquo;quốc d&acirc;n&rdquo; nhờ thiết kế tối giản, tinh tế nhưng vẫn đầy t&iacute;nh thời trang.</p>', '/public/uploads/1765197618_d6ff9f59.png', 2489000.00, '2025-12-08 12:36:58', '2025-12-08 15:43:16', 'New Balance');
 
 -- --------------------------------------------------------
 
@@ -306,7 +328,11 @@ INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `full_name`, `a
 (2, 'bot', 'bot@gmail.com', '$2y$10$s0tehCOa6Jp6XvlW/R1WMeTFb6T/Rqu.CZn1h7V4MiekjikgxuupC', 'bot1->2', 'default_avatar.png', 'member', 'active', '2025-12-04 16:03:56'),
 (3, 'doadmin', 'doadmin@gmail.com', '$2y$10$zaLWKnJ3MYfvqqAYs3TTheTY3Lg9mK5UC6DevF8BjAkDVu53APYYO', 'Do_admin', 'default_avatar.png', 'admin', 'active', '2025-12-04 16:26:48'),
 (4, 'TanLe24', 'tandepzai24@gmail.com', '$2y$10$Q3zv1Lrc0tSK9eGV2KlNWumtlSRhXDY/g0sA5aI.ozWk4UZaQ46OS', 'TannDz', 'uploads/avatars/avatar_4_1764915262.png', 'admin', 'active', '2025-12-05 06:13:39'),
-(5, 'User123', 'abc@gmail.com', '$2y$10$tp7tx4/RimZvwBWGtig4kumiyhbj69fcI2nm1hvq9BOtS.6iA6gFO', 'User123', 'uploads/avatars/avatar_5_a153b18688c91521.jpg', 'member', 'active', '2025-12-05 07:54:18');
+(5, 'User123', 'abc@gmail.com', '$2y$10$tp7tx4/RimZvwBWGtig4kumiyhbj69fcI2nm1hvq9BOtS.6iA6gFO', 'User123', 'uploads/avatars/avatar_5_a153b18688c91521.jpg', 'member', 'active', '2025-12-05 07:54:18'),
+(6, 'imbot', 'imbot@g', '$2y$10$LLKKZWM5i2jzwN50vAPAAeFjLLfPLaPPQGJWqdaRL.Fs8pIIoaRRm', 'imBot', 'default_avatar.png', 'member', 'active', '2025-12-07 23:34:15'),
+(7, 'hehe', 'heehe@g', '$2y$10$GyStprjJ2kK.uZ6ZRXSNiujuZh4Ask7BnpDBIFn2LHAhZHdD7RjNi', 'hehe', 'default_avatar.png', 'member', 'active', '2025-12-07 23:39:06'),
+(8, 'tm', 'tm@aknfa', '$2y$10$dJhZMTIWlLDyCaeBf1yrqeV9hftzSEovjBN1Gmq.yYdKCC3tt5TVy', 'test mail', 'default_avatar.png', 'member', 'active', '2025-12-07 23:41:28'),
+(9, 'a', 'a@hehe.com', '$2y$10$eoat8mV1uNWqYUQjVCg6ZO0SqJWcudOqelKcN8vCYMeqGZ88Vp1ou', 'a', 'default_avatar.png', 'member', 'active', '2025-12-07 23:48:43');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -373,7 +399,8 @@ ALTER TABLE `password_resets`
 -- Chỉ mục cho bảng `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`);
 
 --
 -- Chỉ mục cho bảng `product_sizes`
@@ -405,13 +432,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `faqs`
@@ -429,19 +456,19 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `newsletter_subscribers`
 --
 ALTER TABLE `newsletter_subscribers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `password_resets`
@@ -471,7 +498,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

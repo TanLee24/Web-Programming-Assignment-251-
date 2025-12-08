@@ -297,33 +297,62 @@ class ProductsController {
     public function updateQuantity() 
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-            $product_id = $_POST["product_id"];
-            $quantity   = (int)$_POST["quantity"];
+            // Lấy key từ ajax gửi lên (VD: 12-42)
+            $key = $_POST["product_id"]; 
+            $quantity = (int)$_POST["quantity"];
 
             if ($quantity < 1) $quantity = 1;
 
-            if (isset($_SESSION["cart"][$product_id])) {
-                $_SESSION["cart"][$product_id] = $quantity;
-            }
+            // 1. Cập nhật số lượng vào Session
+            $realProductId = null;
 
-            $product = $this->productModel->find($product_id);
-
-            $itemTotal = $product->price * $quantity;
-
-            $cartTotal = 0;
-            foreach ($_SESSION["cart"] as $id => $qty) {
-                $p = $this->productModel->find($id);
-                if ($p) $cartTotal += $p->price * $qty;
-            }
-
-            $cartCount = 0;
-            foreach ($_SESSION['cart'] as $ci) {
-                if (is_array($ci) && isset($ci['quantity'])) {
-                    $cartCount += $ci['quantity'];
+            if (isset($_SESSION["cart"][$key])) {
+                if (is_array($_SESSION["cart"][$key])) {
+                    // Cập nhật quantity trong mảng
+                    $_SESSION["cart"][$key]['quantity'] = $quantity;
+                    // Lấy Product ID thực để tí nữa query giá
+                    $realProductId = $_SESSION["cart"][$key]['product_id'];
+                } else {
+                    // Fallback cho dữ liệu cũ
+                    $_SESSION["cart"][$key] = $quantity;
+                    $realProductId = $key; 
                 }
             }
 
+            // 2. Tính tổng tiền cho Item hiện tại ($itemTotal)
+            $itemTotal = 0;
+            if ($realProductId) {
+                $product = $this->productModel->find($realProductId);
+                if ($product) {
+                    $itemTotal = $product->price * $quantity;
+                }
+            }
+
+            // 3. Tính lại Tổng tiền giỏ hàng ($cartTotal) và Tổng số lượng ($cartCount)
+            $cartTotal = 0;
+            $cartCount = 0;
+
+            if (isset($_SESSION["cart"])) {
+                foreach ($_SESSION["cart"] as $sessionKey => $item) {
+                    // Xác định ID và Quantity chuẩn từ item (dù là mảng hay số)
+                    if (is_array($item)) {
+                        $pId = $item['product_id'];
+                        $qty = $item['quantity'];
+                    } else {
+                        $pId = $sessionKey; 
+                        $qty = $item;
+                    }
+
+                    // Query sản phẩm để lấy giá
+                    $p = $this->productModel->find($pId);
+                    if ($p) {
+                        $cartTotal += $p->price * $qty;
+                    }
+                    $cartCount += $qty;
+                }
+            }
+
+            // 4. Trả về JSON cho JS cập nhật giao diện
             echo json_encode([
                 "success" => true,
                 "itemTotal" => $itemTotal,
@@ -333,23 +362,5 @@ class ProductsController {
             exit;
         }
     }
-
-    // public function removeItem()
-    // {
-    //     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    //         $product_id = $_POST["product_id"];
-
-    //         if (isset($_SESSION["cart"][$product_id])) {
-    //             unset($_SESSION["cart"][$product_id]);
-    //         }
-
-    //         echo json_encode([
-    //             "success" => true,
-    //             "cartCount" => array_sum($_SESSION["cart"])
-    //         ]);
-    //         exit;
-    //     }
-    // }
 
 }
