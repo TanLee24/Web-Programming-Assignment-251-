@@ -54,6 +54,3 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'web_asgmt_database');
-
-// Đổi dòng này theo tên thư mục của bạn
-define('URLROOT', 'http://localhost/Web-Programming-Assignment-251');
