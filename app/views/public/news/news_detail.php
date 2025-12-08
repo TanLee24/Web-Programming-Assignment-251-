@@ -3,7 +3,7 @@
         <nav class="flex text-sm text-gray-500 dark:text-gray-400">
             <a href="<?= URLROOT ?>" class="hover:text-yellow-500">Trang chủ</a>
             <span class="mx-2">/</span>
-            <a href="<?= URLROOT ?>/public/index.php?url=news/index" class="hover:text-yellow-500">Tin tức</a>
+            <a href="<?= URLROOT ?>/public/tin-tuc" class="hover:text-yellow-500">Tin tức</a>
             <span class="mx-2">/</span>
             <span class="text-gray-900 dark:text-white font-medium truncate max-w-[200px]"><?= htmlspecialchars($post->title) ?></span>
         </nav>

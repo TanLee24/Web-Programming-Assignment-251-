@@ -26,13 +26,28 @@ class NewsController {
 
     // Trang chi tiết tin tức (Public)
     public function detail() {
+        // 1. Ưu tiên tìm theo Slug (cho SEO)
+        $slug = $_GET['slug'] ?? null;
+        
+        // 2. Dự phòng tìm theo ID (nếu lỡ link cũ còn tồn tại)
         $id = $_GET['id'] ?? null;
-        if (!$id) { header("Location: " . URLROOT . "/public/index.php?url=news/index"); exit; }
 
-        $post = $this->newsModel->find($id);
-        if (!$post) { header("Location: " . URLROOT . "/public/index.php?url=news/index"); exit; }
+        $post = null;
 
-        $comments = $this->commentModel->getCommentsByPostId($id);
+        if ($slug) {
+            $post = $this->newsModel->findBySlug($slug);
+        } elseif ($id) {
+            $post = $this->newsModel->find($id);
+        }
+
+        if (!$post) { 
+            // Chuyển hướng về trang lỗi 404 nếu không thấy bài
+            header("Location: " . URLROOT . "/public/index.php?url=pages/error"); 
+            exit; 
+        }
+
+        // Lấy bình luận 
+        $comments = $this->commentModel->getCommentsByPostId($post->id);
 
         $data = [
             'title' => $post->title,

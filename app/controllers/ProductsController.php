@@ -35,13 +35,33 @@ class ProductsController {
     }
 
     // 2. Trang chi tiết sản phẩm
-    public function detail($id) {
-        $product = $this->productModel->find($id);
-        $sizes = $this->productModel->getSizes($id);
+    public function detail() {
+        // 1. Lấy tham số từ URL
+        $slug = $_GET['slug'] ?? null;
+        $id = $_GET['id'] ?? null; // Link cũ vẫn dùng ID
+
+        $product = null;
+
+        // 2. Tìm sản phẩm
+        if ($slug) {
+            $product = $this->productModel->findBySlug($slug);
+        } elseif ($id) {
+            $product = $this->productModel->find($id);
+            
+            // [REDIRECT SEO] Nếu vào bằng ID -> Chuyển sang Slug
+            if ($product && !empty($product->slug)) {
+                $cleanUrl = URLROOT . '/public/san-pham/' . $product->slug;
+                header("Location: " . $cleanUrl, true, 301);
+                exit;
+            }
+        }
 
         if (!$product) {
-            die('Sản phẩm không tồn tại!');
+            // Xử lý lỗi 404
+            die('Sản phẩm không tồn tại!'); 
         }
+
+        $sizes = $this->productModel->getSizes($product->id); 
 
         $data = [
             'title' => $product->name,

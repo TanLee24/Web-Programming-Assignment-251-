@@ -75,7 +75,7 @@
                 <?php else: ?>
                     <?php foreach ($products as $p): ?>
                         <a class="block border border-gray-200 dark:border-gray-800 rounded-xl p-4 bg-white dark:bg-[#111111] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group" 
-                           href="<?= URLROOT ?>/public/index.php?url=products/detail/<?= $p->id ?>">
+                            href="<?= URLROOT ?>/public/san-pham/<?= $p->slug ?>">
                             
                             <div class="h-64 overflow-hidden rounded-lg mb-4 relative bg-gray-100 flex items-center justify-center">
                                 <img 
