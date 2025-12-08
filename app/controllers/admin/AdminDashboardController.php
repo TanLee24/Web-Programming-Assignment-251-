@@ -6,7 +6,7 @@ class AdminDashboardController {
         $this->checkAdminAccess();
     }
 
-    // HÀM BẢO MẬT 
+    // --- HÀM BẢO MẬT ---
     private function checkAdminAccess() {
         if (!isset($_SESSION['user_id'])) {
             header("Location: " . URLROOT . "/public/index.php?url=auth/login");
@@ -14,7 +14,11 @@ class AdminDashboardController {
         }
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             http_response_code(403);
-            echo "<h1>403 Forbidden</h1><p>Bạn không có quyền truy cập!</p>";
+            if (file_exists(APPROOT . '/views/errors/403.php')) {
+                require_once APPROOT . '/views/errors/403.php';
+            } else {
+                echo "<h1>403 Forbidden</h1><p>Bạn không có quyền truy cập trang này!</p>";
+            }
             exit;
         }
     }

@@ -58,7 +58,8 @@ class AdminUserController {
             
             // Bảo vệ: Không cho phép khóa tài khoản Admin
             if ($user->role === 'admin') {
-                echo "<script>alert('Không thể khóa tài khoản Admin!'); window.location.href='" . URLROOT . "/public/index.php?url=admin/user/index';</script>";
+                echo "<script>alert('Không thể khóa tài khoản Admin!'); 
+                window.location.href='" . URLROOT . "/public/index.php?url=admin/user/index';</script>";
                 exit;
             }
 
