@@ -83,12 +83,17 @@ $logo         = $config_site['logo_path'] ?? '';
                 </div>
                 
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="index.php" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Trang chủ</a>
-                    <a href="index.php?url=pages/about" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Giới thiệu</a>
+                    <a href="<?= URLROOT ?>/public" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Trang chủ</a>
+    
+                    <a href="<?= URLROOT ?>/public/index.php?url=pages/about" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Giới thiệu</a>
+    
                     <a href="<?= URLROOT ?>/public/index.php?url=products/index" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Sản phẩm</a>
+    
                     <a href="<?= URLROOT ?>/public/index.php?url=news/index" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Tin tức</a>
-                    <a href="index.php?url=pages/faq" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Hỏi đáp</a>
-                    <a href="index.php?url=pages/contact" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Liên hệ</a>
+                    
+                    <a href="<?= URLROOT ?>/public/index.php?url=pages/faq" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Hỏi đáp</a>
+                    
+                    <a href="<?= URLROOT ?>/public/index.php?url=pages/contact" class="nav-link font-bold text-sm uppercase tracking-wide text-gray-700 hover:text-yellow-500 dark:text-gray-300 dark:hover:text-yellow-400">Liên hệ</a>
                 </div>
                 
                 <div class="flex items-center gap-4">
@@ -141,14 +146,17 @@ $logo         = $config_site['logo_path'] ?? '';
 
             <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-100 dark:border-gray-800">
                 <div class="flex flex-col space-y-3 pt-4">
-                    <a href="index.php" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Trang chủ</a>
-                    <a href="index.php?url=pages/about" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Giới thiệu</a>
+                    <a href="<?= URLROOT ?>/public" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Trang chủ</a>
+
+                    <a href="<?= URLROOT ?>/public/index.php?url=pages/about" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Giới thiệu</a>
+
                     <a href="<?= URLROOT ?>/public/index.php?url=products/index" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Sản phẩm</a>
-                    
+                                        
                     <a href="<?= URLROOT ?>/public/index.php?url=news/index" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Tin tức</a>
-                    
-                    <a href="index.php?url=pages/faq" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Hỏi đáp</a>
-                    <a href="index.php?url=pages/contact" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Liên hệ</a>
+                                        
+                    <a href="<?= URLROOT ?>/public/index.php?url=pages/faq" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Hỏi đáp</a>
+
+                    <a href="<?= URLROOT ?>/public/index.php?url=pages/contact" class="block py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 font-bold text-sm uppercase text-gray-700 dark:text-gray-300">Liên hệ</a>
 
                     <div class="border-t border-gray-100 dark:border-gray-800 my-2"></div>
 
@@ -206,18 +214,18 @@ $logo         = $config_site['logo_path'] ?? '';
                 <div>
                     <h4 class="font-bold text-white mb-4 uppercase tracking-wider">Sản phẩm</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="index.php?url=products/index&category=sports" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Giày thể thao</a></li>
-                        <li><a href="index.php?url=products/index&category=running" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Giày chạy bộ</a></li>
-                        <li><a href="index.php?url=products/index&category=lifestyle" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Sneaker Lifestyle</a></li>
+                        <li><a href="<?= URLROOT ?>/public/index.php?url=products/index&category=sports" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Giày thể thao</a></li>
+                        <li><a href="<?= URLROOT ?>/public/index.php?url=products/index&category=running" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Giày chạy bộ</a></li>
+                        <li><a href="<?= URLROOT ?>/public/index.php?url=products/index&category=lifestyle" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Sneaker Lifestyle</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="font-bold text-white mb-4 uppercase tracking-wider">Hỗ trợ</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="index.php?url=pages/size_guide" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Hướng dẫn chọn size</a></li>
-                        <li><a href="index.php?url=pages/return_policy" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Chính sách đổi trả</a></li>
-                        <li><a href="index.php?url=pages/warranty" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Chính sách bảo hành</a></li>
+                        <li><a href="<?= URLROOT ?>/public/index.php?url=pages/size_guide" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Hướng dẫn chọn size</a></li>
+                        <li><a href="<?= URLROOT ?>/public/index.php?url=pages/return_policy" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Chính sách đổi trả</a></li>
+                        <li><a href="<?= URLROOT ?>/public/index.php?url=pages/warranty" class="hover:text-yellow-500 hover:translate-x-1 transition-all inline-block">Chính sách bảo hành</a></li>
                     </ul>
                 </div>
                 
