@@ -57,11 +57,11 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
-                    <a href="index.php?url=products" class="group relative px-8 py-4 bg-yellow-500 text-black font-bold rounded-full overflow-hidden">
-                        <span class="relative z-10 group-hover:text-white transition-colors">Mua Ngay &rarr;</span>
+                    <a href="<?= URLROOT ?>/public/san-pham" class="group relative px-8 py-4 bg-yellow-500 text-black font-bold rounded-full overflow-hidden">
+                        <span class="relative z-10 group-hover:text-white transition-colors">Mua Ngay →</span>
                         <div class="absolute inset-0 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
                     </a> 
-                    <a href="index.php?url=pages/contact" class="px-8 py-4 border border-gray-600 text-white rounded-full font-bold hover:bg-white hover:text-black transition-all">
+                    <a href="<?= URLROOT ?>/public/index.php?url=pages/contact" class="px-8 py-4 border border-gray-600 text-white rounded-full font-bold hover:bg-white hover:text-black transition-all">
                         Liên hệ tư vấn
                     </a>
                 </div>
@@ -115,7 +115,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
             Chọn phong cách <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Của bạn</span>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-[500px] md:h-[400px]">
-            <a href="index.php?url=products&category=men" class="group relative overflow-hidden rounded-3xl h-full">
+            <a href="<?= URLROOT ?>/public/index.php?url=products/index&category=men" class="group relative overflow-hidden rounded-3xl h-full">
                 <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
                 <div class="absolute bottom-6 left-6">
@@ -123,7 +123,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                     <span class="inline-block px-4 py-2 bg-white/20 backdrop-blur-md text-white rounded-lg text-sm group-hover:bg-yellow-500 group-hover:text-black transition-colors">Khám phá &rarr;</span>
                 </div>
             </a>
-            <a href="index.php?url=products&category=women" class="group relative overflow-hidden rounded-3xl h-full">
+            <a href="<?= URLROOT ?>/public/index.php?url=products/index&category=women" class="group relative overflow-hidden rounded-3xl h-full">
                 <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
                 <div class="absolute bottom-6 left-6">
@@ -131,7 +131,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                     <span class="inline-block px-4 py-2 bg-white/20 backdrop-blur-md text-white rounded-lg text-sm group-hover:bg-yellow-500 group-hover:text-black transition-colors">Khám phá &rarr;</span>
                 </div>
             </a>
-            <a href="index.php?url=products&category=sale" class="group relative overflow-hidden rounded-3xl h-full">
+            <a href="<?= URLROOT ?>/public/index.php?url=products/index&category=sale" class="group relative overflow-hidden rounded-3xl h-full">
                 <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                     onerror="this.onerror=null; this.src='https://dummyimage.com/600x800/cc0000/fff&text=HOT+SALE';"
                     alt="Hot Sale" 
@@ -201,7 +201,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                 <?php foreach ($latestNews as $news): ?>
                     <article class="bg-white dark:bg-[#151515] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-800 flex flex-col group h-full">
                         <div class="h-56 overflow-hidden relative">
-                            <a href="index.php?url=news/detail&id=<?= $news->id ?>">
+                            <a href="<?= URLROOT ?>/public/tin-tuc/<?= $news->slug ?>">
                                 <?php if (!empty($news->featured_image_url)): ?>
                                     <?php 
                                         // Kiểm tra: Nếu link ảnh bắt đầu bằng "http" (link ngoài) thì giữ nguyên
@@ -228,7 +228,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                             </div>
 
                             <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-yellow-500 transition-colors line-clamp-2 mt-2">
-                                <a href="index.php?url=news/detail&id=<?= $news->id ?>">
+                                <a href="<?= URLROOT ?>/tin-tuc/<?= $news->slug ?>">
                                     <?= htmlspecialchars($news->title) ?>
                                 </a>
                             </h3>
@@ -237,7 +237,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                                 <?= !empty($news->seo_description) ? htmlspecialchars($news->seo_description) : strip_tags(substr($news->content, 0, 150)) . '...' ?>
                             </p>
                             
-                            <a href="index.php?url=news/detail&id=<?= $news->id ?>" class="inline-flex items-center text-yellow-600 font-bold text-sm uppercase tracking-wide hover:gap-2 transition-all">
+                            <a href="<?= URLROOT ?>/tin-tuc/<?= $news->slug ?>" class="inline-flex items-center text-yellow-600 font-bold text-sm uppercase tracking-wide hover:gap-2 transition-all">
                                 Đọc chi tiết <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </a>
                         </div>

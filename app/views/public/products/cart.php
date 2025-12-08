@@ -6,7 +6,7 @@
     <?php if (empty($cartItems)): ?>
         <div class="text-center py-12 bg-white dark:bg-[#1a1a1a] rounded-lg shadow">
             <p class="text-xl text-gray-500 mb-4">Giỏ hàng đang trống.</p>
-            <a href="<?= URLROOT ?>/public/index.php?url=products" class="text-yellow-500 font-bold hover:underline">
+            <a href="<?= URLROOT ?>/public/san-pham" class="text-yellow-500 font-bold hover:underline">
                 Mua sắm ngay →
             </a>
         </div>
@@ -33,7 +33,9 @@
                         <img src="<?= URLROOT . $item->image_url ?>" class="w-20 h-20 object-cover rounded border dark:border-gray-700">
                         <div>
                             <h3 class="font-bold text-lg text-gray-900 dark:text-white">
-                                <?= $item->name ?> 
+                                <a href="<?= URLROOT ?>/public/san-pham/<?= $item->slug ?>" class="hover:text-yellow-500 transition-colors">
+                                    <?= $item->name ?>
+                                </a>
                                 <span class="text-sm text-gray-500">(Size: <?= $item->size ?>)</span>
                             </h3>
 

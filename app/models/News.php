@@ -116,4 +116,10 @@ class News {
             return false;
         }
     }
+
+    public function findBySlug($slug) {
+        $this->db->query("SELECT * FROM news WHERE slug = :slug");
+        $this->db->bind(':slug', $slug);
+        return $this->db->single();
+    }
 }

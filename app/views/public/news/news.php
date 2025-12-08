@@ -30,7 +30,7 @@
             <div class="grid md:grid-cols-3 gap-8">
                 <?php foreach ($newsList as $news): ?>
                     <article class="flex flex-col bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                        <a href="<?= URLROOT ?>/public/index.php?url=news/detail&id=<?= $news->id ?>&slug=<?= $news->slug ?>" class="h-56 overflow-hidden relative group">
+                        <a href="<?= URLROOT ?>/public/tin-tuc/<?= $news->slug ?>" class="h-56 overflow-hidden relative group">
                             <?php if (!empty($news->featured_image_url)): ?>
                                 <img src="<?= URLROOT . $news->featured_image_url ?>" alt="<?= htmlspecialchars($news->title) ?>" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                             <?php else: ?>
@@ -47,7 +47,7 @@
                             </div>
                             
                             <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white leading-tight">
-                                <a href="<?= URLROOT ?>/public/index.php?url=news/detail&id=<?= $news->id ?>&slug=<?= $news->slug ?>" class="hover:text-yellow-500 transition-colors">
+                                <a href="<?= URLROOT ?>/public/tin-tuc/<?= $news->slug ?>" class="hover:text-yellow-500 transition-colors">
                                     <?= htmlspecialchars($news->title) ?>
                                 </a>
                             </h3>
@@ -56,7 +56,7 @@
                                 <?= !empty($news->seo_description) ? htmlspecialchars($news->seo_description) : strip_tags(substr($news->content, 0, 150)) . '...' ?>
                             </p>
                             
-                            <a href="<?= URLROOT ?>/public/index.php?url=news/detail&id=<?= $news->id ?>&slug=<?= $news->slug ?>" class="inline-flex items-center text-yellow-600 dark:text-yellow-500 font-bold text-sm uppercase tracking-wide hover:translate-x-2 transition-transform">
+                            <a href="<?= URLROOT ?>/public/tin-tuc/<?= $news->slug ?>" class="inline-flex items-center text-yellow-600 dark:text-yellow-500 font-bold text-sm uppercase tracking-wide hover:translate-x-2 transition-transform">
                                 Đọc tiếp <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </a>
                         </div>
