@@ -228,7 +228,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                             </div>
 
                             <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-yellow-500 transition-colors line-clamp-2 mt-2">
-                                <a href="<?= URLROOT ?>/tin-tuc/<?= $news->slug ?>">
+                                <a href="<?= URLROOT ?>/public/tin-tuc/<?= $news->slug ?>">
                                     <?= htmlspecialchars($news->title) ?>
                                 </a>
                             </h3>
@@ -237,7 +237,7 @@ $intro_text   = $config_site['intro_text'] ?? 'Chất lượng đỉnh cao - Pho
                                 <?= !empty($news->seo_description) ? htmlspecialchars($news->seo_description) : strip_tags(substr($news->content, 0, 150)) . '...' ?>
                             </p>
                             
-                            <a href="<?= URLROOT ?>/tin-tuc/<?= $news->slug ?>" class="inline-flex items-center text-yellow-600 font-bold text-sm uppercase tracking-wide hover:gap-2 transition-all">
+                            <a href="<?= URLROOT ?>/public/tin-tuc/<?= $news->slug ?>" class="inline-flex items-center text-yellow-600 font-bold text-sm uppercase tracking-wide hover:gap-2 transition-all">
                                 Đọc chi tiết <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </a>
                         </div>

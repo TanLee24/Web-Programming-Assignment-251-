@@ -15,24 +15,41 @@ class ProductsController {
     }
 
     // 1. Trang danh sách sản phẩm (có tìm kiếm và lọc theo hãng)
-    public function index() {
-        $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : null;
-        $brandFilter = isset($_GET['brand']) ? $_GET['brand'] : null;
+    public function index()
+    {
+        // Lấy filter
+        $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : null;
+        $brand   = isset($_GET['brand']) ? trim($_GET['brand']) : null;
 
-        // Gọi hàm all() mới với tham số $brandFilter
-        $products = $this->productModel->all($keyword, $brandFilter); 
-        
-        // Lấy danh sách hãng để hiển thị Sidebar
-        $brands = $this->productModel->getUniqueBrands(); 
-        
+        // Phân trang
+        $limit = 6; // 6 sản phẩm mỗi trang
+        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        if ($page < 1) $page = 1;
+
+        $offset = ($page - 1) * $limit;
+
+        // Tổng sản phẩm
+        $totalProducts = $this->productModel->countAll($keyword, $brand);
+        $totalPages = ceil($totalProducts / $limit);
+
+        // Lấy sản phẩm phân trang
+        $products = $this->productModel->getPaginated($limit, $offset, $keyword, $brand);
+
+        // Lấy brand list
+        $brands = $this->productModel->getAllBrands();
+
         $data = [
-            'title' => 'Sản phẩm - Do & Tan Sneakers',
-            'products' => $products,
-            'brands' => $brands,         // Truyền danh sách hãng ra View
-            'currentBrand' => $brandFilter // Truyền hãng đang được lọc ra View
+            'products'     => $products,
+            'brands'       => $brands,
+            'currentBrand' => $brand,
+            'keyword'      => $keyword,
+            'currentPage'  => $page,
+            'totalPages'   => $totalPages
         ];
-        $this->loadView('public/products/index', $data);
+
+        $this->loadview("public/products/index", $data);
     }
+
 
     // 2. Trang chi tiết sản phẩm
     public function detail() {

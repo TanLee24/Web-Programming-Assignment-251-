@@ -1,28 +1,29 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-
-    # Thay đổi đường dẫn bên dưới đúng với thư mục dự án của bạn trên localhost
-    RewriteBase /Web-Programming-Assignment-251-/public/
     
-    # 1. Chặn truy cập trực tiếp file thật
+    # --- QUAN TRỌNG: Đã xóa dòng RewriteBase cứng ---
+    # Việc xóa RewriteBase giúp code chạy đúng ở bất kỳ tên thư mục nào
+    # (Ví dụ: /BTL_Web/public/, /DoAn/public/, hay /Shop/public/ đều được)
+    # ------------------------------------------------
+
+    # 1. Chặn truy cập trực tiếp nếu file/thư mục thật sự tồn tại
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     
-    # 2. Rule cho TIN TỨC (Khớp với link đã sửa ở home.php)
+    # 2. Rule cho TIN TỨC
     RewriteRule ^tin-tuc/([a-zA-Z0-9-]+)$ index.php?url=news/detail&slug=$1 [QSA,L]
 
     # 3. Rule cho SẢN PHẨM
-    # Trang DANH SÁCH SẢN PHẨM (Link: domain/san-pham)
+    # Trang DANH SÁCH
     RewriteRule ^san-pham/?$ index.php?url=products/index [QSA,L]
 
-    # Trang CHI TIẾT SẢN PHẨM (Link: domain/san-pham/ten-san-pham)
-    # Dùng (.*) để chấp nhận cả tiếng Việt và ký tự đặc biệt
+    # Trang CHI TIẾT
     RewriteRule ^san-pham/(.*)$ index.php?url=products/detail&slug=$1 [QSA,L]
 
     # 4. Rule cho DANH MỤC
     RewriteRule ^danh-muc/([a-zA-Z0-9-]+)$ index.php?url=products/category&slug=$1 [QSA,L]
 
-    # 5. Mặc định
+    # 5. Mặc định: Chuyển tất cả các request còn lại về index.php
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
