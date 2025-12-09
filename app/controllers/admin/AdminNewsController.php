@@ -42,11 +42,26 @@ class AdminNewsController {
     // 1. Danh sách tin tức
     public function list() {
         $keyword = $_GET['search'] ?? null;
-        $newsList = $this->newsModel->all($keyword);
+        
+        // CẤU HÌNH PHÂN TRANG 
+        $limit = 5; 
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+
+        // 1. Tính tổng số bài viết (theo từ khóa nếu có)
+        $totalRecords = $this->newsModel->countAll($keyword);
+        $totalPages = ceil($totalRecords / $limit);
+
+        // 2. Lấy danh sách bài viết theo trang
+        $newsList = $this->newsModel->getPaginated($limit, $offset, $keyword);
+
         $title = "Quản lý Tin tức";
 
         // Load View Admin
         ob_start();
+        // Truyền thêm các biến phân trang sang View
         require APPROOT . "/views/admin/news/list.php"; 
         $content = ob_get_clean();
 

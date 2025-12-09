@@ -26,11 +26,25 @@ class AdminCommentController {
     }
 
     public function index() {
-        $comments = $this->commentModel->all();
+        // CẤU HÌNH PHÂN TRANG 
+        $limit = 5; // Số bình luận trên mỗi trang
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+
+        // Lấy tổng số dòng để tính tổng số trang
+        $totalRecords = $this->commentModel->countAll();
+        $totalPages = ceil($totalRecords / $limit);
+
+        // Lấy dữ liệu theo trang 
+        $comments = $this->commentModel->getCommentsPaginated($limit, $offset);
+
         $title = "Quản lý Bình luận";
 
         ob_start();
-        require APPROOT . "/views/admin/comments/list.php";
+        // Truyền thêm $page và $totalPages sang View
+        require APPROOT . "/views/admin/comments/list.php"; 
         $content = ob_get_clean();
 
         require APPROOT . "/views/admin/layouts/admin_layout.php";

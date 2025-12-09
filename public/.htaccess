@@ -1,10 +1,5 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # --- QUAN TRỌNG: Đã xóa dòng RewriteBase cứng ---
-    # Việc xóa RewriteBase giúp code chạy đúng ở bất kỳ tên thư mục nào
-    # (Ví dụ: /BTL_Web/public/, /DoAn/public/, hay /Shop/public/ đều được)
-    # ------------------------------------------------
 
     # 1. Chặn truy cập trực tiếp nếu file/thư mục thật sự tồn tại
     RewriteCond %{REQUEST_FILENAME} !-d

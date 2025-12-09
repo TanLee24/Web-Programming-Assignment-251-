@@ -44,8 +44,27 @@ class AdminOrderController {
 
     public function list() 
     {
-        $orders = $this->order->all();
-        $this->loadView("admin/orders/list", ["orders" => $orders, "title" => "Quản lý đơn hàng"]);
+        // CẤU HÌNH PHÂN TRANG
+        $limit = 5;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+
+        // 1. Lấy tổng số đơn hàng
+        $totalRecords = $this->order->countAll();
+        $totalPages = ceil($totalRecords / $limit);
+
+        // 2. Lấy dữ liệu phân trang 
+        $orders = $this->order->getPaginated($limit, $offset);
+        // ---------------------------
+
+        $this->loadView("admin/orders/list", [
+            "orders" => $orders, 
+            "title" => "Quản lý đơn hàng",
+            "page" => $page,            // Truyền sang view
+            "totalPages" => $totalPages // Truyền sang view
+        ]);
     }
 
     public function detail($id) 

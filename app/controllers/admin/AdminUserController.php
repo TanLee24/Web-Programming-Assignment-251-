@@ -41,10 +41,26 @@ class AdminUserController {
 
     // 1. Danh sách thành viên
     public function index() {
-        $users = $this->userModel->all();
+        // CẤU HÌNH PHÂN TRANG 
+        $limit = 5; 
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+
+        // 1. Lấy tổng số user
+        $totalRecords = $this->userModel->countAll();
+        $totalPages = ceil($totalRecords / $limit);
+
+        // 2. Lấy dữ liệu phân trang
+        $users = $this->userModel->getPaginated($limit, $offset);
+        // ---------------------------
+
         $data = [
             'users' => $users,
-            'title' => 'Quản lý thành viên'
+            'title' => 'Quản lý thành viên',
+            'page' => $page,            // Truyền sang view
+            'totalPages' => $totalPages // Truyền sang view
         ];
         $this->loadView('admin/users/list', $data);
     }

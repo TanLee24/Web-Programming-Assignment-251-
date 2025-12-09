@@ -39,11 +39,27 @@ class AdminFaqController {
         }
     }
 
+    // 1. Danh sách FAQ 
     public function list() {
-        $faqs = $this->faq->all();
+        // CẤU HÌNH PHÂN TRANG 
+        $limit = 5; 
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+
+        // 1. Lấy tổng số câu hỏi
+        $totalRecords = $this->faq->countAll();
+        $totalPages = ceil($totalRecords / $limit);
+
+        // 2. Lấy dữ liệu phân trang 
+        $faqs = $this->faq->getPaginated($limit, $offset);
+
         $title = "Quản lý FAQ";
         
+        // Load View
         ob_start();
+        // Truyền thêm biến $page và $totalPages sang View
         require_once APPROOT . "/views/admin/faq/list.php";
         $content = ob_get_clean();
 

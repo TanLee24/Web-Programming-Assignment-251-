@@ -142,4 +142,23 @@ class User {
 
         return $this->db->execute();
     }
+
+    // Phân trang cho danh sách thành viên
+    // 1. Đếm tổng số thành viên
+    public function countAll() {
+        $this->db->query("SELECT COUNT(*) as total FROM users");
+        $row = $this->db->single();
+        return $row->total;
+    }
+
+    // 2. Lấy danh sách thành viên có phân trang
+    public function getPaginated($limit, $offset) {
+        $this->db->query("SELECT * FROM users ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
+        
+        // Bind tham số (ép kiểu int để tránh lỗi SQL)
+        $this->db->bind(':limit', (int)$limit);
+        $this->db->bind(':offset', (int)$offset);
+        
+        return $this->db->resultSet();
+    }
 }

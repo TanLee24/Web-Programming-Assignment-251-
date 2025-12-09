@@ -49,4 +49,23 @@ class Faq
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+
+    // Phân trang cho trang quản trị FAQ
+    // 1. Đếm tổng số câu hỏi
+    public function countAll() {
+        $this->db->query("SELECT COUNT(*) as total FROM faqs");
+        $row = $this->db->single();
+        return $row->total;
+    }
+
+    // 2. Lấy danh sách câu hỏi có phân trang
+    public function getPaginated($limit, $offset) {
+        $this->db->query("SELECT * FROM faqs ORDER BY id DESC LIMIT :limit OFFSET :offset");
+        
+        // Quan trọng: Ép kiểu int để tránh lỗi SQL
+        $this->db->bind(':limit', (int)$limit);
+        $this->db->bind(':offset', (int)$offset);
+        
+        return $this->db->resultSet();
+    }
 }

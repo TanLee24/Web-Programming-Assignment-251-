@@ -59,4 +59,31 @@ class Order {
         $this->db->bind(":id", $id);
         return $this->db->execute();
     }
+
+    // Phân trang cho danh sách đơn hàng
+    // 1. Đếm tổng số đơn hàng
+    public function countAll() {
+        $this->db->query("SELECT COUNT(*) as total FROM orders");
+        $row = $this->db->single();
+        return $row->total;
+    }
+
+    // 2. Lấy danh sách đơn hàng có phân trang
+    public function getPaginated($limit, $offset) {
+        $sql = "
+            SELECT orders.*, users.username 
+            FROM orders
+            LEFT JOIN users ON orders.user_id = users.id
+            ORDER BY id DESC
+            LIMIT :limit OFFSET :offset
+        ";
+        
+        $this->db->query($sql);
+        
+        // Quan trọng: Ép kiểu int để tránh lỗi SQL
+        $this->db->bind(':limit', (int)$limit);
+        $this->db->bind(':offset', (int)$offset);
+        
+        return $this->db->resultSet();
+    }
 }

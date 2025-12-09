@@ -39,6 +39,40 @@ class Comment {
     }
 
     // PHẦN 2: DÀNH CHO ADMIN (Lấy hết để quản lý)
+    // 1. Hàm đếm tổng số lượng bình luận (để tính số trang)
+    public function countAll() {
+        $this->db->query("SELECT COUNT(*) as total FROM comments");
+        $row = $this->db->single();
+        return $row->total;
+    }
+
+    // 2. Hàm lấy danh sách có phân trang 
+    public function getCommentsPaginated($limit, $offset) {
+        // Copy y nguyên câu lệnh SQL join phức tạp từ hàm all() cũ
+        // Chỉ thêm LIMIT và OFFSET vào cuối
+        $sql = "SELECT 
+                    c.*, 
+                    u.full_name, 
+                    u.email,
+                    CASE 
+                        WHEN c.commentable_type = 'news' THEN n.title 
+                        WHEN c.commentable_type = 'product' THEN p.name 
+                        ELSE 'Không xác định'
+                    END as item_name
+                FROM comments c
+                LEFT JOIN users u ON c.user_id = u.id
+                LEFT JOIN news n ON (c.commentable_id = n.id AND c.commentable_type = 'news')
+                LEFT JOIN products p ON (c.commentable_id = p.id AND c.commentable_type = 'product')
+                ORDER BY c.created_at DESC
+                LIMIT :limit OFFSET :offset";
+
+        $this->db->query($sql);
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+        
+        return $this->db->resultSet();
+    }
+
     public function all() {
         // Admin cần thấy cả ẩn và hiện nên KHÔNG có điều kiện status = 1 ở đây
         $sql = "SELECT 

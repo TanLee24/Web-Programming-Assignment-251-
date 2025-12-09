@@ -41,11 +41,28 @@ class AdminProductController {
 
     // 1. DANH SÁCH SẢN PHẨM 
     public function list() {
+        // Lấy từ khóa tìm kiếm
         $keyword = $_GET['search'] ?? null;
-        $products = $this->product->all($keyword);
+
+        // CẤU HÌNH PHÂN TRANG
+        $limit = 5; 
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+
+        // 1. Đếm tổng số sản phẩm (để tính số trang)
+        $totalRecords = $this->product->countAll($keyword, null);
+        
+        $totalPages = ceil($totalRecords / $limit);
+
+        // 2. Lấy dữ liệu phân trang
+        $products = $this->product->getPaginated($limit, $offset, $keyword, null);
+        
         $title = "Quản lý sản phẩm";
 
         ob_start();
+        // Truyền thêm biến $page, $totalPages, $keyword sang View
         require APPROOT . "/views/admin/products/list.php";
         $content = ob_get_clean();
 

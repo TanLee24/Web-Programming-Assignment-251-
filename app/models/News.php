@@ -122,4 +122,46 @@ class News {
         $this->db->bind(':slug', $slug);
         return $this->db->single();
     }
+
+    // Phân trang cho danh sách tin tức
+    // 1. Đếm tổng số bài viết (Có hỗ trợ tìm kiếm)
+    public function countAll($keyword = null) {
+        $sql = "SELECT COUNT(*) as total FROM news";
+        
+        if ($keyword) {
+            $sql .= " WHERE title LIKE :keyword OR content LIKE :keyword";
+        }
+        
+        $this->db->query($sql);
+        
+        if ($keyword) {
+            $this->db->bind(':keyword', "%$keyword%");
+        }
+        
+        $row = $this->db->single();
+        return $row->total;
+    }
+
+    // 2. Lấy danh sách tin tức phân trang (Có hỗ trợ tìm kiếm)
+    public function getPaginated($limit, $offset, $keyword = null) {
+        $sql = "SELECT * FROM news";
+        
+        if ($keyword) {
+            $sql .= " WHERE title LIKE :keyword OR content LIKE :keyword";
+        }
+        
+        $sql .= " ORDER BY created_at DESC LIMIT :limit OFFSET :offset";
+        
+        $this->db->query($sql);
+        
+        if ($keyword) {
+            $this->db->bind(':keyword', "%$keyword%");
+        }
+        
+        // Bind tham số LIMIT và OFFSET (ép kiểu int)
+        $this->db->bind(':limit', (int)$limit);
+        $this->db->bind(':offset', (int)$offset);
+        
+        return $this->db->resultSet();
+    }
 }

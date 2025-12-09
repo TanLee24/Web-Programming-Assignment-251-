@@ -28,12 +28,29 @@ class AdminContactController {
 
     // 1. DANH SÁCH LIÊN HỆ
     public function list() {
-        // Lấy tất cả liên hệ
-        $contacts = $this->contactModel->all(); 
+        // CẤU HÌNH PHÂN TRANG 
+        $limit = 5;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        
+        $offset = ($page - 1) * $limit;
+
+        // 1. Lấy tổng số liên hệ
+        $totalRecords = $this->contactModel->countAll();
+        $totalPages = ceil($totalRecords / $limit);
+
+        // 2. Lấy dữ liệu phân trang 
+        $contacts = $this->contactModel->getPaginated($limit, $offset);
+
         $title = "Hộp thư liên hệ";
 
         // Load View
-        $data = ['contacts' => $contacts, 'title' => $title];
+        $data = [
+            'contacts' => $contacts, 
+            'title' => $title,
+            'page' => $page,            // Truyền trang hiện tại sang View
+            'totalPages' => $totalPages // Truyền tổng số trang sang View
+        ];
         $this->loadView('admin/contacts/list', $data);
     }
 

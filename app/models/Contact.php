@@ -33,4 +33,24 @@ class Contact {
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
+
+    // Phân trang cho trang quản trị liên hệ
+    // 1. Đếm tổng số liên hệ
+    public function countAll() {
+        $this->db->query("SELECT COUNT(*) as total FROM contacts");
+        $row = $this->db->single();
+        return $row->total;
+    }
+
+    // 2. Lấy danh sách liên hệ có phân trang
+    public function getPaginated($limit, $offset) {
+        // Thay vì lấy tất cả, ta thêm LIMIT và OFFSET
+        $this->db->query("SELECT * FROM contacts ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
+        
+        // Quan trọng: Ép kiểu int để tránh lỗi SQL
+        $this->db->bind(':limit', (int)$limit);
+        $this->db->bind(':offset', (int)$offset);
+        
+        return $this->db->resultSet();
+    }
 }
