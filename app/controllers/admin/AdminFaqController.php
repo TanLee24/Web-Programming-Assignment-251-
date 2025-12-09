@@ -88,8 +88,9 @@ class AdminFaqController {
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $question = htmlspecialchars(trim($_POST['question']));
-            $answer = htmlspecialchars(trim($_POST['answer']));
-            
+            $answer   = $_POST['answer'];          
+            $question = trim($_POST['question']);  
+
             $this->faq->update($id, $question, $answer);
             header("Location: " . URLROOT . "/public/index.php?url=admin/faq/list");
             exit;
