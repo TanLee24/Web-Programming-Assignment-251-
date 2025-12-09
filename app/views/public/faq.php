@@ -26,7 +26,7 @@
                     
                     <div id="faq-ans-<?= $index ?>" class="hidden px-6 pb-6 pt-0 border-t border-gray-100 dark:border-gray-800 mt-2 bg-gray-50 dark:bg-black/20">
                         <div class="pt-4 prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-gray-400">
-                            <?= $faq->answer ?>
+                            <?= html_entity_decode($faq->answer, ENT_QUOTES | ENT_HTML5, 'UTF-8') ?>
                         </div>
                     </div>
                 </div>

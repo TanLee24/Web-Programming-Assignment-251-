@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th12 08, 2025 lúc 07:54 PM
+-- Thời gian đã tạo: Th12 09, 2025 lúc 08:02 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -78,7 +78,8 @@ INSERT INTO `contacts` (`id`, `name`, `email`, `message`, `status`, `submitted_a
 (3, 'Do Do', 'do@gmail.com', 'cần hỗ trợ size vans', 'replied', '2025-12-06 08:31:55', '2025-12-06 08:31:55'),
 (4, 'Nguyễn Văn Á', 'as@gmail.com', 'hỗ trợ đổi size', 'unread', '2025-12-06 04:57:37', '2025-12-06 04:57:37'),
 (5, 'Cao Lỗ', 'caolo@gmail.com', 'cần hình ảnh màu sắc giày thực tế', 'read', '2025-12-06 04:59:13', '2025-12-06 04:59:13'),
-(6, 'Khoa Đỗ', 'khoa53640@gmail.com', 'hép hép', 'unread', '2025-12-07 00:34:38', '2025-12-07 00:34:38');
+(6, 'Khoa Đỗ', 'khoa53640@gmail.com', 'hép hép', 'unread', '2025-12-07 00:34:38', '2025-12-07 00:34:38'),
+(7, 'a', 'a@gmail.com', 'a', 'unread', '2025-12-09 04:25:09', '2025-12-09 04:25:09');
 
 -- --------------------------------------------------------
 
@@ -99,9 +100,9 @@ CREATE TABLE `faqs` (
 --
 
 INSERT INTO `faqs` (`id`, `question`, `answer`, `created_at`, `updated_at`) VALUES
-(1, 'Giày bên shop có chính hãng không', '<p>C&aacute;c sản phẩm sneakers của shop đảm bảo <em><strong>100% authentic</strong></em>, nếu kh&aacute;ch ph&aacute;t hiện l&agrave; h&agrave;ng fake sẽ được đền gấp đ&ocirc;i gi&aacute; trị đ&ocirc;i gi&agrave;y.</p>', '2025-11-20 11:27:27', '2025-12-07 15:06:25'),
-(2, 'Trong nội thành thành phố Hồ Chí Minh thì mất bao lâu để giao hàng?', '<p>Trong nội th&agrave;nh th&agrave;nh phố Hồ Ch&iacute; Minh th&igrave; thời gian giao h&agrave;ng tối đa l&agrave; <strong>3 ng&agrave;y</strong> bạn nh&eacute;.</p>', '2025-12-05 06:25:17', '2025-12-07 15:06:17'),
-(3, 'Bên shop có free ship nội thành không ạ?', '<p>B&ecirc;n shop sẽ free ship cho bạn với đơn h&agrave;ng trị gi&aacute; <strong>tr&ecirc;n 1 triệu VNĐ</strong> bất kể ở đ&acirc;u nh&eacute;!</p>', '2025-12-07 15:01:53', '2025-12-07 15:05:38');
+(1, 'Giày bên shop có chính hãng không', '&lt;p&gt;C&amp;aacute;c sản phẩm sneakers của shop đảm bảo &lt;em&gt;&lt;strong&gt;100% authentic&lt;/strong&gt;&lt;/em&gt;, nếu kh&amp;aacute;ch ph&amp;aacute;t hiện l&amp;agrave; h&amp;agrave;ng fake sẽ được đền gấp đ&amp;ocirc;i gi&amp;aacute; trị đ&amp;ocirc;i gi&amp;agrave;y.&lt;/p&gt;', '2025-11-20 11:27:27', '2025-12-09 06:40:37'),
+(2, 'Trong nội thành thành phố Hồ Chí Minh thì mất bao lâu để giao hàng?', '&lt;p&gt;Trong nội th&amp;agrave;nh th&amp;agrave;nh phố Hồ Ch&amp;iacute; Minh th&amp;igrave; thời gian giao h&amp;agrave;ng tối đa l&amp;agrave; &lt;strong&gt;3 ng&amp;agrave;y&lt;/strong&gt; bạn nh&amp;eacute;.&lt;/p&gt;', '2025-12-05 06:25:17', '2025-12-09 06:56:28'),
+(3, 'Bên shop có free ship nội thành không ạ?', '<p>B&ecirc;n shop sẽ free ship cho bạn với đơn h&agrave;ng trị gi&aacute; <strong>tr&ecirc;n 1 triệu VNĐ</strong> bất kể ở đ&acirc;u nh&eacute;!</p>', '2025-12-07 15:01:53', '2025-12-09 07:00:14');
 
 -- --------------------------------------------------------
 
@@ -252,7 +253,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `slug`, `description`, `image_url`, `price`, `created_at`, `updated_at`, `brand`) VALUES
-(1, 'Nike Air Force 1', 'nike-air-force-1', '<p>Nike Air Force 1 Low AllWhite l&agrave; một biểu tượng thời trang kh&ocirc;ng thể chối c&atilde;i, với thiết kế cổ điển, tinh tế c&ugrave;ng gam m&agrave;u trắng thanh lịch, ph&ugrave; hợp với mọi phong c&aacute;ch v&agrave; ho&agrave;n cảnh. Được ra mắt v&agrave;o năm 1982, Air Force 1 l&agrave; đ&ocirc;i gi&agrave;y b&oacute;ng rổ đầu ti&ecirc;n sở hữu c&ocirc;ng nghệ đệm kh&iacute; Air, tạo n&ecirc;n bước ngoặt lịch sử cho Nike. Với phi&ecirc;n bản Air Force 1 Low ra mắt sau đ&oacute;, nhanh ch&oacute;ng trở th&agrave;nh biểu tượng thời trang đường phố được y&ecirc;u th&iacute;ch bởi giới trẻ.</p>', '/public/uploads/1765124066_ce76a10b.jpg', 2929000.00, '2025-11-20 07:30:17', '2025-12-08 15:43:16', 'Nike'),
+(1, 'Nike Air Force 222222', 'nike-air-force-222222', '<p>Nike Air Force 1 Low AllWhite l&agrave; một biểu tượng thời trang kh&ocirc;ng thể chối c&atilde;i, với thiết kế cổ điển, tinh tế c&ugrave;ng gam m&agrave;u trắng thanh lịch, ph&ugrave; hợp với mọi phong c&aacute;ch v&agrave; ho&agrave;n cảnh. Được ra mắt v&agrave;o năm 1982, Air Force 1 l&agrave; đ&ocirc;i gi&agrave;y b&oacute;ng rổ đầu ti&ecirc;n sở hữu c&ocirc;ng nghệ đệm kh&iacute; Air, tạo n&ecirc;n bước ngoặt lịch sử cho Nike. Với phi&ecirc;n bản Air Force 1 Low ra mắt sau đ&oacute;, nhanh ch&oacute;ng trở th&agrave;nh biểu tượng thời trang đường phố được y&ecirc;u th&iacute;ch bởi giới trẻ.</p>', '/public/uploads/1765124066_ce76a10b.jpg', 2929000.00, '2025-11-20 07:30:17', '2025-12-09 04:28:34', 'Nike'),
 (2, 'Adidas Ultraboost 23 Light', 'adidas-ultraboost-23-light', 'Trải nghiệm năng lượng sử thi với Ultraboost Light mới, Ultraboost nhẹ nhất từ trước đến nay của chúng tôi. Điều kỳ diệu nằm ở đế giữa Light BOOST, một thế hệ mới của adidas BOOST. Thiết kế phân tử độc đáo của nó tạo ra bọt BOOST nhẹ nhất cho đến nay và tự hào có lượng khí thải carbon thấp hơn 10% so với các mẫu trước đó (để biết thêm thông tin, hãy xem phần Câu hỏi thường gặp bên dưới).\r\n\r\nĐược thiết kế đặc biệt cho dáng người phụ nữ, Ultraboost Light có phần gót vừa vặn hơn cộng với đường cong mu bàn chân thấp hơn được thiết kế giúp giảm trượt gót và phồng rộp. Với đệm, sự thoải mái và độ phản hồi cao nhất, một số bàn chân thực sự có thể có được tất cả.', '/public/uploads/1764957256_Ultraboost-Light-Core-black.jpg', 2650000.00, '2025-11-20 11:22:42', '2025-12-08 15:43:16', 'Adidas'),
 (3, 'Vans Old Skool Classic Black', 'vans-old-skool-classic-black', 'Được gọi vui một cách thân thuộc là \"giày VANS đen\" vốn là một sự phổ biến rất đặc biệt đối với các tín đồ của nhà VANS. Tới nay đôi giày chỉ với phối màu đen trắng này vẫn nằm trong top \"Best Seller\" của VANS trên toàn thế giới, với kiểu dáng cổ điển cùng \"sọc Jazz\" huyền thoại hợp thời trang khiến đôi VANS này thật sự trở thành mẫu giày classic bất bại, là fan hâm mộ của VANS nói chung và những skaters nói riêng đều nên có một đôi trong tủ giày. Được mệnh danh là phiên bản mang \"càng cũ càng đẹp\" và nhiều phiên bản custom  bậc nhất của nhà VANS.', '/public/uploads/1764956608_vans.png', 1480000.00, '2025-12-05 17:43:28', '2025-12-08 15:43:16', 'Vans'),
 (4, 'Converse Chuck Taylor All Star 1970s Parchment Hi Top', 'converse-chuck-taylor-all-star-1970s-parchment-hi-top', 'Giày Converse Chuck Taylor All Star 1970s Parchment Hi Top  với form dáng của Chuck 70s, phiên bản Hi Top Parchment với màu trắng ngà basic đã mang tới cho người dùng một bản phối hiện đại, trẻ trung mà vẫn đậm màu vintage. Bằng những chất liệu truyền thống, được chăm chút tỉ mẩn trong từng đường nét, item này đã lọt vào top những mẫu sneaker đang làm mưa làm gió trên thị trường sneaker hiện đại.', '/public/uploads/1764956977_converse.jpg', 1600000.00, '2025-12-05 17:49:37', '2025-12-08 15:43:16', 'Converse'),
@@ -260,7 +261,8 @@ INSERT INTO `products` (`id`, `name`, `slug`, `description`, `image_url`, `price
 (6, ' Adidas Yeezy Boost 700 Salt', '-adidas-yeezy-boost-700-salt', 'Nếu bạn là một fan hâm mộ của Yeezy 500 Salt, thì Yeezy Boost 700 Salt được sản xuất dành riêng cho bạn! Kể từ khi nó có thông tin ra mắt lần đầu tiên vào cuối năm 2018, các sneakerhead ở khắp mọi nơi đã kiên nhẫn chờ đợi sự ra mắt của đôi giày chunky này, và bây giờ có vẻ như chúng ta sẽ sớm đưa chúng vào bộ sưu tập của mình!\r\n\r\nĐược sơn màu trắng nhạt làm nổi bật bộ outfit của bạn, ‘Salt’ được làm từ da và lưới. Nằm trên phần đế giữa vẫn được làm Boost chunky, nó được hoàn thiện bằng một đế ngoài cao su cứng và bền ở bên dưới.\r\n\r\nNgay cả khi nó trở nên sạch sẽ, nếu bạn vẫn đang tìm kiếm một đôi giày thể thao độc đáo để thêm vào bộ sưu tập của mình, thì không đâu xa hơn là Yeezy Boost 700 Salt. Được đồn đại sẽ phát hành vào tháng 2 năm 2019, mẫu giày này không giống bất kỳ mẫu nào khác hiện có trên thị trường và chắc chắn sẽ khiến bạn chú ý.', '/public/uploads/1764958102_yeezy.jpg', 7500000.00, '2025-12-05 18:08:22', '2025-12-08 15:43:16', 'Adidas'),
 (7, 'MLB Chunky Liner Classic Monogram Boston Red Sox Brown', 'mlb-chunky-liner-classic-monogram', '<p>Họa tiết Monogram cổ điển lu&ocirc;n l&agrave; biểu tượng của thương hiệu MLB, nay đ&atilde; được kh&eacute;o l&eacute;o kết hợp v&agrave;o thiết kế của đ&ocirc;i gi&agrave;y sneakers Chunky Liner Classic Monogram để tạo n&ecirc;n một thiết kế mới mẻ, độc đ&aacute;o. Với phom d&aacute;ng &ocirc;m ch&acirc;n vừa vặn kết hợp c&ugrave;ng gam m&agrave;u trắng thanh lịch v&agrave; điểm nhấn l&agrave; logo monogram ở phần th&acirc;n gi&agrave;y, kh&ocirc;ng c&ograve;n nghi ngờ g&igrave; nữa, đ&acirc;y ch&iacute;nh l&agrave; item ho&agrave;n hảo biến mọi bản phối thời trang của bạn th&ecirc;m phần ph&oacute;ng kho&aacute;ng, s&agrave;nh điệu hơn bao giờ hết.</p>', '/public/uploads/1765197006_ad60f68c.jpg', 3590000.00, '2025-12-08 12:30:06', '2025-12-08 15:43:16', 'MLB'),
 (8, 'Puma Speedcat OG Black Pink', 'puma-speedcat-og-black-pink', '<p><strong>Gi&agrave;y Puma Speedcat OG &lsquo;Black Pink&rsquo;&nbsp;</strong>l&agrave; một mẫu gi&agrave;y thể thao mang đậm phong c&aacute;ch retro, kết hợp giữa thiết kế thể thao cổ điển v&agrave; c&aacute;c yếu tố hiện đại. Mẫu gi&agrave;y n&agrave;y l&agrave; một trong những sản phẩm trong d&ograve;ng&nbsp;<strong>Speedcat OG</strong> của Puma, được t&aacute;i ph&aacute;t h&agrave;nh với c&aacute;c cải tiến để mang lại sự thoải m&aacute;i v&agrave; phong c&aacute;ch độc đ&aacute;o.</p>', '/public/uploads/1765197256_91d5a747.jpg', 3590000.00, '2025-12-08 12:34:16', '2025-12-08 15:43:16', 'Puma'),
-(9, 'New Balance 530 \'White\'', 'new-balance-530-white', '<p>Trong những năm gần đ&acirc;y, tr&agrave;o lưu sneaker mang phong c&aacute;ch Y2K (2000s) đang quay trở lại mạnh mẽ, v&agrave; kh&ocirc;ng c&aacute;i t&ecirc;n n&agrave;o thể hiện xu hướng đ&oacute; r&otilde; n&eacute;t hơn&nbsp;<strong data-start=\"384\" data-end=\"403\">New Balance 530</strong>. Trong đ&oacute;, phi&ecirc;n bản&nbsp;<strong data-start=\"425\" data-end=\"460\">New Balance 530 &lsquo;White&rsquo; </strong>đ&atilde; nhanh ch&oacute;ng trở th&agrave;nh đ&ocirc;i gi&agrave;y &ldquo;quốc d&acirc;n&rdquo; nhờ thiết kế tối giản, tinh tế nhưng vẫn đầy t&iacute;nh thời trang.</p>', '/public/uploads/1765197618_d6ff9f59.png', 2489000.00, '2025-12-08 12:36:58', '2025-12-08 15:43:16', 'New Balance');
+(9, 'New Balance 530 \'White\'', 'new-balance-530-white', '<p>Trong những năm gần đ&acirc;y, tr&agrave;o lưu sneaker mang phong c&aacute;ch Y2K (2000s) đang quay trở lại mạnh mẽ, v&agrave; kh&ocirc;ng c&aacute;i t&ecirc;n n&agrave;o thể hiện xu hướng đ&oacute; r&otilde; n&eacute;t hơn&nbsp;<strong data-start=\"384\" data-end=\"403\">New Balance 530</strong>. Trong đ&oacute;, phi&ecirc;n bản&nbsp;<strong data-start=\"425\" data-end=\"460\">New Balance 530 &lsquo;White&rsquo; </strong>đ&atilde; nhanh ch&oacute;ng trở th&agrave;nh đ&ocirc;i gi&agrave;y &ldquo;quốc d&acirc;n&rdquo; nhờ thiết kế tối giản, tinh tế nhưng vẫn đầy t&iacute;nh thời trang.</p>', '/public/uploads/1765197618_d6ff9f59.png', 2489000.00, '2025-12-08 12:36:58', '2025-12-08 15:43:16', 'New Balance'),
+(10, 'nike blue', 'nike-blue', '<p>demo btl</p>', '/public/uploads/1765254588_2531719d.webp', 999999.00, '2025-12-09 04:29:48', '2025-12-09 07:00:42', 'nike');
 
 -- --------------------------------------------------------
 
@@ -355,7 +357,7 @@ INSERT INTO `settings` (`id`, `setting_key`, `setting_value`, `updated_at`) VALU
 (1, 'about_content', '<p data-path-to-node=\"7\">Xuất ph&aacute;t điểm từ những kẻ nghiện gi&agrave;y (Sneakerheads) ch&iacute;nh hiệu, ch&uacute;ng t&ocirc;i hiểu rằng một đ&ocirc;i gi&agrave;y kh&ocirc;ng chỉ l&agrave; phụ kiện để bảo vệ đ&ocirc;i ch&acirc;n. N&oacute; l&agrave; tiếng n&oacute;i của c&aacute; t&iacute;nh, l&agrave; biểu tượng của văn h&oacute;a đường phố, v&agrave; l&agrave; người bạn đồng h&agrave;nh tr&ecirc;n mọi h&agrave;nh tr&igrave;nh chinh phục ước mơ.</p>\r\n<p data-path-to-node=\"8\">&nbsp;</p>\r\n<p data-path-to-node=\"8\">Tại&nbsp;<strong>Do &amp; Tan Sneakers</strong>, ch&uacute;ng t&ocirc;i kh&ocirc;ng b&aacute;n những đ&ocirc;i gi&agrave;y v&ocirc; tri. Ch&uacute;ng t&ocirc;i mang đến sự tự tin v&agrave; phong c&aacute;ch sống. Từ những huyền thoại bất tử như <em>Nike Air Force 1, Jordan 1</em> cho đến những c&ocirc;ng nghệ ti&ecirc;n phong như <em>Adidas Ultraboost</em>, mỗi sản phẩm tr&ecirc;n kệ h&agrave;ng đều được tuyển chọn khắt khe với ti&ecirc;u chuẩn Authentic 100%.</p>\r\n<p data-path-to-node=\"9\">&nbsp;</p>\r\n<p data-path-to-node=\"9\">Sứ mệnh của ch&uacute;ng t&ocirc;i rất đơn giản nhưng đầy tham vọng:&nbsp;<strong>\'Mang tinh hoa Sneaker thế giới đặt l&ecirc;n b&agrave;n ch&acirc;n Việt\'</strong>. Ch&uacute;ng t&ocirc;i cam kết x&oacute;a bỏ mọi r&agrave;o cản về h&agrave;ng giả, h&agrave;ng nh&aacute;i, để bạn c&oacute; thể bước đi đầy ki&ecirc;u h&atilde;nh với những sản phẩm ch&iacute;nh h&atilde;ng chất lượng nhất.</p>', '2025-12-07 06:07:59'),
 (7, 'about_title', '', '2025-12-07 05:55:51'),
 (4, 'address', 'TP.HCM', '2025-12-03 11:29:58'),
-(2, 'company_name', 'Do&Tan sneakers', '2025-12-06 08:07:28'),
+(2, 'company_name', 'Do&Tan sneakers', '2025-12-09 07:01:16'),
 (5, 'intro_text', 'Chào mừng đến với website', '2025-12-03 11:29:58'),
 (6, 'logo_path', 'uploads/1764776561_logo3.png', '2025-12-03 15:42:41'),
 (3, 'phone', '0909123456', '2025-12-03 15:32:29');
@@ -497,7 +499,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT cho bảng `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `faqs`
@@ -539,7 +541,7 @@ ALTER TABLE `password_resets`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `product_sizes`
